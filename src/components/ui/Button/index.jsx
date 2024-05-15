@@ -6,7 +6,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`h-10 px-6 font-semibold rounded-md ${className} text-white`}
+      className={`h-10 w-32 font-semibold rounded-xl ${className} text-white`}
       type={type}
       onClick={onClick}
     >

@@ -1,7 +1,10 @@
-import Image from "next/image";
+import { CardProduct } from "@/components/ui/CardProduct";
 
-export default function Home() {
-  return ( <div>Home</div>
-
+export default function HomePage() {
+  return (
+    <div>
+      <h1>Welcome to the Home Page</h1>
+      <CardProduct/>
+    </div>
   );
 }
