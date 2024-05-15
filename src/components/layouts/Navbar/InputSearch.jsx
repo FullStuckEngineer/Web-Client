@@ -4,14 +4,14 @@ import { MagnifyingGlass } from "@phosphor-icons/react";
 import { useRouter } from "next/navigation";
 import { useRef } from "react";
 
-const InputSearch = () => {
+const InputSearch = ({ className }) => {
   const searchRef = useRef();
   const router = useRouter();
 
   const handleSearch = (event) => {
-    const keyword = searchRef.current.value;
+    const keyword = searchRef.current.value.trim();
 
-    if (!keyword || keyword.length < 3 || keyword.trim() == "") return;
+    if (!keyword || keyword.length < 3) return;
 
     if (event.key === "Enter" || event.type === "click") {
       event.preventDefault();
@@ -23,14 +23,13 @@ const InputSearch = () => {
     <div className="relative">
       <input
         placeholder="Search"
-        className="w-full p-2 border rounded-xl"
+        className={`p-2 rounded-xl text-color-dark ${className}`}
         ref={searchRef}
         onKeyDown={handleSearch}
       />
       <button className="absolute top-2 end-2" onClick={handleSearch}>
-        <MagnifyingGlass size={22} />
+        <MagnifyingGlass className="bg-transparent text-color-green" size={22} />
       </button>
-      <div></div>
     </div>
   );
 };
