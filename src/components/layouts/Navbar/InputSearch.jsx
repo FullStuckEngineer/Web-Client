@@ -22,13 +22,13 @@ const InputSearch = ({ className }) => {
   return (
     <div className="relative">
       <input
-        placeholder="Search"
-        className={`p-2 rounded-xl text-color-dark ${className}`}
+        placeholder="Cari di BabyBoo"
+        className={`py-2 px-5 rounded-lg text-color-dark ${className}`}
         ref={searchRef}
         onKeyDown={handleSearch}
       />
-      <button className="absolute top-2 end-2" onClick={handleSearch}>
-        <MagnifyingGlass className="bg-transparent text-color-green" size={22} />
+      <button className="absolute bg-color-green py-[7px] px-[15px] top-[3.7px] end-1 rounded-md" onClick={handleSearch}>
+        <MagnifyingGlass className="bg-transparent text-color-primary" size={20} />
       </button>
     </div>
   );
