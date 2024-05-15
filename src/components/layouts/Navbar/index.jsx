@@ -10,7 +10,7 @@ const Navbar = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="px-10 bg-color-secondary z-10 navbar-border w-full">
+    <header className="absolute md:px-10 px-5 bg-color-secondary z-10 navbar-border w-full shadow-sm">
       <div className="flex md:flex-row flex-col justify-between md:items-center p-4 gap-2">
         <Link href="/" className="font-bold text-color-dark text-2xl">
           BabyBoo
