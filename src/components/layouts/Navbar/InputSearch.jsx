@@ -27,7 +27,7 @@ const InputSearch = ({ className }) => {
         ref={searchRef}
         onKeyDown={handleSearch}
       />
-      <button className="absolute bg-color-green py-[7px] px-[15px] top-[3.7px] end-1 rounded-md" onClick={handleSearch}>
+      <button className="absolute bg-color-green hover:bg-color-greenhover py-[7px] px-[15px] top-[3.7px] end-1 rounded-md" onClick={handleSearch}>
         <MagnifyingGlass className="bg-transparent text-color-primary" size={20} />
       </button>
     </div>
