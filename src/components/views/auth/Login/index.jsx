@@ -60,7 +60,7 @@ const LoginView = () => {
         />
         <Button
           type="submit"
-          className="w-full rounded-lg h-10 bg-color-green text-color-primary mt-2 mb-8"
+          className="w-full rounded-lg h-10 bg-color-green hover:bg-color-greenhover text-color-primary mt-2 mb-8"
         >
           {isLoading ? "Loading..." : "Login"}
         </Button>
