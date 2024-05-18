@@ -67,7 +67,7 @@ const RegisterView = () => {
 
         <Button
           type="submit"
-          className="w-full rounded-lg h-10 bg-color-green text-color-primary my-2"
+          className="w-full rounded-lg h-10 bg-color-green hover:bg-color-greenhover text-color-primary my-2"
         >
           {isLoading ? "Loading..." : "Register"}
         </Button>
