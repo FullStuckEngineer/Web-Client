@@ -12,6 +12,7 @@ const AuthLayout = (props) => {
           width={500}
           height={300}
           className="rounded-xl p-5"
+          alt="Auth Image"
         />
       </div>
       <div className="flex flex-col items-center justify-center md:w-1/2 w-full h-max">

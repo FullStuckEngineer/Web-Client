@@ -4,7 +4,7 @@ import InputSearch from "@/components/layouts/Navbar/InputSearch";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import React from "react";
-import { BellSimple, ShoppingCart } from "@phosphor-icons/react";
+import { BellSimple, ShoppingCart, User } from "@phosphor-icons/react";
 
 const Navbar = () => {
 
@@ -29,6 +29,11 @@ const Navbar = () => {
               <Link href="/carts">
                 <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg">
                   <ShoppingCart size={26} />
+                </Button>
+              </Link>
+              <Link href="/profiles">
+                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg">
+                  <User size={26} />
                 </Button>
               </Link>
             </div>
