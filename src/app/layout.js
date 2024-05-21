@@ -4,7 +4,6 @@ import { Poppins } from "next/font/google";
 import Navbar from "@/components/layouts/Navbar";
 import "./globals.css";
 import Head from "next/head";
-import SessionProviderWrapper from "@/components/layouts/SessionProviderWrapper";
 import Footer from "@/components/layouts/Footer";
 
 
@@ -23,10 +22,8 @@ export default function RootLayout({ children, session }) {
         className={`${poppins.className} bg-color-primary`}
       >
           <Navbar />
-
           {children}
           <Footer />
-        </SessionProviderWrapper>
       </body>
     </html>
   );
