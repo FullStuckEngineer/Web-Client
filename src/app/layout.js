@@ -1,9 +1,12 @@
+"use client"
+
 import { Poppins } from "next/font/google";
 import Navbar from "@/components/layouts/Navbar";
 import "./globals.css";
 import Head from "next/head";
 import SessionProviderWrapper from "@/components/layouts/SessionProviderWrapper";
 import Footer from "@/components/layouts/Footer";
+
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -18,10 +21,9 @@ export default function RootLayout({ children, session }) {
       </Head>
       <body
         className={`${poppins.className} bg-color-primary`}
-        suppressHydrationWarning={true}
       >
-        <SessionProviderWrapper session={session}>
           <Navbar />
+
           {children}
           <Footer />
         </SessionProviderWrapper>
@@ -29,3 +31,6 @@ export default function RootLayout({ children, session }) {
     </html>
   );
 }
+// suppressHydrationWarning={true}
+{/* <SessionProviderWrapper session={session}>
+</SessionProviderWrapper> */}
