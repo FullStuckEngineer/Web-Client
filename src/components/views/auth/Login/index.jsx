@@ -11,9 +11,6 @@ import Button from "@/components/ui/Button";
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  // const { push, query } = useRouter();
-
-  // const callbackUrl = query.callbackUrl || "/";
 
   const handleSubmit = async (event) => {
     event.preventDefault();
