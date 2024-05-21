@@ -1,9 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -11,34 +9,45 @@ import Button from "@/components/ui/Button";
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  // const { push, query } = useRouter();
-
-  // const callbackUrl = query.callbackUrl || "/";
+  const router = useRouter();
+  const callbackUrl = "/"; // Sesuaikan URL tujuan setelah login
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
     setError("");
     const form = event.target;
+    const data = {
+      email: form.email.value,
+      password: form.password.value,
+      role: form.role.value,
+    };
+
     try {
-      const res = await signIn("credentials", {
-        redirect: false,
-        email: form.email.value,
-        role: form.role.value,
-        password: form.password.value,
-        callbackUrl,
+      const result = await fetch("http://localhost:8000/v1/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
       });
-      if (!res?.error) {
+
+      const resData = await result.json();
+      console.log(resData, "<<<<<RES DATA")
+
+      if (result.ok) {
+        localStorage.setItem("token", resData.accessToken );
         setIsLoading(false);
         form.reset();
-        push(callbackUrl);
+        router.push(callbackUrl);
       } else {
         setIsLoading(false);
-        setError("Email or password is incorrect");
+        setError(resData.message || "Email or password is incorrect");
       }
     } catch (error) {
       setIsLoading(false);
-      setError("Email or password is incorrect");
+      setError("Something went wrong. Please try again.");
+      console.error("Login error:", error);
     }
   };
 
@@ -64,6 +73,7 @@ const LoginView = () => {
         >
           {isLoading ? "Loading..." : "Login"}
         </Button>
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </AuthLayout>
   );

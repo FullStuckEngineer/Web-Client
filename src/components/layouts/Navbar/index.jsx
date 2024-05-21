@@ -5,10 +5,10 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
-import { BellSimple, ShoppingCart } from "@phosphor-icons/react";
+import { BellSimple, ShoppingCart, User } from "@phosphor-icons/react";
 
 const Navbar = () => {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
 
   return (
     <header className="fixed md:px-10 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
@@ -33,12 +33,17 @@ const Navbar = () => {
                   <ShoppingCart size={26} />
                 </Button>
               </Link>
+              <Link href="/profiles">
+                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg">
+                  <User size={26} />
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="flex sm:flex-row justify-between items-center md:items-center gap-3">
             <Link href="/auth/login">
               <Button className="border border-color-green hover:border-color-greenhover text-color-green rounded-lg h-10 md:w-32 w-40 ">
-                {session ? "Logout" : "Login"}
+               Login
               </Button>
             </Link>
             <Link href="/auth/register">
@@ -54,3 +59,5 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+ {/* {session ? "Logout" : "Login"} */}
