@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
@@ -10,7 +11,9 @@ import { CheckCircle, XCircle } from "@phosphor-icons/react";
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+
   const [successMessage, setSuccessMessage] = useState("");
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -20,6 +23,7 @@ const LoginView = () => {
     const form = event.target;
     const data = {
       email: form.email.value,
+
       role: form.role.value,
       password: form.password.value,
     };
@@ -48,6 +52,7 @@ const LoginView = () => {
       } else {
         setError("Something went wrong. Please try again.");
       }
+
       console.error("Login error:", error);
     }
   };
@@ -85,6 +90,7 @@ const LoginView = () => {
         >
           {isLoading ? "Loading..." : "Login"}
         </Button>
+        {error && <p className="text-red-500">{error}</p>}
       </form>
     </AuthLayout>
   );
