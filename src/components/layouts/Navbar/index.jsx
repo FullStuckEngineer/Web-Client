@@ -3,12 +3,10 @@
 import InputSearch from "@/components/layouts/Navbar/InputSearch";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
-import { signIn, signOut, useSession } from "next-auth/react";
 import React from "react";
 import { BellSimple, ShoppingCart, User } from "@phosphor-icons/react";
 
 const Navbar = () => {
-  // const { data: session } = useSession();
 
   return (
     <header className="fixed md:px-10 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
