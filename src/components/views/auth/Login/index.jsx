@@ -9,8 +9,6 @@ import Button from "@/components/ui/Button";
 const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const router = useRouter();
-  const callbackUrl = "/"; // Sesuaikan URL tujuan setelah login
 
   const handleSubmit = async (event) => {
     event.preventDefault();
