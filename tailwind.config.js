@@ -17,6 +17,7 @@ module.exports = {
       color: {
         primary: "#ffffff",
         secondary: "#E9FCFF",
+        gold: "#F7AD1A",
         red: "#BA1A1A",
         green: "#00A19F",
         greenhover: "#00BDBB",

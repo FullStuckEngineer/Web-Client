@@ -7,7 +7,7 @@ import React from "react";
 export const CardProduct = () => {
   return (
     <header className="w-full max-w-xs bg-color-secondary border border-color-secondary rounded-lg shadow-md flex flex-col justify-between mx-3 my-2">
-      <Link href={"/product/:id"}>
+      <Link href={"/products/:id"}>
         <img
           src=""
           className="p-8 rounded-t-lg h-60 w-full object-cover"
