@@ -28,7 +28,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
      <div className="w-full flex flex-row my-20 gap-4">
       <form
         onSubmit={handleSubmit}
-        className="w-1/2 flex flex-col h-auto mb-4 p-10 border border-gray-200 rounded-lg shadow-lg "
+        className="w-1/2 flex flex-col h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary "
       >
         <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
         <div className="mb-4 w-1/2">
@@ -40,7 +40,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
             name="name"
             value={formData.name}
             onChange={handleInputChange}
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 rounded-md w-full"
           />
         </div>
         <div className="mb-4 w-1/2">
@@ -52,7 +52,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
             name="email"
             value={formData.email}
             onChange={handleInputChange}
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full"
+            className="mt-1 p-2 rounded-md w-full"
           />
         </div>
         <div className="mb-4 w-1/2">
@@ -66,20 +66,20 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
             placeholder="xxxx-xxxx-xxxx"
             value={formData.phone_number}
             onChange={handleInputChange}
-            className="mt-1 p-2 border border-gray-300 rounded-md w-full outline-0"
+            className="mt-1 p-2 rounded-md w-full outline-0"
           />
         </div>
         <div className="flex flex-row gap-4 w-1/3">
           <button
             type="submit"
-            className="w-1/3 border rounded-lg h-10 bg-blue-600 hover:bg-blue-700 text-white my-2"
+            className="w-1/3 rounded-lg h-10 border border-color-emerald-600 hover:transition-all hover:text-color-emerald-600 hover:bg-color-dark text-white my-2 shadow-md"
           >
             Save
           </button>
           <button
             type="button"
             onClick={cancelEdit}
-            className="w-1/3 border rounded-lg h-10 bg-blue-600 hover:bg-blue-700 text-white my-2"
+            className="w-1/3 rounded-lg h-10 border border-color-emerald-600 hover:transition-all hover:text-color-emerald-600 hover:bg-color-dark text-white my-2 shadow-md"
           >
             Cancel
           </button>

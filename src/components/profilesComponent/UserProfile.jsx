@@ -48,7 +48,7 @@ const DetailProfile = ({ user, enterEditMode, editMode }) => {
               Name
             </label>
             <p
-              className="w-1/4 bg-color-grey-200 shadow-md p-3"
+              className="w-1/3 bg-color-grey-200 shadow-md p-3"
               aria-placeholder="User Data Here"
             >
               {user.name}
@@ -62,7 +62,7 @@ const DetailProfile = ({ user, enterEditMode, editMode }) => {
               Email
             </label>
             <p
-              className="w-1/4 bg-color-grey-200 shadow-md p-3"
+              className="w-1/3 bg-color-grey-200 shadow-md p-3"
               aria-placeholder="User Email Here"
             >
               {user.email}
@@ -76,7 +76,7 @@ const DetailProfile = ({ user, enterEditMode, editMode }) => {
               Phone
             </label>
             <p
-              className="w-1/4 bg-color-grey-200 shadow-md p-3"
+              className="w-1/3 bg-color-grey-200 shadow-md p-3"
               aria-placeholder="User Phone Nmber Here"
             >
               {user.phone_number}
