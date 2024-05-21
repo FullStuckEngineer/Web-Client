@@ -43,7 +43,7 @@ const Navbar = () => {
           <div className="flex sm:flex-row justify-between items-center md:items-center gap-3">
             <Link href="/auth/login">
               <Button className="border border-color-green hover:border-color-greenhover text-color-green rounded-lg h-10 md:w-32 w-40 ">
-               Login
+                Login
               </Button>
             </Link>
             <Link href="/auth/register">
@@ -59,5 +59,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
- {/* {session ? "Logout" : "Login"} */}
