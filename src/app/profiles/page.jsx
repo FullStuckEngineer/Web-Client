@@ -1,36 +1,71 @@
-// pages/profiles/page.js
-import UserProfile from '../../components/profilesComponent/UserProfile';
-import AddressList from '../../components/profilesComponent/AddressList';
-import CheckoutList from '../../components/profilesComponent/CheckoutList';
+"use client";
 
-const ProfilePage = ({ user, addresses, checkouts }) => {
+import React, { useEffect, useState } from 'react';
+import EditProfile from '@/components/profilesComponent/EditProfile';
+import { getUser, updateUser } from '../../modules/fetch/fetchUser';
+import DetailProfile from '@/components/profilesComponent/UserProfile';
+import { jwtDecode } from "jwt-decode";
+
+
+const ProfilePage = () => {
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [editMode, setEditMode] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.id;
+    
+    const fetchUser = async () => {
+      try {
+        const userData = await getUser(userId);
+        console.log('User Data:', userData);
+        setUser(userData);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }
+  }, []);
+
+  const handleUpdateUser = async (formData) => {
+    try {
+      await updateUser(formData);
+      window.location.reload()
+      setEditMode(false);
+    } catch (error) {
+      setError(err.message)
+    }
+  }
+
+  const enterEditMode = () => {
+    setEditMode(true);
+  }
+
+  const cancelEdit = () => {
+    setEditMode(false);
+  }
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="flex flex-col items-center p-8 bg-gray-50 min-h-screen">
-      <UserProfile user={user} />
-      <AddressList addresses={addresses} />
-      <CheckoutList checkouts={checkouts} />
+      {editMode ? (
+      <EditProfile user={user} handleUpdateUser={handleUpdateUser} cancelEdit={cancelEdit} />
+      ) : (
+        <DetailProfile user={user} enterEditMode={enterEditMode} />
+      )}
     </div>
   );
 };
-
-// export async function getServerSideProps() {
-//   // Fetch data from an API or database
-//   const resUser = await fetch('https://api.example.com/user');
-//   const user = await resUser.json();
-
-//   const resAddresses = await fetch('https://api.example.com/user/addresses');
-//   const addresses = await resAddresses.json();
-
-//   const resCheckouts = await fetch('https://api.example.com/user/checkouts');
-//   const checkouts = await resCheckouts.json();
-
-//   return {
-//     props: {
-//       user,
-//       addresses,
-//       checkouts
-//     },
-//   };
-// }
 
 export default ProfilePage;
