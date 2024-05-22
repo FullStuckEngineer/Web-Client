@@ -28,9 +28,13 @@ const RegisterView = () => {
     try {
       const result = await axiosInstance.post("/v1/api/auth/register", data);
 
-      if (result.status === 200 && result.data.success) {
+      console.log(result);
+      if (result.status === 201) {
         form.reset();
-        setSuccessMessage("Registration successful. Redirecting to login...");
+        setSuccessMessage(
+          result.data.message ||
+            "Registration successful. Redirecting to login..."
+        );
         setTimeout(() => {
           window.location.replace("/auth/login");
         }, 2000);
@@ -61,17 +65,18 @@ const RegisterView = () => {
       linkText="Sudah punya akun? "
       linkName="Login"
     >
-      {error && (
-        <p className=" flex gap-2 items-center border rounded-md border-color-red p-3 mb-5 text-color-red text-xs bg-color-red bg-opacity-10 ">
-          <XCircle size={20} /> {error}
-        </p>
-      )}
       {successMessage && (
         <p className="flex gap-2 items-center border border-color-green rounded-md p-3 mb-5 text-color-green text-xs bg-color-green bg-opacity-10">
           <CheckCircle size={20} />
           {successMessage}
         </p>
       )}
+      {error && (
+        <p className=" flex gap-2 items-center border rounded-md border-color-red p-3 mb-5 text-color-red text-xs bg-color-red bg-opacity-10 ">
+          <XCircle size={20} /> {error}
+        </p>
+      )}
+
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <Input label="Name" name="name" type="text" placeholder="Name" />
         <Input label="Email" name="email" type="email" placeholder="Email" />
