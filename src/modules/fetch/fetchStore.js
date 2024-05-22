@@ -1,4 +1,4 @@
-import { instance } from "../axios"
+import instance from "@/libs/axios/instance";
 
 const findAll = async () => {
     try {

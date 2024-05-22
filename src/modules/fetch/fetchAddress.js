@@ -1,53 +1,62 @@
 import { instance } from "../axios";
 
-const findAll = async () => {
+const findAllAddress = async () => {
     try {
-        const response = await instance.get("/cities");
+        console.log('Sending request to /addresses')
+        const response = await instance.get("/addresses");
+        console.log('response received: ', response.data)
         return response.data;
     } catch (error) {
-        console.error("Error fetching city data:", error.response ? error.response.data : error.message);
+        console.error("Error fetching address data:", error.response ? error.response.data : error.message);
         throw error;
     }
 };
 
-const findOne = async (id) => {
+const findOneAddress = async (id) => {  
     try {
-        const response = await instance.get(`/cities/${id}`);
+        console.log('Finding Address id ...')
+        const response = await instance.get(`/addresses/${id}`);
+        console.log('Data Found: ', response.data)
         return response.data;
     } catch (error) {
-        console.error("Error fetching city data:", error.response ? error.response.data : error.message);
+        console.error("Error fetching address data:", error.response ? error.response.data : error.message);
         throw error;
     }
 };
 
-const create = async (data) => {
+const createAddress = async (data) => {
     try {
-        const response = await instance.post("/cities", data);
+        console.log('Sending request to /addresses')
+        console.log(data, "<<<<DATA")
+        const response = await instance.post("/addresses", data);
+        console.log('response received: ', response.data)
         return response.data;
     } catch (error) {   
-        console.error("Error creating city:", error.response ? error.response.data : error.message);
+        console.error("Error creating address:", error.response ? error.response.data : error.message);
         throw error;
     }
 };
 
-const update = async (id, data) => {
+const updateAddress = async (id, data) => {
     try {
-        const response = await instance.put(`/cities/${id}`, data);
+        console.log('Sending request to /addresses')
+        const response = await instance.put(`/addresses/${id}`, data);
+        console.log('response received: Address Updated ', response.data)
         return response.data;
     } catch (error) {
-        console.error("Error updating city:", error.response ? error.response.data : error.message);
+        console.error("Error updating address:", error.response ? error.response.data : error.message);
         throw error;
     }
 };
 
-const destroy = async (id) => {
+const destroyAddress = async (id) => {
     try {
-        const response = await instance.delete(`/cities/${id}`);
+        const response = await instance.delete(`/addresses/${id}`);
         return response.data;
     } catch (error) {
-        console.error("Error deleting city:", error.response ? error.response.data : error.message);
+        console.error("Error deleting address:", error.response ? error.response.data : error.message);
         throw error;
     }
 };  
 
-export { findAll, findOne, create, update, destroy };
+export { findAllAddress, findOneAddress, createAddress, updateAddress, destroyAddress };

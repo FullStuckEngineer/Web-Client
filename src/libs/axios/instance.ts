@@ -13,6 +13,14 @@ const instance = axios.create({
   timeout: 60 * 1000,
 });
 
+instance.interceptors.request.use((config) => {
+  const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+  if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 instance.interceptors.response.use(
   (config) => config,
   (error) => Promise.reject(error)

@@ -1,8 +1,10 @@
 import { instance } from "../axios";
 
-const findAll = async () => {
+const findAllCity = async (search) => {
     try {
-        const response = await instance.get("/cities");
+        console.log('Sending request to /cities')
+        const response = await instance.get(`/cities?search=${search}&limit=5`);
+        console.log('response received: ', response.data)
         return response.data;
     } catch (error) {
         console.error("Error fetching city data:", error.response ? error.response.data : error.message);
@@ -10,7 +12,7 @@ const findAll = async () => {
     }
 };
 
-const findOne = async (id) => {
+const findOneCity = async (id) => {
     try {
         const response = await instance.get(`/cities/${id}`);
         return response.data;
@@ -20,4 +22,4 @@ const findOne = async (id) => {
     }
 };  
 
-export { findAll, findOne};
+export { findAllCity, findOneCity};
