@@ -1,4 +1,4 @@
-import { instance } from "@/libs/axios/instance";
+import  instance  from "@/libs/axios/instance";
 
 const findAll = async () => {
     try {
@@ -51,4 +51,4 @@ const update = async (id, data) => {
     }
 };
 
-export { findAll, findOne, create, pay, update}
+export { findAll, findOne, create, pay, update };

@@ -9,7 +9,7 @@ const poppins = Poppins({
   weight: ["100", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export default function RootLayout({ children }) {
+export default function RootLayout({ children, session }) {
   return (
     <html lang="en">
       <Head>
@@ -19,9 +19,10 @@ export default function RootLayout({ children }) {
         className={`${poppins.className} bg-color-primary`}
         suppressHydrationWarning={true}
       >
-        <Navbar />
-        {children}
-        <Footer />
+          <Navbar />
+          {children}
+
+          <Footer />
       </body>
     </html>
   );

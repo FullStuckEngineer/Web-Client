@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-
+import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
@@ -12,6 +12,7 @@ const LoginView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -27,14 +28,14 @@ const LoginView = () => {
 
     try {
       const result = await instance.post("/auth/login", data);
-
       if (result.status === 201) {
+        localStorage.setItem("token", result.data.accessToken);
         form.reset();
         setSuccessMessage(
           result.data.message || "Login successful. Redirecting..."
         );
         setTimeout(() => {
-          window.location.replace("/");
+          router.push("/");
         }, 2000);
       } else {
         setIsLoading(false);
