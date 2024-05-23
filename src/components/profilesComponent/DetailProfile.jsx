@@ -1,62 +1,12 @@
 import React, { useState } from "react";
-import { uploadImage } from "@/modules/fetch/fetchUser";
+import { instance } from "@/libs/axios/instance";
+
+// assets\products\1716455168997-before-the-coffe-gets-cold-book.jpg
 
 const DetailProfile = ({ user, enterEditMode, setCurrentComponent }) => {
-  const [profileImage, setProfileImage] = useState(
-    user.photo || "https://via.placeholder.com/150"
-  );
-  const [image, setImage] = useState(null);
-  const [imageUploaded, setImageUploaded] = useState(false);
+  const profileImage = user.photo ? `http://localhost:8000/${user.photo}` : "https://via.placeholder.com/150";
 
-  const handleChangePicture = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result);
-        setImage(file);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleUploadPicture = async () => {
-    if (!image) return;
-
-    const formData = new FormData();
-    formData.append("image", image);
-
-    try {
-      const response = await uploadImage(formData);
-      setProfileImage(response.photo);
-      setImageUploaded(true);
-      alert("Image uploaded successfully");
-    } catch (error) {
-      console.error(
-        "Error uploading image:",
-        error.response ? error.response.data : error.message
-      );
-      alert("Error uploading image");
-    }
-  };
-
-  const handleDeletePicture = async () => {
-    const formDataDelete = new FormData();
-    formData.append("image", "");
-
-    try {
-      const response = await uploadImage(formDataDelete);
-      setProfileImage("https://via.placeholder.com/150");
-      setImage(null);
-      setImageUploaded(false);
-      alert("Image deleted successfully");
-    } catch (error) {
-      console.error(
-        "Error Delete Image: ",
-        error.response ? error.response.data : error.message
-      );
-    }
-  };
+  console.log(user.photo, "<<<<< INI PHOTO USER");
 
   return (
     <div className="flex flex-row items-center p-8 bg-gradient-to-br from-color-emerald-3 00 to-white w-full py-20">
@@ -92,50 +42,15 @@ const DetailProfile = ({ user, enterEditMode, setCurrentComponent }) => {
       <div className="w-full h-screen bg-white shadow-md bg-gradient-to-br from-color-emerald-300 to-color-secondary rounded-lg p-6">
         <h2 className="text-2xl font-bold mb-4 p-2">Personal Profile</h2>
 
-        <div className="flex justify-center gap-4">
+        <div className="flex justify-center gap-2 border">
+          <p className="block text-gray-700 text-sm font-bold mb-2">
+            Profile Picture
+          </p>
           <img
-            className="w-36 h-36 rounded-full"
+            className="w-40 h-40 rounded-full"
             src={profileImage}
             alt="Profile"
           />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChangePicture}
-            style={{ display: "none" }}
-            id="upload-input"
-          />
-          {imageUploaded ? (
-            <button
-              className="w-full font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-secondary"
-              onClick={() => document.getElementById("upload-input").click()}
-            >
-              Change Picture
-            </button>
-          ) : (
-            <button
-              className="w-full font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-green"
-              onClick={() => document.getElementById("upload-input").click()}
-            >
-              Upload Picture
-            </button>
-          )}
-          {image && !imageUploaded && (
-            <button
-              className="w-full font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-green my-2"
-              onClick={handleUploadPicture}
-            >
-              Upload Picture
-            </button>
-          )}
-          {imageUploaded && (
-            <button
-              className="w-full font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-red"
-              onClick={handleDeletePicture}
-            >
-              Delete Picture
-            </button>
-          )}
         </div>
 
         <form className="py-4">
