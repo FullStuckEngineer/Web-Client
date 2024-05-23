@@ -1,4 +1,4 @@
-import { instance } from "../axios";
+import { instance } from "@/libs/axios/instance";
 
 const findOne = async (id) => {
     try {

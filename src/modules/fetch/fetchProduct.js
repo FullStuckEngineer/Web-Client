@@ -1,8 +1,8 @@
-import { instance } from "../axios";
+import { instance } from "@/libs/axios/instance";
 
 const findAllProduct = async () => {
     try {
-        console.log('Sending request to /products')
+        console.log('Sending request to /products') 
         const response = await instance.get("/products");
         console.log('response received: ', response)
         return response.data;

@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import axiosInstance from "@/libs/axios/axiosInstance";
+import { instance } from "@/libs/axios/instance";
 import { CheckCircle, XCircle } from "@phosphor-icons/react";
 
 const LoginView = () => {
@@ -26,7 +26,7 @@ const LoginView = () => {
     };
 
     try {
-      const result = await axiosInstance.post("/v1/api/auth/login", data);
+      const result = await instance.post("/auth/login", data);
 
       if (result.status === 201) {
         form.reset();

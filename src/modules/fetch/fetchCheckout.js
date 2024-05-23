@@ -1,8 +1,8 @@
-import axios from "axios";
+import { instance } from "@/libs/axios/instance";
 
 const findAll = async () => {
     try {
-        const response = await axios.get("/checkouts");
+        const response = await instance.get("/checkouts");
         return response.data;
     } catch (error) {
         console.error("Error fetching checkout data:", error.response ? error.response.data : error.message);
@@ -12,7 +12,7 @@ const findAll = async () => {
 
 const findOne = async (id) => {
     try {
-        const response = await axios.get(`/checkouts/${id}`);
+        const response = await instance.get(`/checkouts/${id}`);
         return response.data;
     } catch (error) {
         console.error("Error fetching checkout data:", error.response ? error.response.data : error.message);
@@ -22,7 +22,7 @@ const findOne = async (id) => {
 
 const create = async (data) => {
     try {
-        const response = await axios.post("/checkouts", data);
+        const response = await instance.post("/checkouts", data);
         return response.data;
     } catch (error) {
         console.error("Error creating checkout:", error.response ? error.response.data : error.message);
@@ -33,7 +33,7 @@ const create = async (data) => {
 const pay = async (id) => {
     try {
         //Not done yet
-        const response = await axios.post(`/checkouts/${id}/pay`);
+        const response = await instance.post(`/checkouts/${id}/pay`);
         return response.data;
     } catch (error) {
         console.error("Error paying checkout:", error.response ? error.response.data : error.message);
@@ -43,7 +43,7 @@ const pay = async (id) => {
 
 const update = async (id, data) => {
     try {
-        const response = await axios.put(`/checkouts/${id}`, data);
+        const response = await instance.put(`/checkouts/${id}`, data);
         return response.data;
     } catch (error) {
         console.error("Error updating checkout:", error.response ? error.response.data : error.message);

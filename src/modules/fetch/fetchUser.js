@@ -1,4 +1,4 @@
-import instance from "@/libs/axios/instance";
+import { instance } from "@/libs/axios/instance";
 
 const getUser = async () => {
   try {
@@ -21,4 +21,14 @@ const updateUser = async ( userData ) => {
   }
 };
 
-export { getUser, updateUser };
+const uploadImage = async (formData) => {
+  try {
+    const response = await instance.post("/users/upload", formData);
+    return response.data;
+  } catch (error) {
+    console.error("Error uploading image:", error.response ? error.response.data : error.message);
+    throw error;
+  }
+};
+
+export { getUser, updateUser, uploadImage };
