@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import axiosInstance from "@/libs/axios/axiosInstance";
+import { instance } from "@/libs/axios/instance";
 import { CheckCircle, XCircle } from "@phosphor-icons/react";
 
 const LoginView = () => {
@@ -27,9 +27,7 @@ const LoginView = () => {
     };
 
     try {
-      const result = await axiosInstance.post("/auth/login", data);
-      console.log(result);
-
+      const result = await instance.post("/auth/login", data);
       if (result.status === 201) {
         localStorage.setItem("token", result.data.accessToken);
         form.reset();

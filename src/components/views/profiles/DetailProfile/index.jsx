@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import EditProfile from "@/components/views/profiles/EditProfile";
-import UserProfile from "@/components/views/profiles/UserProfile";
-import SidebarProfile from "@/components/views/profiles/SidebarProfile";
+import EditProfile from "@/components/views/profiles/DetailProfile/EditProfile";
+import UserProfile from "@/components/views/profiles/DetailProfile/UserProfile";
+import SidebarProfile from "@/components/views/profiles/DetailProfile/SidebarProfile";
 import { getUser, updateUser } from "@/modules/fetch/fetchUser";
 import { jwtDecode } from "jwt-decode";
 

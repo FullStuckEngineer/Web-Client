@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
-import axiosInstance from "@/libs/axios/axiosInstance";
+import { instance } from "@/libs/axios/instance";
 import { CheckCircle, XCircle } from "@phosphor-icons/react";
 
 const RegisterView = () => {
@@ -28,8 +28,8 @@ const RegisterView = () => {
     };
 
     try {
-      const result = await axiosInstance.post("/auth/register", data);
 
+      const result = await instance.post("/auth/register", data);
       console.log(result);
       if (result.status === 201) {
         form.reset();

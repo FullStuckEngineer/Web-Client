@@ -19,8 +19,7 @@ const HomePage = () => {
     };
     fetchProduct();
   }, []);
-
-
+  
   return (
     <div >
       <h1 className="pt-52">Welcome to the Home Page</h1>

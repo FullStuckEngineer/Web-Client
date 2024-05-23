@@ -3,9 +3,23 @@ import React from "react";
 import Button from "@/components/ui/Button";
 
 const UserProfile = ({ user, enterEditMode }) => {
+  const profileImage = user.photo
+    ? `http://localhost:8000/${user.photo}`
+    : "https://via.placeholder.com/150";
+
   return (
     <div className="w-full max-w-lg p-8 bg-white shadow-md rounded-lg">
       <h2 className="text-2xl font-bold mb-4">Personal Profile</h2>
+      <div className="flex justify-center gap-2 border">
+        <p className="block text-gray-700 text-sm font-bold mb-2">
+          Profile Picture
+        </p>
+        <img
+          className="w-40 h-40 rounded-full"
+          src={profileImage}
+          alt="Profile"
+        />
+      </div>
       <div className="mb-4">
         <label className="block text-gray-700 text-sm font-bold mb-2">
           Name
