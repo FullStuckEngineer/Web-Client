@@ -1,3 +1,4 @@
+// components/views/profiles/EditProfile.js
 import React, { useState } from "react";
 import authImage from "@/assets/images/AuthImage.svg";
 import Image from "next/image";
@@ -24,8 +25,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
   };
 
   return (
-    <>
-     <div className="w-full flex flex-row my-20 gap-4">
+    <div className="w-full flex flex-row px-10 my-20 gap-4">
       <form
         onSubmit={handleSubmit}
         className="w-1/2 flex flex-col h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary "
@@ -60,7 +60,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
             Phone Number
           </label>
           <input
-            type="number"
+            type="text"
             name="phone_number"
             pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
             placeholder="xxxx-xxxx-xxxx"
@@ -85,19 +85,16 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
           </button>
         </div>
       </form>
-      <div className=" w-1/2 items-center justify-center flex">
-      <Image
+      <div className="w-1/2 items-center justify-center flex">
+        <Image
           src={authImage}
-          width={500}
-          height={300}
+          width={200}
+          height={200}
           className="rounded-xl p-5"
           alt="Auth Image"
         />
+      </div>
     </div>
-    </div>
-   
-    </>
-   
   );
 };
 

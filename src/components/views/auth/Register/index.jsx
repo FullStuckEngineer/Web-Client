@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
@@ -11,6 +12,7 @@ const RegisterView = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -26,7 +28,7 @@ const RegisterView = () => {
     };
 
     try {
-      const result = await axiosInstance.post("/v1/api/auth/register", data);
+      const result = await axiosInstance.post("/auth/register", data);
 
       console.log(result);
       if (result.status === 201) {
@@ -36,7 +38,7 @@ const RegisterView = () => {
             "Registration successful. Redirecting to login..."
         );
         setTimeout(() => {
-          window.location.replace("/auth/login");
+          router.push("/auth/login");
         }, 2000);
       } else {
         setIsLoading(false);

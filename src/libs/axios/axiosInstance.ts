@@ -8,15 +8,16 @@ const headers = {
 };
 
 const instance = axios.create({
-  baseURL: "http://localhost:8000",
+  baseURL: "http://localhost:8000/v1/api/",
   headers,
   timeout: 60 * 1000,
 });
 
 instance.interceptors.request.use((config) => {
-  const token = typeof window !== 'undefined' ? localStorage.getItem("token") : null;
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("token") : null;
   if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

@@ -12,7 +12,7 @@ const HomePage = () => {
     const fetchProduct = async () => {
       try {
         const listProducts = await findAllProduct();
-        setProducts(listProducts); // Set state dengan data produk
+        setProducts(listProducts); 
       } catch (error) {
         setError(error.message);
       }
@@ -22,8 +22,8 @@ const HomePage = () => {
 
 
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
+    <div >
+      <h1 className="pt-52">Welcome to the Home Page</h1>
       {error && <p>Error: {error}</p>}
       <CardProduct products={products}/>
     </div>
