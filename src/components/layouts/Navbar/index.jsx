@@ -75,7 +75,11 @@ const Navbar = () => {
         >
           BabyBoo
         </Link>
-        <div className="flex md:flex-row flex-col justify-between md:items-center md:gap-8 gap-4">
+        <div
+          className={`flex md:flex-row  ${
+            isLoggedIn ? "flex-row" : "flex-col"
+          }  justify-between md:items-center md:gap-8 gap-4`}
+        >
           <div className="flex flex-row justify-between md:gap-8 gap-1 items-center w-full">
             <InputSearch className="border-[2px] border-color-grey focus:border-color-greenhover sm:text-md text-sm focus:outline-none sm:w-[450px] md:w-[300px] lg:w-[500px] w-full" />
             <div className="flex flex-row justify-center items-center md:gap-2 gap-1">
@@ -93,7 +97,7 @@ const Navbar = () => {
           </div>
           <div className="flex sm:flex-row justify-between items-center md:items-center gap-3">
             {isLoggedIn ? (
-              <div className="relative">
+              <div className="relative ">
                 <Button
                   onClick={() => setShowDropdown(!showDropdown)}
                   className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg"

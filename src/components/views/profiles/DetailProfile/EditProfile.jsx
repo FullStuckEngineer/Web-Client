@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import authImage from "@/assets/images/AuthImage.svg";
 import Image from "next/image";
+import Button from "@/components/ui/Button";
 
 const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
   const [profileImage, setProfileImage] = useState(
@@ -84,7 +85,7 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
     <div className="w-full flex flex-row px-10 my-20 gap-4">
       <form
         onSubmit={handleSubmit}
-        className="w-1/2 flex flex-col h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary "
+        className="w-full flex flex-col h-auto mb-4 p-10 rounded-lg shadow-lg bg-color-primary "
       >
         <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
         <div className="mb-4 w-1/2">
@@ -98,46 +99,57 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
             onChange={handleInputChange}
             className="mt-1 p-2 rounded-md w-full"
           />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChangePicture}
-            style={{ display: "none" }}
-            id="upload-input"
-          />
-          {imageUploaded ? (
-            <>
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-secondary"
-                onClick={() => document.getElementById("upload-input").click()}
-              >
-                Change Picture
-              </button>
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-red"
-                onClick={handleDeletePicture}
-              >
-                Delete Picture
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-green"
-                onClick={() => document.getElementById("upload-input").click()}
-              >
-                Upload Picture
-              </button>
-              {image && (
-                <button
-                  className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-green my-2"
-                  onClick={handleUploadPicture}
+          <div className="w-full flex flex-col justify-center items-center border h-auto mb-4 p-10 rounded-lg shadow-lg bg-color-primary">
+            <img
+              className="w-36 h-36 rounded-full"
+              src={profileImage}
+              alt="Profile"
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleChangePicture}
+              style={{ display: "none" }}
+              id="upload-input"
+            />
+            {imageUploaded ? (
+              <>
+                <Button
+                  className="w-full p-2 font-bold rounded-lg h-10 bg-color-green hover:transition-all text-white my-2 shadow-sm hover:bg-color-secondary"
+                  onClick={() =>
+                    document.getElementById("upload-input").click()
+                  }
                 >
-                  Confirm Upload
+                  Change Picture
+                </Button>
+                <Button
+                  className="w-full p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-red"
+                  onClick={handleDeletePicture}
+                >
+                  Delete Picture
+                </Button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="w-full p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-green"
+                  onClick={() =>
+                    document.getElementById("upload-input").click()
+                  }
+                >
+                  Upload Picture
                 </button>
-              )}
-            </>
-          )}
+                {image && (
+                  <button
+                    className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-green my-2"
+                    onClick={handleUploadPicture}
+                  >
+                    Confirm Upload
+                  </button>
+                )}
+              </>
+            )}
+          </div>
         </div>
         <div className="mb-4 w-1/2">
           <label className="block text-sm font-medium text-gray-700">
@@ -169,15 +181,6 @@ const EditProfile = ({ user, handleUpdateUser, cancelEdit }) => {
           </button>
         </div>
       </form>
-      <div className="w-1/2 items-center justify-center flex">
-        <Image
-          src={authImage}
-          width={200}
-          height={200}
-          className="rounded-xl p-5"
-          alt="Auth Image"
-        />
-      </div>
     </div>
   );
 };

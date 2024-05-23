@@ -60,7 +60,7 @@ const ProfileView = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="flex md:flex-row flex-col items-center pt-40 pb-8 px-8 bg-color-grey-50 min-h-screen">
+    <div className="flex md:flex-row flex-col items-center w-full md:py-[6rem] py-[7rem] pb-8 px-8 bg-color-grey-50 min-h-screen">
       <SidebarProfile />
       <div className="flex flex-col items-center w-full md:w-8/12">
         {editMode ? (
