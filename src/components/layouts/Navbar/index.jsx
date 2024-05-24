@@ -105,7 +105,7 @@ const Navbar = () => {
                   <User size={26} />
                 </Button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-color-primary rounded-md shadow-lg z-50">
                     <Link href="/profiles">
                       <Button className="block px-4 py-2 text-sm text-color-gray hover:bg-color-greenhover hover:text-color-primary w-full text-left">
                         Profile
