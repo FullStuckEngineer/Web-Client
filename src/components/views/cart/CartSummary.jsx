@@ -14,7 +14,7 @@ export default function CheckoutSummary({ totalCost }) {
       <div className="flex flex-col lg:w-full w-1/2 gap-4">
         <h3 className="flex flex-row items-center justify-between">
           Total
-          <span className="font-semibold truncate">${totalCost}</span>
+          <span className="font-semibold">${totalCost}</span>
         </h3>
         <hr className="text-color-gray-200 my-2" />
         <Button className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-8">

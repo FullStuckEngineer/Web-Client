@@ -98,7 +98,6 @@ const Navbar = ({}) => {
               </Link>
             </div>
           </div>
-          {JSON.stringify(isLoggedIn)}
           <div className="flex sm:flex-row justify-between items-center md:items-center gap-3">
             {isLoggedIn ? (
               <div className="relative ">
