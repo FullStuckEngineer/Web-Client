@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
-import PaymentModal from "@/components/views/checkouts/PaymentModal"; // Adjust the import based on your folder structure
+import PaymentModal from "./PaymentModal";
 
 export default function CheckoutSummary({ totalCost }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -39,11 +39,7 @@ export default function CheckoutSummary({ totalCost }) {
           Pilih Pembayaran
         </Button>
       </div>
-      <PaymentModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        totalCost={totalCost}
-      />
+      <PaymentModal isOpen={isModalOpen} onClose={closeModal} />
     </div>
   );
 }

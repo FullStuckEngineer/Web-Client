@@ -14,7 +14,7 @@ const PaymentInstructions = () => {
         <h2 id="accordion-open-heading-1">
           <button
             type="button"
-            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right  border border-b-0  rounded-t-xl focus:ring-4 focus:ring-color-grey hover:bg-color-grey gap-3"
+            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right  border border-b-0  rounded-t-xl focus:ring-4 focus:ring-color-gray hover:bg-color-gray gap-3"
             onClick={() => toggleAccordion(1)}
             aria-expanded={openAccordion === 1}
             aria-controls="accordion-open-body-1"
@@ -98,7 +98,7 @@ const PaymentInstructions = () => {
         <h2 id="accordion-open-heading-2">
           <button
             type="button"
-            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right  border border-b-0 focus:ring-4 focus:ring-color-grey hover:bg-color-grey  gap-3"
+            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right  border border-b-0 focus:ring-4 focus:ring-color-gray hover:bg-color-gray  gap-3"
             onClick={() => toggleAccordion(2)}
             aria-expanded={openAccordion === 2}
             aria-controls="accordion-open-body-2"
@@ -179,7 +179,7 @@ const PaymentInstructions = () => {
         <h2 id="accordion-open-heading-3">
           <button
             type="button"
-            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right border focus:ring-4 focus:ring-color-grey hover:bg-color-grey gap-3"
+            className="flex items-center justify-between w-full p-5 font-medium rtl:text-right border focus:ring-4 focus:ring-color-gray hover:bg-color-gray gap-3"
             onClick={() => toggleAccordion(3)}
             aria-expanded={openAccordion === 3}
             aria-controls="accordion-open-body-3"

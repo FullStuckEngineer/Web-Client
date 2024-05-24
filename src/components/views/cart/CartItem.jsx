@@ -38,7 +38,7 @@ export default function CartItem({
         <h4 className="text-xl font-bold">${product.cost}</h4>
         <div className="flex flex-row gap-3">
           <Button
-            className="text-color-grey hover:text-color-red"
+            className="text-color-gray hover:text-color-red"
             onClick={() => removeFromCart(product)}
           >
             <Trash size={20} />
@@ -51,7 +51,7 @@ export default function CartItem({
               -
             </Button>
             <input
-              className="border border-color-grey focus:outline-none focus:border-color-green text-center w-20 h-7 py-2 px-6 rounded-lg text-color-dark"
+              className="border border-color-gray focus:outline-none focus:border-color-green text-center w-20 h-7 py-2 px-6 rounded-lg text-color-dark"
               value={product.quantity}
               onChange={(e) => setQuantity(product, parseInt(e.target.value))}
             />

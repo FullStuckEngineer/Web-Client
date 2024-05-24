@@ -18,7 +18,7 @@ function Footer() {
                 <h2 className="mb-6 text-sm font-semibold text-color-dark">
                   BabyBoo
                 </h2>
-                <ul className="text-color-grey dark:text-color-grey font-medium text-xs space-y-4">
+                <ul className="text-color-gray dark:text-color-gray font-medium text-xs space-y-4">
                   <li className="">
                     <a
                       href="/tetang-kami"
@@ -43,7 +43,7 @@ function Footer() {
                 <h2 className="mb-6 text-sm font-semibold text-color-dark  ">
                   Ikuti Kami
                 </h2>
-                <ul className="text-color-grey dark:text-color-grey font-medium text-xs space-y-4">
+                <ul className="text-color-gray dark:text-color-gray font-medium text-xs space-y-4">
                   <li className="">
                     <a
                       href="https://intagram.com/"
@@ -82,7 +82,7 @@ function Footer() {
                 <h2 className="mb-6 text-sm font-semibold text-color-dark ">
                   Legal
                 </h2>
-                <ul className="text-color-grey dark:text-color-grey font-medium text-xs space-y-4">
+                <ul className="text-color-gray dark:text-color-gray font-medium text-xs space-y-4">
                   <li className="">
                     <a href="#" className="hover:text-color-greenhover">
                       Kebijakan BabyBoo
@@ -99,7 +99,7 @@ function Footer() {
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="sm:flex sm:items-center sm:justify-between">
-            <span className="flex sm:justify-start justify-center text-sm text-color-grey sm:text-start">
+            <span className="flex sm:justify-start justify-center text-sm text-color-gray sm:text-start">
               © 2024{" "}
               <a href="/" className="hover:text-color-greenhover">
                 BabyBoo™
@@ -109,7 +109,7 @@ function Footer() {
             <div className="flex justify-center items-center md:gap-5 gap-3 mt-4 sm:justify-between sm:mt-0">
               <a
                 href="#"
-                className="text-color-grey hover:text-color-greenhover "
+                className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
                   className="w-5 h-5"
@@ -128,7 +128,7 @@ function Footer() {
               </a>
               <a
                 href="#"
-                className="text-color-grey hover:text-color-greenhover "
+                className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
                   className="w-4 h-4"
@@ -147,7 +147,7 @@ function Footer() {
               </a>
               <a
                 href="#"
-                className="text-color-grey hover:text-color-greenhover "
+                className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
                   className="w-4 h-4"
@@ -166,7 +166,7 @@ function Footer() {
               </a>
               <a
                 href="#"
-                className="text-color-grey hover:text-color-greenhover "
+                className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
                   className="w-4 h-4"

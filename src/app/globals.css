@@ -42,7 +42,7 @@
   transform: scale(1);
 }
 
-/* src/components/LoadingSpinner.module.css */
+
 .spinnerOverlay {
   position: fixed;
   top: 0;
