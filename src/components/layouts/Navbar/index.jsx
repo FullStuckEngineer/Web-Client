@@ -7,9 +7,12 @@ import Link from "next/link";
 import { BellSimple, ShoppingCart, User } from "@phosphor-icons/react";
 import { getUser } from "@/modules/fetch/fetchUser";
 import { useRouter } from "next/navigation";
+import useStore from "@/libs/zustand";
 
-const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+const Navbar = ({}) => {
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isLoggedIn = useStore((state) => state.isLoggedIn);
+  const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
@@ -95,6 +98,7 @@ const Navbar = () => {
               </Link>
             </div>
           </div>
+          {JSON.stringify(isLoggedIn)}
           <div className="flex sm:flex-row justify-between items-center md:items-center gap-3">
             {isLoggedIn ? (
               <div className="relative ">

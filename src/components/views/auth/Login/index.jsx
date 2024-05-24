@@ -7,8 +7,10 @@ import Button from "@/components/ui/Button";
 import AuthLayout from "@/components/layouts/AuthLayout";
 import { instance } from "@/libs/axios/instance";
 import { CheckCircle, XCircle } from "@phosphor-icons/react";
+import useStore from "@/libs/zustand";
 
 const LoginView = () => {
+  const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -34,6 +36,7 @@ const LoginView = () => {
         setSuccessMessage(
           result.data.message || "Login successful. Redirecting..."
         );
+        setIsLoggedIn(true);
         setTimeout(() => {
           router.push("/");
         }, 2000);
