@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { Heart, ShareNetwork, Star } from "@phosphor-icons/react";
@@ -10,8 +10,8 @@ import { addToCart, buyNow } from "@/modules/cart/cartActions";
 
 const ProductView = ({ slug }) => {
   const [quantity, setQuantity] = useState(1);
-
   const { product, error, loading } = useProduct(slug);
+  const router = useRouter();
 
   const handleWishlistClick = () => {
     console.log("Added to wishlist");

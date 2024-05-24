@@ -8,8 +8,8 @@ export default function PaymentModal({ isOpen, onClose, totalCost }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-color-dark bg-opacity-50">
-      <div className="bg-color-gray-200 rounded-lg shadow-lg max-w-md w-full">
-        <div className="bg-color-primary p-4 border-b flex justify-between items-center">
+      <div className="bg-color-gray-200 rounded-lg shadow-lg max-w-md w-full ">
+        <div className="bg-color-primary p-4  border-b flex justify-between items-center rounded-t-lg ">
           <h2 className="text-lg font-semibold text-color-gray-700">
             Pilihan Pembayaran
           </h2>
@@ -62,19 +62,21 @@ export default function PaymentModal({ isOpen, onClose, totalCost }) {
             <div className="text-sm text-gray-700">
               <div className="flex justify-between mb-1">
                 <span>Total Harga</span>
-                <span>${totalCost}</span>
+                <span>{totalCost}</span>
               </div>
               <div className="flex justify-between mb-1">
                 <span>Total Ongkos Kirim</span>
-                <span>${totalCost}</span>
+                <span>{totalCost}</span>
               </div>
             </div>
           </div>
-          <div className="bg-color-primary w-full flex flex-col p-4">
-            <h3 className="text-gray-700 font-semibold mb-2">Total Tagihan</h3>
-            <div className="text-lg font-semibold text-gray-900">
-              ${totalCost * 2}
-            </div>
+          <div className="bg-color-primary w-full flex flex-col px-4 py-6 gap-3 rounded-b-lg">
+            <h3 className="flex flex-col text-gray-700 font-semibold mb-2">
+              Total Tagihan
+              <span className="text-lg font-semibold text-gray-900">
+                {totalCost * 2}
+              </span>
+            </h3>
             <Button
               className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg py-2"
               onClick={() => {

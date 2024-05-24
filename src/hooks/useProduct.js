@@ -3,25 +3,27 @@ import { findOneProduct } from "@/modules/fetch/fetchProduct";
 
 export const useProduct = (slug) => {
   const [product, setProduct] = useState(null);
-  const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+ 
 
   useEffect(() => {
-    if (!slug) return;
-
     const fetchProduct = async () => {
       try {
-        const fetchedProduct = await findOneProduct(slug);
-        setProduct(fetchedProduct);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
+        setLoading(true);
+        const data = await findOneProduct(slug);
+        setProduct(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
         setLoading(false);
       }
     };
+ console.log(product);
 
     fetchProduct();
   }, [slug]);
 
-  return { product, error, loading };
+  return { product, loading, error };
 };
