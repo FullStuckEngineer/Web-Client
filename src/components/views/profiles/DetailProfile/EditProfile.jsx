@@ -1,6 +1,7 @@
 // components/views/profiles/EditProfile.js
 import React, { useState } from "react";
 import { uploadImage, deleteImage } from "@/modules/fetch/fetchUser";
+import Button from "@/components/ui/Button";
 
 const EditProfile = ({
   user,
@@ -19,7 +20,7 @@ const EditProfile = ({
   const [image, setImage] = useState(null);
   const [imageUploaded, setImageUploaded] = useState(Boolean(user.photo));
 
-   const handleChangePicture = (e) => {
+  const handleChangePicture = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -41,8 +42,8 @@ const EditProfile = ({
       const response = await uploadImage(formData);
       setProfileImage(response.photo);
       setImageUploaded(true);
-      alert("Image uploaded successfully"); 
-      setRefresh((prev) => !prev)
+      alert("Image uploaded successfully");
+      setRefresh((prev) => !prev);
       setCurrentComponent("detailProfile");
     } catch (error) {
       console.error(
@@ -55,12 +56,12 @@ const EditProfile = ({
 
   const handleDeletePicture = async (id) => {
     try {
-      await deleteImage(id)
-      setProfileImage(defaultImage)
-      setImageUploaded(false)
+      await deleteImage(id);
+      setProfileImage(defaultImage);
+      setImageUploaded(false);
       alert("Image deleted successfully");
     } catch (error) {
-      console.error("Error deleting picture: ", error)
+      console.error("Error deleting picture: ", error);
     }
   };
 
@@ -84,127 +85,132 @@ const EditProfile = ({
     await handleUpdateUser(formData);
   };
 
-
   return (
-    <div className="w-full flex flex-col my-20 gap-4">
-      <div className="w-full flex flex-col h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary">
-        <form
-          onSubmit={handleSubmit}
-          className="w-full flex flex-col border h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary"
-        >
-          <div className="flex flex-col border border-color-dark w-full p-4">
-            <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
-            <div className="mb-4 w-1/2">
-              <label className="block text-sm font-medium text-gray-700">
-                Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                className="mt-1 p-2 rounded-md w-full"
+    <div className="w-full flex flex-col md:px-5 bg-color-primary">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full flex flex-col h-auto md:p-10 p-6  border border-color-gray-200 rounded-md shadow-md"
+      >
+        <div className="flex flex-col w-full ">
+          <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
+          <div className="flex sm:flex-row md:flex-col lg:flex-row flex-col gap-4">
+            <div className="sm:w-1/2 md:w-full lg:w-1/2 w-full flex flex-col justify-center items-center gap-2 border border-color-gray-200 shadow-sm p-6 rounded-md h-auto mr-10 ">
+              <img
+                className="w-full h-56 object-cover "
+                src={profileImage}
+                alt="Profile"
               />
-            </div>
-            <div className="mb-4 w-1/2">
-              <label className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
               <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleInputChange}
-                className="mt-1 p-2 rounded-md w-full"
+                type="file"
+                accept="image/*"
+                onChange={handleChangePicture}
+                style={{ display: "none" }}
+                id="upload-input"
               />
+              {imageUploaded ? (
+                <div className="flex flex-col w-full">
+                  <Button
+                    className="w-full p-2 rounded-lg bg-color-gray-100  border border-color-green hover:transition-all text-color-green shadow-sm hover:bg-color-primary hover:border-color-greenhover"
+                    onClick={() =>
+                      document.getElementById("upload-input").click()
+                    }
+                  >
+                    Ubah Foto
+                  </Button>
+                  {image && (
+                    <Button
+                      className="w-full p-2  rounded-lg bg-color-green hover:transition-all text-color-primary shadow-sm hover:bg-color-greenhover"
+                      onClick={handleUploadPicture}
+                    >
+                      Upload
+                    </Button>
+                  )}
+                  <Button
+                    className="w-full p-2 rounded-lg bg-color-gray-100 hover:transition-all text-color-primary shadow-sm hover:bg-color-red"
+                    onClick={() => handleDeletePicture(user.id)}
+                  >
+                    Hapus Foto
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col w-full gap-2">
+                  <Button
+                    className="w-full p-2 rounded-lg bg-color-gray-100  border border-color-green hover:transition-all text-color-green shadow-sm hover:bg-color-primary hover:border-color-greenhover"
+                    onClick={() =>
+                      document.getElementById("upload-input").click()
+                    }
+                  >
+                    Pilih Foto
+                  </Button>
+                  {image && (
+                    <Button
+                      className="w-full p-2 rounded-lg bg-color-green hover:transition-all text-color-primary shadow-sm hover:bg-color-greenhover"
+                      onClick={handleUploadPicture}
+                    >
+                      Upload
+                    </Button>
+                  )}
+                </div>
+              )}
             </div>
-            <div className="mb-4 w-1/2">
-              <label className="block text-sm font-medium text-gray-700">
-                Phone Number
-              </label>
-              <input
-                type="number"
-                name="phone_number"
-                pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
-                placeholder="xxxx-xxxx-xxxx"
-                value={formData.phone_number}
-                onChange={handleInputChange}
-                className="mt-1 p-2 rounded-md w-full outline-0"
-              />
-            </div>
-            <div className="flex flex-row gap-4 w-1/3">
-              <button
-                type="submit"
-                className="w-auto p-2 rounded-lg h-10 border border-color-emerald-600 hover:transition-all hover:text-color-emerald-600 hover:bg-color-dark text-white my-2 shadow-md"
-              >
-                Save
-              </button>
-              <button
-                type="button"
-                onClick={cancelEdit}
-                className="w-auto p-2 rounded-lg h-10 border border-color-emerald-600 hover:transition-all hover:text-color-emerald-600 hover:bg-color-dark text-white my-2 shadow-md"
-              >
-                Cancel
-              </button>
+            <div className="flex flex-col gap-3 w-full text-sm">
+              <div className="flex flex-row justify-start items-center gap-4 w-full">
+                <label className="block text-color-dark text-sm w-1/5">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  className="py-2 md:px-5 px-3 rounded-md w-full ring-1 h-9 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+                />
+              </div>
+              <div className="flex flex-row justify-start items-center gap-4 w-full">
+                <label className="block text-color-dark text-sm w-1/5">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="mt-1 py-2 md:px-5 px-3 rounded-md w-full h-9 ring-1 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+                />
+              </div>
+              <div className="flex flex-row justify-start items-center gap-4 w-full">
+                <label className="block text-color-dark text-sm w-1/5">
+                  Phone
+                </label>
+                <input
+                  type="number"
+                  name="phone_number"
+                  pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                  placeholder="xxxx-xxxx-xxxx"
+                  value={formData.phone_number}
+                  onChange={handleInputChange}
+                  className="mt-1 py-2 md:px-5 px-3 rounded-md w-full ring-1 h-9 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+                />
+              </div>
+              <div className="flex flex-row justify-between gap-4 w-full py-2 my-4">
+                <Button
+                  type="submit"
+                  className="bg-color-green hover:bg-color-greenhover text-color-primary rounded-md h-10 w-full"
+                >
+                  Simpan
+                </Button>
+                <Button
+                  type="button"
+                  onClick={cancelEdit}
+                  className="border border-color-green hover:border-color-greenhover text-color-green rounded-md h-10 w-full "
+                >
+                  Batal
+                </Button>
+              </div>
             </div>
           </div>
-        </form>
-        <div className="w-full flex flex-col border h-auto mb-4 p-10 rounded-lg shadow-lg bg-gradient-to-br from-color-emerald-300 to-color-secondary">
-          <img
-            className="w-36 h-36 rounded-full"
-            src={profileImage}
-            alt="Profile"
-          />
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleChangePicture}
-            style={{ display: "none" }}
-            id="upload-input"
-          />
-          {imageUploaded ? (
-            <>
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-secondary"
-                onClick={() => document.getElementById("upload-input").click()}
-              >
-                Change Picture
-              </button>
-              {image && (
-                <button
-                  className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-green my-2"
-                  onClick={handleUploadPicture}
-                >
-                  Confirm Upload
-                </button>
-              )}
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-red"
-                onClick={() => handleDeletePicture(user.id)}
-              >
-                Delete Picture
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white my-2 shadow-sm hover:bg-color-green"
-                onClick={() => document.getElementById("upload-input").click()}
-              >
-                Upload Picture
-              </button>
-              {image && (
-                <button
-                  className="w-1/3 p-2 font-bold rounded-lg h-10 bg-color-emerald-100 hover:transition-all text-white shadow-sm hover:bg-color-green my-2"
-                  onClick={handleUploadPicture}
-                >
-                  Confirm Upload
-                </button>
-              )}
-            </>
-          )}
         </div>
-      </div>
+      </form>
     </div>
   );
 };

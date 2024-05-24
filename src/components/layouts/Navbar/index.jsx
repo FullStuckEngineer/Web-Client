@@ -6,16 +6,16 @@ import Button from "@/components/ui/Button";
 import Link from "next/link";
 import { BellSimple, ShoppingCart, User } from "@phosphor-icons/react";
 import { getUser } from "@/modules/fetch/fetchUser";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import useStore from "@/libs/zustand";
 
 const Navbar = ({}) => {
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     const checkLoginStatus = async () => {
@@ -68,6 +68,8 @@ const Navbar = ({}) => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
+
+  const isAuthRoute = pathname.startsWith("/auth");
 
   return (
     <header className="fixed md:px-10 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
@@ -123,7 +125,7 @@ const Navbar = ({}) => {
                   </div>
                 )}
               </div>
-            ) : (
+            ) : !isAuthRoute ? (
               <>
                 <Link href="/auth/login">
                   <Button className="border border-color-green hover:border-color-greenhover text-color-green rounded-lg h-10 md:w-32 w-40 ">
@@ -136,7 +138,7 @@ const Navbar = ({}) => {
                   </Button>
                 </Link>
               </>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

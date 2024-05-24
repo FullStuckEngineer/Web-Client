@@ -4,7 +4,7 @@ function Footer() {
   return (
     <div>
       <footer className="bg-color-primary pt-24 pb-10">
-        <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div className="mx-auto w-full max-w-screen-xl md:px-4 px-10 lg:py-8">
           <div className="md:flex md:justify-between">
             <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
@@ -99,20 +99,17 @@ function Footer() {
           </div>
           <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
           <div className="sm:flex sm:items-center sm:justify-between">
-            <span className="flex sm:justify-start justify-center text-sm text-color-gray sm:text-start">
+            <span className="flex sm:justify-start justify-center gap-1 md:text-sm text-xs text-color-gray-500 sm:text-start">
               © 2024{" "}
               <a href="/" className="hover:text-color-greenhover">
                 BabyBoo™
               </a>
               . All Rights Reserved.
             </span>
-            <div className="flex justify-center items-center md:gap-5 gap-3 mt-4 sm:justify-between sm:mt-0">
-              <a
-                href="#"
-                className="text-color-gray hover:text-color-greenhover "
-              >
+            <div className="flex justify-center text-color-gray-500 items-center md:gap-5 gap-3 mt-4 sm:justify-between sm:mt-0">
+              <a href="#" className=" hover:text-color-greenhover ">
                 <svg
-                  className="w-5 h-5"
+                  className="md:w-[15px] w-[13px]"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 448 512"
@@ -131,7 +128,7 @@ function Footer() {
                 className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
-                  className="w-4 h-4"
+                  className="md:w-[14px] w-[12px]"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -150,7 +147,7 @@ function Footer() {
                 className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
-                  className="w-4 h-4"
+                  className="md:w-[15px] w-[13px] md:h-[16px] h-[14px]"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
@@ -169,7 +166,7 @@ function Footer() {
                 className="text-color-gray hover:text-color-greenhover "
               >
                 <svg
-                  className="w-4 h-4"
+                  className="md:w-[15px] w-[13px]"
                   aria-hidden="true"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="currentColor"
