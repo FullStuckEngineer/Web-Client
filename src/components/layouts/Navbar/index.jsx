@@ -81,15 +81,15 @@ const Navbar = () => {
           }  justify-between md:items-center md:gap-8 gap-4`}
         >
           <div className="flex flex-row justify-between md:gap-8 gap-1 items-center w-full">
-            <InputSearch className="border-[2px] border-color-grey focus:border-color-greenhover sm:text-md text-sm focus:outline-none sm:w-[450px] md:w-[300px] lg:w-[500px] w-full" />
+            <InputSearch className="border-[2px] border-color-gray focus:border-color-greenhover sm:text-md text-sm focus:outline-none sm:w-[450px] md:w-[300px] lg:w-[500px] w-full" />
             <div className="flex flex-row justify-center items-center md:gap-2 gap-1">
               <Link href="/notif">
-                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg">
+                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-gray p-1 rounded-lg">
                   <BellSimple size={26} />
                 </Button>
               </Link>
               <Link href="/carts">
-                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg">
+                <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-gray p-1 rounded-lg">
                   <ShoppingCart size={26} />
                 </Button>
               </Link>
@@ -100,20 +100,20 @@ const Navbar = () => {
               <div className="relative ">
                 <Button
                   onClick={() => setShowDropdown(!showDropdown)}
-                  className="hover:bg-color-greenhover hover:text-color-primary text-color-grey p-1 rounded-lg"
+                  className="hover:bg-color-greenhover hover:text-color-primary text-color-gray p-1 rounded-lg"
                 >
                   <User size={26} />
                 </Button>
                 {showDropdown && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-50">
+                  <div className="absolute right-0 mt-2 w-48 bg-color-primary rounded-md shadow-lg z-50">
                     <Link href="/profiles">
-                      <Button className="block px-4 py-2 text-sm text-color-grey hover:bg-color-greenhover hover:text-color-primary w-full text-left">
+                      <Button className="block px-4 py-2 text-sm text-color-gray hover:bg-color-greenhover hover:text-color-primary w-full text-left">
                         Profile
                       </Button>
                     </Link>
                     <Button
                       onClick={handleLogout}
-                      className="block px-4 py-2 text-sm text-color-grey hover:bg-color-greenhover hover:text-color-primary w-full text-left"
+                      className="block px-4 py-2 text-sm text-color-gray hover:bg-color-greenhover hover:text-color-primary w-full text-left"
                     >
                       Logout
                     </Button>

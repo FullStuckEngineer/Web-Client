@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { Heart, ShareNetwork, Star } from "@phosphor-icons/react";
@@ -10,8 +10,8 @@ import { addToCart, buyNow } from "@/modules/cart/cartActions";
 
 const ProductView = ({ slug }) => {
   const [quantity, setQuantity] = useState(1);
-
   const { product, error, loading } = useProduct(slug);
+  const router = useRouter();
 
   const handleWishlistClick = () => {
     console.log("Added to wishlist");
@@ -78,7 +78,7 @@ const ProductView = ({ slug }) => {
           />
           <div className="flex flex-col gap-2 w-full mt-4">
             <h3 className="font-semibold">Product Details :</h3>
-            <h3 className="font-semibold text-color-grey">Description :</h3>
+            <h3 className="font-semibold text-color-gray">Description :</h3>
             <p className="text-sm line-clamp-2">{product.description}</p>
           </div>
         </div>
@@ -91,18 +91,18 @@ const ProductView = ({ slug }) => {
                 {product.rating} <span>({product.ratingCount} rating)</span>
               </p>
             </div>
-            <div className="flex flex-row gap-2 text-color-grey">
+            <div className="flex flex-row gap-2 text-color-gray">
               <Button onClick={handleWishlistClick}>
                 <Heart
                   size={30}
                   weight="fill"
-                  className="border border-color-grey rounded-md p-1"
+                  className="border border-color-gray rounded-md p-1"
                 />
               </Button>
               <Button onClick={handleShareClick}>
                 <ShareNetwork
                   size={30}
-                  className="border border-color-grey rounded-md p-1"
+                  className="border border-color-gray rounded-md p-1"
                 />
               </Button>
             </div>
@@ -127,7 +127,7 @@ const ProductView = ({ slug }) => {
                       -
                     </Button>
                     <input
-                      className="border border-color-grey focus:outline-none focus:border-color-green text-center w-28 h-9 py-2 px-6 rounded-lg text-color-dark"
+                      className="border border-color-gray focus:outline-none focus:border-color-green text-center w-28 h-9 py-2 px-6 rounded-lg text-color-dark"
                       value={quantity}
                       onChange={handleQuantityChange}
                     />

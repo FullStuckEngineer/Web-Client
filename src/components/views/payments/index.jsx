@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import PaymentIntructions from "@/components/views/payments/PaymentIntructions";

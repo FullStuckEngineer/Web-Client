@@ -3,8 +3,6 @@ import axios from "axios";
 const baseURL = 'http://localhost:8000/v1/api';
 const instance = axios.create({ baseURL })
 
-
-// Add interceptor to automatically add authorization header
 instance.interceptors.request.use((config) => {
   const token = localStorage.getItem('token');
   if (token) {
