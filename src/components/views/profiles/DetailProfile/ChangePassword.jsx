@@ -1,12 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { updateUser } from "@/modules/fetch/fetchUser";
 
-const ChangePassword = ({ user, setCurrentComponent }) => {
+const ChangePassword = ({ user, setCurrentComponent, setRefresh }) => {
   const [formData, setFormData] = useState({
     oldPassword: "",
     newPassword: "",
     confirmPassword: "",
   });
+
+  useEffect(() => {
+    // Reset form data
+    setFormData({
+      oldPassword: "",
+      newPassword: "",
+      confirmPassword: "",
+    });
+  }, [setRefresh((prev) => !prev)]);
 
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -71,39 +80,11 @@ const ChangePassword = ({ user, setCurrentComponent }) => {
   //jika sama maka password akan terubah
 
   return (
-    <div className="flex flex-row items-center p-8 bg-gradient-to-br from-color-emerald-3 00 to-white w-full py-20">
-      <div className="w-4/12 h-screen p-10">
-        <button
-          onClick={() => setCurrentComponent("detailProfile")}
-          className="flex flex-row text-2xl font-bold mb-20"
-        >
-          Account Setting
-        </button>
-        <div className="flex flex-col items-start">
-          <button
-            onClick={() => setCurrentComponent("addressList")}
-            className="w-full text-left p-2 rounded-lg h-10 hover:transition-all my-2 hover:bg-color-secondary"
-          >
-            List Address
-          </button>
-          <button
-            onClick={() => setCurrentComponent("changePassword")}
-            className="w-full text-left p-2 rounded-lg h-10 hover:transition-all my-2 hover:bg-color-secondary"
-          >
-            Change Password
-          </button>
-          <button
-            onClick={() => setCurrentComponent("checkoutList")}
-            className="w-full text-left p-2 rounded-lg h-10 hover:transition-all my-2  hover:bg-color-secondary"
-          >
-            Checkout List
-          </button>
-        </div>
-      </div>
-      <div className="w-full h-screen bg-white shadow-md bg-gradient-to-br from-color-emerald-300 to-color-secondary rounded-lg p-6">
-        <form onSubmit={handleChangePassword}>
-          <h2>Change Password</h2>
-          <label>Enter Old Password</label>
+    <div className="flex flex-row items-center p-8 w-full max-w-lg bg-white shadow-md rounded-lg">
+      <div className="w-full h-auto max-w-lg p-8 bg-white shadow-md rounded-lg border border-color-grey-600">
+        <form onSubmit={handleChangePassword} className="border p-3">
+          <h2 className="text-xl font-semibold p-3">Change Password</h2>
+          <label className="block p-2">Enter Old Password</label>
           <input
             type="password"
             placeholder="Enter Old Password"
@@ -115,7 +96,7 @@ const ChangePassword = ({ user, setCurrentComponent }) => {
           {error.message && (
             <p className="text-red-500 text-xs mt-1">{error.message}</p>
           )}
-          <label>Enter New Password</label>
+          <label className="block p-2">Enter New Password</label>
           <input
             type="password"
             placeholder="Enter New Password"
@@ -127,7 +108,7 @@ const ChangePassword = ({ user, setCurrentComponent }) => {
           {error.newPassword && (
             <p className="text-red-500 text-xs mt-1">{error.newPassword}</p>
           )}
-          <label>Enter Confirm Password</label>
+          <label className="block p-2">Enter Confirm Password</label>
           <input
             type="password"
             placeholder="Enter Confirm Password"

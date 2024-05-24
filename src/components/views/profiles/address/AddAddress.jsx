@@ -1,8 +1,13 @@
 import React, { useState } from "react";
 import { createAddress } from "@/modules/fetch/fetchAddress";
-import { findAllCity } from "@/modules/fetch/fetchCity"; // Assume we have this function
+import { findWithLimit } from "@/modules/fetch/fetchCity";
 
-const AddAddress = ({ onClose, setCurrentComponent, addresses, setAddresses }) => {
+const AddAddress = ({
+  onClose,
+  setCurrentComponent,
+  addresses,
+  setAddresses,
+}) => {
   const [receiverName, setReceiverName] = useState("");
   const [receiverPhone, setReceiverPhone] = useState("");
   const [detailAddress, setDetailAddress] = useState("");
@@ -19,7 +24,7 @@ const AddAddress = ({ onClose, setCurrentComponent, addresses, setAddresses }) =
       receiver_name: receiverName,
       receiver_phone: receiverPhone,
       detail_address: detailAddress,
-      city_id: cityId, 
+      city_id: cityId,
       postal_code: Number(postalCode),
       province: province,
     };
@@ -38,7 +43,7 @@ const AddAddress = ({ onClose, setCurrentComponent, addresses, setAddresses }) =
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findAllCity(search);
+      const cities = await findWithLimit(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);
@@ -52,83 +57,85 @@ const AddAddress = ({ onClose, setCurrentComponent, addresses, setAddresses }) =
   };
 
   return (
-    <div className="w-full mt-20 h-screen bg-white shadow-md bg-gradient-to-br from-color-emerald-300 to-color-secondary rounded-lg p-6">
-      <p>Add Address Here</p>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-2">
-        <label className="font-bold">Receiver Name</label>
-        <input
-          type="text"
-          value={receiverName}
-          onChange={(e) => setReceiverName(e.target.value)}
-          placeholder="Enter your receiver name"
-          className="p-2 border rounded-lg"
-        />
-        <label className="font-bold">Receiver Phone</label>
-        <input
-          type="text"
-          value={receiverPhone}
-          onChange={(e) => setReceiverPhone(e.target.value)}
-          placeholder="Enter your receiver phone number"
-          className="p-2 border rounded-lg"
-        />
-        <label className="font-bold">Detail Address</label>
-        <input
-          type="text"
-          value={detailAddress}
-          onChange={(e) => setDetailAddress(e.target.value)}
-          placeholder="Enter your address"
-          className="p-2 border rounded-lg"
-        />
-        <label className="font-bold">City</label>
-        <input
-          type="text"
-          value={city}
-          onChange={handleCityChange}
-          placeholder="Enter your city"
-          className="p-2 border rounded-lg"
-        />
-        {cityOptions.length > 0 && (
-          <ul className="border border-gray-300 rounded-lg max-h-60 overflow-y-auto">
-            {cityOptions.map((city) => (
-              <li
-                key={city.id}
-                onClick={() => handleCitySelect(city)}
-                className="p-2 cursor-pointer hover:bg-gray-200"
-              >
-                {city.name}
-              </li>
-            ))}
-          </ul>
-        )}
-        <label className="font-bold">Postal Code</label>
-        <input
-          type="text"
-          value={postalCode}
-          onChange={(e) => setPostalCode(e.target.value)}
-          placeholder="Enter your postal code"
-          className="p-2 border rounded-lg"
-        />
-        <label className="font-bold">Province</label>
-        <input
-          type="text"
-          value={province}
-          onChange={(e) => setProvince(e.target.value)}
-          placeholder="Enter your province"
-          className="p-2 border rounded-lg"
-        />
+    <div className="flex flex-row items-center p-8 w-full max-w-lg bg-white shadow-md rounded-lg">
+      <div className="w-full h-auto max-w-lg p-8 bg-white shadow-md rounded-lg">
+        <p>Add Address Here</p>
+        <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          <label className="font-bold">Receiver Name</label>
+          <input
+            type="text"
+            value={receiverName}
+            onChange={(e) => setReceiverName(e.target.value)}
+            placeholder="Enter your receiver name"
+            className="p-2 border rounded-lg"
+          />
+          <label className="font-bold">Receiver Phone</label>
+          <input
+            type="text"
+            value={receiverPhone}
+            onChange={(e) => setReceiverPhone(e.target.value)}
+            placeholder="Enter your receiver phone number"
+            className="p-2 border rounded-lg"
+          />
+          <label className="font-bold">Detail Address</label>
+          <input
+            type="text"
+            value={detailAddress}
+            onChange={(e) => setDetailAddress(e.target.value)}
+            placeholder="Enter your address"
+            className="p-2 border rounded-lg"
+          />
+          <label className="font-bold">City</label>
+          <input
+            type="text"
+            value={city}
+            onChange={handleCityChange}
+            placeholder="Enter your city"
+            className="p-2 border rounded-lg"
+          />
+          {cityOptions.length > 0 && (
+            <ul className="border border-gray-300 rounded-lg max-h-60 overflow-y-auto">
+              {cityOptions.map((city) => (
+                <li
+                  key={city.id}
+                  onClick={() => handleCitySelect(city)}
+                  className="p-2 cursor-pointer hover:bg-gray-200"
+                >
+                  {city.name}
+                </li>
+              ))}
+            </ul>
+          )}
+          <label className="font-bold">Postal Code</label>
+          <input
+            type="text"
+            value={postalCode}
+            onChange={(e) => setPostalCode(e.target.value)}
+            placeholder="Enter your postal code"
+            className="p-2 border rounded-lg"
+          />
+          <label className="font-bold">Province</label>
+          <input
+            type="text"
+            value={province}
+            onChange={(e) => setProvince(e.target.value)}
+            placeholder="Enter your province"
+            className="p-2 border rounded-lg"
+          />
+          <button
+            type="submit"
+            className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3 w-auto"
+          >
+            Add Address
+          </button>
+        </form>
         <button
-          type="submit"
-          className="w-full bg-color-primary text-white rounded-lg h-10 hover:bg-color-primary-dark"
+          onClick={onClose}
+          className="mt-4 p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
         >
-          Add Address
+          Cancel
         </button>
-      </form>
-      <button
-        onClick={onClose}
-        className="w-full mt-4 bg-color-secondary text-white rounded-lg h-10 hover:bg-color-secondary-dark"
-      >
-        Cancel
-      </button>
+      </div>
     </div>
   );
 };

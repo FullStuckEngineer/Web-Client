@@ -1,8 +1,10 @@
 import instance  from "@/libs/axios/axiosInstance";
 
-const findOne = async (id) => {
+const findOne = async (data) => {
   try {
-    const response = await instance.get(`/carts/${id}`);
+    console.log(`Sending request to /carts`, data);
+    const response = await instance.get(`/carts`, data);
+    console.log("response received: ", response);
     return response.data;
   } catch (error) {
     console.error(

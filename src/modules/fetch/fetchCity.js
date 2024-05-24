@@ -1,18 +1,27 @@
 import  instance  from "@/libs/axios/axiosInstance";
 
-const findAllCity = async (search) => {
-  try {
-    console.log("Sending request to /cities");
-    const response = await instance.get(`/cities?search=${search}&limit=5`);
-    console.log("response received: ", response.data);
-    return response.data;
-  } catch (error) {
-    console.error(
-      "Error fetching city data:",
-      error.response ? error.response.data : error.message
-    );
-    throw error;
-  }
+const findAllCity = async () => {
+    try {
+        console.log('Sending request to /cities')
+        const response = await instance.get(`/cities`);
+        console.log('response received: ', response.data)
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching city data:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+
+const findWithLimit = async (search) => {
+    try {
+        console.log('Sending request to /cities with limit')
+        const response = await instance.get(`/cities/limit/?search=${search}&limit=5`);
+        console.log('response received: ', response.data)
+        return response.data;
+    } catch (error) {
+        console.error("Error fetching city data:", error.response ? error.response.data : error.message);
+        throw error;
+    }
 };
 
 const findOneCity = async (id) => {
@@ -28,4 +37,6 @@ const findOneCity = async (id) => {
   }
 };
 
-export { findAllCity, findOneCity };
+
+
+export { findAllCity, findOneCity, findWithLimit};

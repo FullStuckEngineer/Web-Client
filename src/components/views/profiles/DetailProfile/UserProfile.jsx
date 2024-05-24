@@ -45,12 +45,12 @@ const UserProfile = ({ user, enterEditMode }) => {
         </div>
       </div>
 
-      <Button
+      <button
         onClick={enterEditMode}
         className="bg-color-green hover:bg-color-greenhover text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
       >
         Edit Profile
-      </Button>
+      </button>
     </div>
   );
 };
