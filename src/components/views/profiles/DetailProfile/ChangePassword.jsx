@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { updateUser } from "@/modules/fetch/fetchUser";
+import Button from "@/components/ui/Button";
+import { XCircle } from "@phosphor-icons/react";
 
 const ChangePassword = ({ user, setCurrentComponent, setRefresh }) => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,6 @@ const ChangePassword = ({ user, setCurrentComponent, setRefresh }) => {
   });
 
   useEffect(() => {
-    // Reset form data
     setFormData({
       oldPassword: "",
       newPassword: "",
@@ -42,7 +43,6 @@ const ChangePassword = ({ user, setCurrentComponent, setRefresh }) => {
       return;
     }
 
-    // Check confirm password
     if (formData.newPassword !== formData.confirmPassword) {
       setError((prevErrors) => ({
         ...prevErrors,
@@ -80,49 +80,78 @@ const ChangePassword = ({ user, setCurrentComponent, setRefresh }) => {
   //jika sama maka password akan terubah
 
   return (
-    <div className="flex flex-row items-center p-8 w-full max-w-lg bg-white shadow-md rounded-lg">
-      <div className="w-full h-auto max-w-lg p-8 bg-white shadow-md rounded-lg border border-color-grey-600">
-        <form onSubmit={handleChangePassword} className="border p-3">
-          <h2 className="text-xl font-semibold p-3">Change Password</h2>
-          <label className="block p-2">Enter Old Password</label>
-          <input
-            type="password"
-            placeholder="Enter Old Password"
-            name="oldPassword"
-            value={formData.oldPassword}
-            onChange={handleInputChange}
-            className="mt-1 p-2 rounded-md w-full"
-          />
-          {error.message && (
-            <p className="text-red-500 text-xs mt-1">{error.message}</p>
-          )}
-          <label className="block p-2">Enter New Password</label>
-          <input
-            type="password"
-            placeholder="Enter New Password"
-            name="newPassword"
-            value={formData.newPassword}
-            onChange={handleInputChange}
-            className="mt-1 p-2 rounded-md w-full"
-          />
-          {error.newPassword && (
-            <p className="text-red-500 text-xs mt-1">{error.newPassword}</p>
-          )}
-          <label className="block p-2">Enter Confirm Password</label>
-          <input
-            type="password"
-            placeholder="Enter Confirm Password"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-            className="mt-1 p-2 rounded-md w-full"
-          />
+    <div className="w-full h-auto max-w-lg p-8 bg-color-primary border border-color-gray-200 rounded-md shadow-md">
+      <form
+        onSubmit={handleChangePassword}
+        className="w-full flex flex-col h-auto md:p-10 p-6  "
+      >
+        <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+        <div className="flex flex-col gap-4 text-sm">
+          <div>
+            <label className="text-color-dark text-sm">
+              Enter Old Password
+            </label>
+            <input
+              type="password"
+              placeholder="********"
+              name="oldPassword"
+              value={formData.oldPassword}
+              onChange={handleInputChange}
+              className="mt-2 py-2 px-3 rounded-md w-full ring-1 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+            />
+            {error.message && (
+              <p className="flex gap-2 items-center border rounded-md border-color-red p-3 mb-5 text-color-red text-xs bg-color-red bg-opacity-10">
+                <XCircle size={20} />
+                {error.message}
+              </p>
+            )}
+          </div>
+          <div>
+            <label className="text-color-dark text-sm">
+              Enter New Password
+            </label>
+            <input
+              type="password"
+              placeholder="********"
+              name="newPassword"
+              value={formData.newPassword}
+              onChange={handleInputChange}
+              className="mt-2 py-2 px-3 rounded-md w-full ring-1 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+            />
+            {error.newPassword && (
+              <p className="flex gap-2 items-center border rounded-md border-color-red p-3 mb-5 text-color-red text-xs bg-color-red bg-opacity-10">
+                <XCircle size={20} />
+                {error.newPassword}
+              </p>
+            )}
+          </div>
+          <div className="">
+            <label className="text-color-dark text-sm">
+              Enter Confirm Password
+            </label>
+            <input
+              type="password"
+              placeholder="********"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+              className="mt-2 py-2 px-3 rounded-md w-full ring-1 ring-color-gray-300 focus:ring-color-greenhover focus:outline-none shadow-sm"
+            />{" "}
+          </div>
           {error.confirmPassword && (
-            <p className="text-red-500 text-xs mt-1">{error.confirmPassword}</p>
+            <p className="flex gap-2 items-center border rounded-md border-color-red p-3 mb-5 text-color-red text-xs bg-color-red bg-opacity-10">
+              <XCircle size={20} />
+              {error.confirmPassword}
+            </p>
           )}
-          <button type="submit">Submit</button>
-        </form>
-      </div>
+        </div>
+        <Button
+          className="bg-color-green hover:bg-color-greenhover text-color-primary font-bold my-4 py-2 px-4 w-full rounded-md focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Submit
+        </Button>
+      </form>
     </div>
   );
 };

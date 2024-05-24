@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import SidebarProfile from "./SidebarProfile";
 import EditProfile from "./EditProfile";
-import UserProfile from "./UserProfile";
+import UserProfile from "./DetailProfile";
 import AddAddress from "../address/AddAddress";
 import AddressList from "../address/AddressList";
 import UpdateAddress from "../address/UpdateAddress";
@@ -144,9 +144,9 @@ const ProfileView = () => {
   if (error) return <p>Error: {error}</p>;
 
   return (
-    <div className="border gap-11 flex md:flex-row flex-col items-center w-full md:py-[6rem] py-[7rem] pb-8 px-8 bg-color-grey-50 min-h-screen">
-      <SidebarProfile setCurrentComponent={setCurrentComponent}/>
-      <div className="flex flex-col items-center w-full md:w-8/12">
+    <div className=" bg-color-primary flex justify-center items-start gap-16 md:flex-row flex-col w-full py-[6rem] px-8 min-h-screen">
+      <SidebarProfile setCurrentComponent={setCurrentComponent} />
+      <div className="flex flex-col items-center pt-24 md:pt-0 w-full md:w-8/12">
         {renderComponent()}
       </div>
     </div>
