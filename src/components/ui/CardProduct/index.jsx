@@ -5,12 +5,14 @@ import { Heart, ShoppingCart } from "@phosphor-icons/react";
 import Link from "next/link";
 
 const CardProduct = ({ products }) => {
+  console.log(products);
+
   return (
     <div className="flex flex-wrap mt-20">
-      {products.data &&
-        products.data.products &&
-        products.data.products.length > 0 &&
-        products.data.products.map((product) => (
+      {products?.data &&
+        products?.data.products &&
+        products?.data.products.length > 0 &&
+        products?.data.products.map((product) => (
           <div
             key={product.id}
             className="w-full max-w-xs bg-color-secondary border border-color-secondary rounded-lg shadow-md flex flex-col justify-between mx-3 my-2"

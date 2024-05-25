@@ -72,21 +72,21 @@ const Navbar = ({}) => {
   const isAuthRoute = pathname.startsWith("/auth");
 
   return (
-    <header className="fixed md:px-10 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
+    <header className="fixed md:px-32 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
       <div className="flex md:flex-row flex-col justify-between md:items-center p-4 gap-2">
         <Link
           href="/"
-          className="font-bold text-color-green hover:text-color-greenhover text-2xl"
+          className="font-bold text-color-green hover:text-color-greenhover text-3xl"
         >
           BabyBoo
         </Link>
         <div
           className={`flex md:flex-row  ${
             isLoggedIn ? "flex-row" : "flex-col"
-          }  justify-between md:items-center md:gap-8 gap-4`}
+          }  justify-between md:items-center md:gap-16 gap-4`}
         >
-          <div className="flex flex-row justify-between md:gap-8 gap-1 items-center w-full">
-            <InputSearch className="border-[2px] border-color-gray focus:border-color-greenhover sm:text-md text-sm focus:outline-none sm:w-[450px] md:w-[300px] lg:w-[500px] w-full" />
+          <div className="flex flex-row justify-between md:gap-16 gap-2 items-center w-full">
+            <InputSearch className="border-[2px] border-color-gray-400 focus:border-color-greenhover sm:text-md text-sm focus:outline-none sm:w-[450px] md:w-[300px] lg:w-[500px] w-full" />
             <div className="flex flex-row justify-center items-center md:gap-2 gap-1">
               <Link href="/notif">
                 <Button className="hover:bg-color-greenhover hover:text-color-primary text-color-gray p-1 rounded-lg">

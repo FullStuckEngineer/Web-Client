@@ -24,7 +24,6 @@ const LoginView = () => {
     const form = event.target;
     const data = {
       email: form.email.value,
-      role: form.role.value,
       password: form.password.value,
     };
 
@@ -81,7 +80,6 @@ const LoginView = () => {
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-3">
         <Input label="Email" name="email" type="email" placeholder="Email" />
-        <Input label="Role" name="role" type="text" placeholder="Role" />
         <Input
           label="Password"
           name="password"
