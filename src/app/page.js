@@ -1,4 +1,5 @@
-"use client";
+import { CardProduct } from "@/components/ui/CardProduct";
+import { Hero, Footer, Lastest, Popular } from "@/components/layouts";
 
 import CardProduct from "@/components/ui/CardProduct/index";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
@@ -21,10 +22,22 @@ const HomePage = () => {
   }, []);
   
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      {error && <p>Error: {error}</p>}
-      <CardProduct products={products}/>
+    <div className="w-full h-full">
+      <title>BabyBoo</title>
+      <main >
+        <div >
+          <ul>
+            <li >
+              <Hero />
+            </li>
+          </ul>
+
+        </div>
+      </main>
+
+      <Popular />
+      <Lastest />
+      <Footer />
     </div>
   );
 }
