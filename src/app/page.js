@@ -1,4 +1,5 @@
-"use client";
+import { CardProduct } from "@/components/ui/CardProduct";
+import { Hero, Footer, Lastest, Popular } from "@/components/layouts";
 
 import { useEffect, useState } from "react";
 import CardProduct from "@/components/ui/CardProduct";
@@ -26,6 +27,7 @@ const HomePage = () => {
   return (
     <div className="flex flex-col px-24 py-32 gap-10">
       <Carousel />
+      <Hero />
       <div className="flex flex-row gap-4">
         <CardProduct />
         <CardProduct />
@@ -61,11 +63,15 @@ const HomePage = () => {
           </p>
         </div>
         <div className="flex flex-row gap-4">
+             <Popular />
+      <Lastest />
+      <Footer />
           <ReviewCard />
           <ReviewCard />
           <ReviewCard />
         </div>
       </div>
+
     </div>
   );
 };
