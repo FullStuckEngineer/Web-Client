@@ -24,7 +24,7 @@ const HomePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col px-24 py-32">
+    <div className="flex flex-col px-24 py-32 gap-10">
       <Carousel />
       <div className="flex flex-row gap-4">
         <CardProduct />
@@ -51,7 +51,7 @@ const HomePage = () => {
         <CardProduct products={products} />
       </div>
       <div flex flex-row>
-        <div className="flex flex-col justify-center items-center mb-10 text-color-gray-700">
+        <div className="flex flex-col justify-center items-center mb-8 text-color-gray-700">
           <h3 className="text-2xl font-semibold text-color-dark">
             Review with Love
           </h3>
