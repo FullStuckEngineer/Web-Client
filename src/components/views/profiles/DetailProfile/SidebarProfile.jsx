@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  CaretDown,
-  CaretUp,
-  ListDashes,
-  Password,
-  ShoppingBag,
-} from "@phosphor-icons/react";
-import { User } from "@phosphor-icons/react/dist/ssr";
+import { CaretDown, CaretUp } from "@phosphor-icons/react";
 
 const SidebarProfile = ({ setCurrentComponent }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -26,43 +19,43 @@ const SidebarProfile = ({ setCurrentComponent }) => {
             {" "}
             <button
               onClick={() => toggleDropdown()}
-              className="flex items-center justify-between gap-2 p-2 w-full text-color-dark rounded-lg hover:bg-color-gray-200 "
+              className="flex items-center gap-2 px-2 p-2 pt-2 md:pb-2 pb-0 w-full text-color-dark rounded-lg"
             >
-              <div className="flex flex-row text-sm justify-start items-center gap-2">
-                <span className="">Account Setting</span>
-              </div>
-              <span className="ml-3 md:hidden block">
+              <span className=" md:hidden block p-2 rounded-xl hover:bg-color-gray-200">
                 {isDropdownOpen ? (
                   <CaretUp size={20} />
                 ) : (
                   <CaretDown size={20} />
                 )}
               </span>
+              <div className="flex flex-row text-sm justify-start items-center gap-2">
+                <span className="">Pengaturan Akun</span>
+              </div>
             </button>
             <div className={`${isDropdownOpen ? "block" : "hidden"} md:hidden`}>
               <button
-                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
+                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark"
                 onClick={() => setCurrentComponent("detailProfile")}
               >
                 Biodata Diri
               </button>
               <button
-                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
+                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark"
                 onClick={() => setCurrentComponent("addressList")}
               >
-                List Address
+                List Alamat
               </button>
               <button
-                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
+                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark"
                 onClick={() => setCurrentComponent("changePassword")}
               >
-                Change Password
+                Ubah Password
               </button>
               <button
-                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200"
+                className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark"
                 onClick={() => setCurrentComponent("checkoutList")}
               >
-                Checkout List
+                History Pembellian
               </button>
             </div>
           </li>
@@ -78,19 +71,19 @@ const SidebarProfile = ({ setCurrentComponent }) => {
               className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
               onClick={() => setCurrentComponent("addressList")}
             >
-              List Address
+              List Alamat
             </button>
             <button
               className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
               onClick={() => setCurrentComponent("changePassword")}
             >
-              Change Password
+              Ubah Password
             </button>
             <button
               className="flex flex-row text-sm gap-2 font-normal justify-start items-center w-full text-left px-4 py-2 rounded-lg text-color-gray-600 hover:text-color-dark hover:bg-color-gray-200 "
               onClick={() => setCurrentComponent("checkoutList")}
             >
-              Checkout List
+              History Pembelian
             </button>
           </li>
         </ul>
