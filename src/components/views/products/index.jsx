@@ -1,17 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
-import { Heart, ShareNetwork, Star } from "@phosphor-icons/react";
-import { useRouter } from "next/navigation";
-import { useProduct } from "@/hooks/useProduct";
+import { Heart, ShareNetwork, ShoppingCart, Star } from "@phosphor-icons/react";
 import { addToCart, buyNow } from "@/modules/cart/cartActions";
+import { findOneProduct } from "@/modules/fetch/fetchProduct";
 
 const ProductView = ({ slug }) => {
   const [quantity, setQuantity] = useState(1);
-  const { product, error, loading } = useProduct(slug);
-  const router = useRouter();
+  const [product, setProduct] = useState(null);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const productData = await findOneProduct(slug);
+        setProduct(productData.data);
+      } catch (error) {
+        setError("Failed to fetch product");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (slug) {
+      fetchProduct();
+    }
+  }, [slug]);
 
   const handleWishlistClick = () => {
     console.log("Added to wishlist");
@@ -37,7 +54,6 @@ const ProductView = ({ slug }) => {
       try {
         await buyNow(product.id, quantity);
         console.log("Proceeding to checkout");
-        router.push("/checkout");
       } catch (error) {
         console.error("Error proceeding to checkout:", error);
       }
@@ -68,96 +84,85 @@ const ProductView = ({ slug }) => {
   }
 
   return (
-    <header className="flex justify-center bg-color-secondary md:py-24 py-48 md:px-10 px-6">
-      <div className="flex flex-wrap w-auto justify-between shadow-lg bg-color-primary md:px-14 px-3 py-4">
-        <div className="flex flex-col md:w-2/5 w-full md:py-10 py-2">
-          <Image
-            src={product.image}
-            alt={product.name}
-            className="rounded-md w-full h-full object-cover"
-          />
-          <div className="flex flex-col gap-2 w-full mt-4">
-            <h3 className="font-semibold">Product Details :</h3>
-            <h3 className="font-semibold text-color-gray">Description :</h3>
-            <p className="text-sm line-clamp-2">{product.description}</p>
+    <header className="flex justify-center w-full md:py-10 py-8 md:px-10 px-6 ">
+      <div className="px-4 pt-4 pb-5 flex lg:flex-row flex-col justify-center md:gap-16 gap-6 w-full bg-color-primary border border-color-gray-200 shadow-md rounded-md">
+        <Image
+          width={500}
+          height={500}
+          className="md:rounded-l-md rounded-t-md"
+          src={product.photo || "/placeholder.jpg"}
+          alt={product.name}
+        />
+        <div className="flex flex-col justify-between py-0 md:py-10 md:pr-14 pr-0">
+          <div className="flex flex-col md:gap-4 gap-3">
+            <h1 className="md:text-3xl text-2xl font-bold">{product.name}</h1>
+            <p className="text-justify text-sm">{product.description}</p>
+            <div className="flex justify-start items-center gap-1">
+              <div className="flex flex-row">
+                <Star size={25} weight="fill" className="text-color-gold w-4" />
+              </div>
+              <p className="text-sm">4.5</p>
+              <p className="text-sm text-color-gray-500">(7 review)</p>
+            </div>
+            <div className="flex justify-start gap-3">
+              <Button
+                className="border rounded-md border-color-gray-300 text-color-gray-300 flex justify-center items-center font-semibold p-2"
+                onClick={handleWishlistClick}
+              >
+                <Heart size={20} weight="fill" />
+              </Button>
+              <Button
+                className="border rounded-md border-color-gray-300 text-color-gray-300 flex justify-center items-center font-semibold p-2"
+                onClick={handleShareClick}
+              >
+                <ShareNetwork size={20} weight="fill" />
+              </Button>
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col items-start justify-between md:py-10 py-2 md:w-1/2 w-full">
-          <div className="flex flex-col gap-4">
-            <h2 className="font-semibold text-3xl">{product.name}</h2>
-            <div className="flex flex-row gap-1">
-              <Star size={16} weight="fill" className=" text-color-gold" />
-              <p className="text-center text-sm">
-                4.5 <span>(123 rating)</span>
+          <div className="flex flex-col gap-5">
+            <p className="md:text-3xl text-2xl font-bold pt-6">Rp. {product.price}</p>
+            <div className="flex justify-between items-center gap-5">
+              Kuantitas
+              <div className="flex flex-row relative items-end justify-end ">
+                <Button
+                  className="w-7 h-7 absolute bottom-1 start-1 rounded-md bg-color-primary hover:bg-color-gray-200 hover:text-color-green"
+                  onClick={handleDecrease}
+                >
+                  -
+                </Button>
+                <input
+                  className="w-24 h-9 py-2 pl-4 border border-color-gray-300 focus:outline-none focus:border-color-green text-center rounded-lg text-color-dark"
+                  type="number"
+                  min="1"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                />
+                <Button
+                  className="w-7 h-7 absolute bottom-1 end-1 rounded-md bg-color-primary hover:bg-color-gray-200 hover:text-color-green"
+                  onClick={handleIncrease}
+                >
+                  +
+                </Button>
+              </div>
+              <p className="flex flex-row gap-3 items-end md:text-3xl text-2xl font-bold">
+                <span className="text-lg font-medium">Total</span> Rp.{" "}
+                {product.price * quantity}
               </p>
             </div>
-            <div className="flex flex-row gap-2 text-color-gray">
-              <Button onClick={handleWishlistClick}>
-                <Heart
-                  size={30}
-                  weight="fill"
-                  className="border border-color-gray rounded-md p-1"
-                />
-              </Button>
-              <Button onClick={handleShareClick}>
-                <ShareNetwork
-                  size={30}
-                  className="border border-color-gray rounded-md p-1"
-                />
-              </Button>
-            </div>
-            <span className="text-3xl font-medium">{product.price}</span>
           </div>
-          <div className="flex flex-col gap-4 my-14">
-            <h3 className="font-semibold">Size</h3>
-            <Button className="border border-color-green hover:border-color-greenhover text-color-green rounded-lg h-8 md:w-24 w-32">
-              {product.size}
+          <div className="flex justify-between items-center md:gap-5 gap-3 pt-5">
+            <Button
+              className="py-2 px-4 h-11 w-full bg-color-green hover:bg-color-greenhover text-color-primary font-semibold rounded-md"
+              onClick={handleAddToCart}
+            >
+              + Keranjang
             </Button>
-          </div>
-          <div className="flex flex-col gap-4">
-            <h3 className="font-semibold">Atur jumlah</h3>
-            <div className="flex md:flex-row flex-col items-center justify-between gap-4">
-              <div className="flex flex-row">
-                <div>
-                  <div className="flex flex-row relative items-center justify-center">
-                    <Button
-                      onClick={handleDecrease}
-                      className="w-9 h-9 absolute start-0 rounded-md hover:text-color-green"
-                    >
-                      -
-                    </Button>
-                    <input
-                      className="border border-color-gray focus:outline-none focus:border-color-green text-center w-28 h-9 py-2 px-6 rounded-lg text-color-dark"
-                      value={quantity}
-                      onChange={handleQuantityChange}
-                    />
-                    <Button
-                      onClick={handleIncrease}
-                      className="w-9 h-9 absolute end-0 rounded-md hover:text-color-green"
-                    >
-                      +
-                    </Button>
-                  </div>
-                </div>
-              </div>
-              <h3 className="text-lg font-bold">
-                Subtotal : Rp. {quantity * product.price}
-              </h3>
-            </div>
-            <div className="flex flex-row items-center justify-between gap-5 mt-14">
-              <Button
-                onClick={handleAddToCart}
-                className="border border-color-green hover:border-color-greenhover text-color-green rounded-lg h-10 md:w-52 w-32"
-              >
-                + Keranjang
-              </Button>
-              <Button
-                onClick={handleBuyNow}
-                className="bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-10 md:w-52 w-32"
-              >
-                Beli Sekarang
-              </Button>
-            </div>
+            <Button
+              className="py-2 px-4 w-full h-11 bg-color-primary border-color-green border hover:border-color-greenhover text-color-green hover:text-color-greenhover font-semibold rounded-md"
+              onClick={handleBuyNow}
+            >
+              Beli Langsung
+            </Button>
           </div>
         </div>
       </div>
