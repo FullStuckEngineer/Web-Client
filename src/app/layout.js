@@ -9,7 +9,7 @@ const poppins = Poppins({
   weight: ["100", "300", "400", "500", "600", "700", "800", "900"],
 });
 
-export default function RootLayout({ children, session }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <Head>
@@ -21,7 +21,6 @@ export default function RootLayout({ children, session }) {
       >
           <Navbar />
           {children}
-
           <Footer />
       </body>
     </html>

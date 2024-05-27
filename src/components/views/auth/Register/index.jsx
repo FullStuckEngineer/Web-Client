@@ -24,11 +24,9 @@ const RegisterView = () => {
       name: form.name.value,
       email: form.email.value,
       password: form.password.value,
-      role: form.role.value,
     };
 
     try {
-
       const result = await instance.post("/auth/register", data);
       console.log(result);
       if (result.status === 201) {
@@ -88,7 +86,6 @@ const RegisterView = () => {
           type="password"
           placeholder="Password"
         />
-        <Input label="Role" name="role" type="text" placeholder="Role" />
         {isLoading ? (
           <Button
             disabled

@@ -9,19 +9,6 @@ import { Autoplay, EffectFade, Navigation } from 'swiper/modules';
 const Hero = () => {
   return (
   <div >
-    <div className=''>
-    <ul className='  pt-20  text-center text-color-green ' >
-      
-    <button className='px-8'> <a href='#hero'></a> HOME</button>
-    <button className='px-8'> <a href='#popular'></a>Best seller</button>
-    <button className='px-8'> <a href='#lastest'></a>Kategori</button>
-    <button className='px-8'> <a href='#footer'></a> Contact us</button>
-    </ul>
-    </div>
-<div className='text-center '>
-<h1 className='py-8 text-6xl font-semibold  text-color-green '>BabyBoo Signature</h1>
-
-</div>
 <div className=' container mx-auto h-80 ' >
 <Swiper
 spaceBetween={30}
