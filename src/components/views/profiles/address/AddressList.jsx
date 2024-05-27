@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { findAllAddress, destroyAddress } from "@/modules/fetch/fetchAddress";
 import UpdateAddress from "./UpdateAddress";
 import { findWithNoLimit } from "@/modules/fetch/fetchCity";
+import Button from "@/components/ui/Button";
 
 const AddressList = ({ setCurrentComponent }) => {
   const [addresses, setAddresses] = useState([]);
@@ -68,48 +69,50 @@ const AddressList = ({ setCurrentComponent }) => {
   return (
     <>
       {!showUpdateAddress && (
-        <div className="flex flex-row items-center p-8 w-full max-w-lg bg-white shadow-md rounded-lg">
-          <div className="w-full h-auto max-w-lg p-8 bg-white shadow-md rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Addresses</h2>
-            <h2 className="font-bold mb-4">
-              Total Address: {addresses.length}
-            </h2>
+        <div className="flex flex-row items-center border border-color-gray-300 p-8 w-full h-full shadow-md rounded-md">
+          <div className=" w-full h-auto">
+            <h2 className="text-xl font-semibold">Daftar Alamat</h2>
+            <div className="flex flex-row justify-between items-end text-sm pb-4">
+              <h2 className="text-md font-medium">Total Alamat  :  {addresses.length} alamat</h2>
+              <Button
+                onClick={() => setCurrentComponent("addAddress")}
+                className="p-2 w-52 bg-color-green hover:bg-color-greenhover text-color-primary hover:text-color-gray-100 hover:transition-all rounded-md"
+              >
+                + Tambah Alamat Baru
+              </Button>
+            </div>
             <ul>
               {selectedAddress.map((address) => (
                 <div
                   key={address.id}
-                  className="border border-color-grey-700 shadow-md rounded-lg p-4 mb-5"
+                  className="flex flex-col gap-3 border bg-color-primary border-color-gray-300 rounded-md px-8 py-4 mb-5"
                 >
-                  <label className="text-lg font-semibold mb-3">
-                    Nama Penerima
-                  </label>
-                  <p>{address.receiver_name}</p>
-                  <label className="text-lg font-semibold mb-3">
-                    No. Telp Penerima
-                  </label>
-                  <p>{address.receiver_phone}</p>
-                  <label className="text-lg font-semibold mb-3">
-                    Detail Alamat
-                  </label>
-                  <p>{address.detail_address}</p>
-                  <label className="text-lg font-semibold mb-3">Kode Pos</label>
-                  <p>{address.postal_code}</p>
-                  <label className="text-lg font-semibold mb-3">Kota</label>
-                  <p>{getCityName(address.city_id)}</p>
-                  <label className="text-lg font-semibold mb-3">Provinsi</label>
-                  <p>{address.province}</p>
-                  <button
-                    className="text-red-500 shadow-sm border p-2 rounded-md hover:bg-color-red hover:transition-all hover:text-color-primary"
-                    onClick={() => handleDeleteAddress(address.id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
-                    onClick={() => handleUpdateAddress(address.id)}
-                  >
-                    Update
-                  </button>
+                  <div className="flex flex-col gap-[0.15rem] text-sm">
+                    <p className="text-lg font-semibold">
+                      {address.receiver_name}
+                    </p>
+
+                    <p className="">{address.receiver_phone}</p>
+
+                    <p>{address.detail_address}</p>
+                    <p>Kode Pos {address.postal_code}</p>
+                    <p>{getCityName(address.city_id)}</p>
+                    <p>Provinsi {address.province}</p>
+                  </div>
+                  <div className="flex-row flex gap-0 text-[0.8rem] font-semibold">
+                    <button
+                      className="text-red-500 shadow-sm px-4  border-x-2 border-color-gray-200 text-color-gray-500 hover:text-color-greenhover hover:transition-all disabled:bg-gray-100 disabled:text-gray-400"
+                      onClick={() => handleUpdateAddress(address.id)}
+                    >
+                      Ubah
+                    </button>
+                    <button
+                      className="text-red-500 shadow-sm px-4 border-r-2 border-color-gray-200 hover:transition-all text-color-gray-500 hover:text-color-red"
+                      onClick={() => handleDeleteAddress(address.id)}
+                    >
+                      Hapus
+                    </button>
+                  </div>
                 </div>
               ))}
             </ul>
@@ -130,12 +133,6 @@ const AddressList = ({ setCurrentComponent }) => {
                 Next
               </button>
             </div>
-            <button
-              onClick={() => setCurrentComponent("addAddress")}
-              className="p-2 mt-4 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
-            >
-              Add Address
-            </button>
           </div>
         </div>
       )}

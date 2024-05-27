@@ -25,10 +25,10 @@ const CardProduct = ({ products }) => {
             key={product.id}
             className="md:w-[24%] w-full bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"
           >
-            <Link href={`/products/${product.id}`}>
+            <Link href={`/products/${product.slug}`}>
               <img
                 src={product.photo || "/placeholder.jpg"}
-                className=" rounded-t-md h-72 w-full object-cover"
+                className="rounded-t-md h-72 w-full object-cover"
                 alt={product.name}
                 loading="lazy"
               />
