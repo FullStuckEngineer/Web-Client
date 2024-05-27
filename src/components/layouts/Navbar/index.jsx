@@ -97,7 +97,7 @@ const Navbar = ({}) => {
   };
 
   return (
-    <header className="fixed md:px-32 px-2 bg-color-primary z-10 navbar-border w-full shadow-sm">
+    <header className="fixed md:px-20 px-2 bg-color-primary z-10 navbar-border w-full border border-color-gray-200 shadow-sm">
       <div className="flex md:flex-row flex-col justify-between md:items-center p-4 gap-2">
         <Link
           href="/"
@@ -141,7 +141,7 @@ const Navbar = ({}) => {
                       alt="User photo"
                     />
                   ) : (
-                    <User size={22} />
+                    <User size={24} />
                   )}
                   {user && user.name ? (
                     <div className="md:flex flex-row gap-1 hidden">

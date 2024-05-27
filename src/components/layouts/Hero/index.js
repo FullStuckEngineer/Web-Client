@@ -9,7 +9,7 @@ import { Autoplay, EffectFade, Navigation } from 'swiper/modules';
 const Hero = () => {
   return (
   <div >
-<div className=' container mx-auto h-80 ' >
+<div className=' container mx-auto md:h-80 h-60 ' >
 <Swiper
 spaceBetween={30}
 speed={2000}
