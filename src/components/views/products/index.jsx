@@ -88,7 +88,7 @@ const ProductView = ({ slug }) => {
             <div className="flex flex-row gap-1">
               <Star size={16} weight="fill" className=" text-color-gold" />
               <p className="text-center text-sm">
-                {product.rating} <span>({product.ratingCount} rating)</span>
+                4.5 <span>(123 rating)</span>
               </p>
             </div>
             <div className="flex flex-row gap-2 text-color-gray">
