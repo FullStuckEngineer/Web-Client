@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { findAllAddress, destroyAddress } from "@/modules/fetch/fetchAddress";
 import UpdateAddress from "./UpdateAddress";
-import { findAllCity } from "@/modules/fetch/fetchCity";
+import { findWithNoLimit } from "@/modules/fetch/fetchCity";
 
 const AddressList = ({ setCurrentComponent }) => {
   const [addresses, setAddresses] = useState([]);
@@ -17,7 +17,7 @@ const AddressList = ({ setCurrentComponent }) => {
     const fetchAddresses = async () => {
       try {
         const data = await findAllAddress();
-        const cityData = await findAllCity();
+        const cityData = await findWithNoLimit();
         setAddresses(data);
         setCities(cityData);
         setLoading(false);
@@ -105,7 +105,7 @@ const AddressList = ({ setCurrentComponent }) => {
                     Delete
                   </button>
                   <button
-                    className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
+                    className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
                     onClick={() => handleUpdateAddress(address.id)}
                   >
                     Update
@@ -118,21 +118,21 @@ const AddressList = ({ setCurrentComponent }) => {
               <button
                 onClick={handlePreviousPage}
                 disabled={currentPage === 1}
-                className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
+                className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
               >
                 Previous
               </button>
               <button
                 onClick={handleNextPage}
                 disabled={startPage + itemsPerPage >= addresses.length}
-                className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
+                className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
               >
                 Next
               </button>
             </div>
             <button
               onClick={() => setCurrentComponent("addAddress")}
-              className="p-2 mt-4 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
+              className="p-2 mt-4 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400"
             >
               Add Address
             </button>

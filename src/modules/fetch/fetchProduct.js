@@ -4,7 +4,7 @@ const findAllProduct = async () => {
   try {
     console.log("Sending request to /products");
     const response = await instance.get("/products");
-    console.log("response received: ", response);
+    console.log("response products received: ", response);
     return response.data;
   } catch (error) {
     console.error(

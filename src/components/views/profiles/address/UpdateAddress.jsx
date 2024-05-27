@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateAddress, findOneAddress } from "@/modules/fetch/fetchAddress";
-import { findWithLimit } from "@/modules/fetch/fetchCity";
+import { findAllCity } from "@/modules/fetch/fetchCity";
 
 const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
   const [receiverName, setReceiverName] = useState("");
@@ -34,7 +34,7 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findWithLimit(search);
+      const cities = await findAllCity(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);
@@ -138,14 +138,14 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
 
           <button
             type="submit"
-            className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
+            className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
           >
             Update
           </button>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-grey-600 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
+            className="p-2 bg-gray-300 shadow-md border border-color-dark hover:bg-color-gray-500 hover:text-color-primary hover:transition-all rounded disabled:bg-gray-100 disabled:text-gray-400 ml-3"
           >
             Cancel
           </button>

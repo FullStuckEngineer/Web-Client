@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createAddress } from "@/modules/fetch/fetchAddress";
-import { findWithLimit } from "@/modules/fetch/fetchCity";
+import { findAllCity } from "@/modules/fetch/fetchCity";
 
 const AddAddress = ({
   onClose,
@@ -43,7 +43,7 @@ const AddAddress = ({
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findWithLimit(search);
+      const cities = await findAllCity(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);

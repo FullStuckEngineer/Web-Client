@@ -2,15 +2,22 @@
 
 import CartsView from "@/components/views/cart";
 import React, { useEffect, useState } from "react";
-import { findOne } from "@/modules/fetch/fetchCart";
+import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
 import { jwtDecode } from "jwt-decode";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
+import { findWithNoLimit } from "@/modules/fetch/fetchCity";
+import { findAllAddress } from "@/modules/fetch/fetchAddress";
+const { findAllCourier } = require("@/modules/fetch/fetchCourier");
 
 const CartsPage = () => {
   const [userId, setUserId] = useState(null);
+  const [addressId, setAddressId] = useState(null);
+  const [cities, setCities] = useState(null);
+  const [courier, setCourier] = useState(null);
   const [cart, setCart] = useState(null);
-  const [product, setProduct] = useState(null); 
+  const [shopItems, setShopItems] = useState(null);
+  const [product, setProduct] = useState(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -37,25 +44,34 @@ const CartsPage = () => {
     const fetchCartData = async () => {
       if (userId) {
         try {
-          const cartData = await findOne(userId);
+          const cartData = await findOneCart(userId);
           const productData = await findAllProduct()
-          // console.log("Cart Data:", cartData);
-          // console.log("Product Data:", productData);
-          setCart(cartData);
-          setProduct(productData)
+          const addressData = await findAllAddress()
+          const cityData = await findWithNoLimit();
+          const courierData = await findAllCourier();
+          setCourier(courierData?.data.couriers)
+          setCities(cityData)
+          setAddressId(addressData)
+          setCart(cartData?.data);
+          setShopItems(cartData?.data.shopping_items);
+          setProduct(productData?.data.products)
         } catch (err) {
           console.error("ERROR USER ID NOT FOUND", err.message);
         }
       }
     };
-
     fetchCartData();
   }, [userId]);
 
-
   return (
     <div>
-      <CartsView data={cart} dataProduct={product} />
+      <CartsView 
+      cart={cart} 
+      shopItems={shopItems} 
+      dataProduct={product} 
+      addressData={addressId} 
+      citiesData={cities}
+      courierData={courier}/>
     </div>
   );
 };

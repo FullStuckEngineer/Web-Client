@@ -1,6 +1,6 @@
 import instance  from "@/libs/axios/axiosInstance";
 
-const findOne = async (data) => {
+const findOneCart = async (data) => {
   try {
     console.log(`Sending request to /carts`, data);
     const response = await instance.get(`/carts`, data);
@@ -28,7 +28,7 @@ const getShippingCost = async (data) => {
   }
 };
 
-const update = async (id, data) => {
+const updateCart = async (id, data) => {
   try {
     const response = await instance.put(`/carts/${id}`, data);
     return response.data;
@@ -41,7 +41,7 @@ const update = async (id, data) => {
   }
 };
 
-const destroy = async (id) => {
+const destroyCart = async (id) => {
   try {
     const response = await instance.delete(`/carts/${id}`);
     return response.data;
@@ -54,4 +54,4 @@ const destroy = async (id) => {
   }
 };
 
-export { findOne, getShippingCost, update, destroy };
+export { findOneCart, getShippingCost, updateCart, destroyCart };

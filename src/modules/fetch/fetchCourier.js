@@ -1,6 +1,6 @@
 import  instance  from "@/libs/axios/axiosInstance";
 
-const findAll = async () => {
+const findAllCourier = async () => {
   try {
     const response = await instance.get("/couriers");
     return response.data;
@@ -13,7 +13,7 @@ const findAll = async () => {
   }
 };
 
-const findOne = async (id) => {
+const findOneCourier = async (id) => {
   try {
     const response = await instance.get(`/couriers/${id}`);
     return response.data;
@@ -26,4 +26,4 @@ const findOne = async (id) => {
   }
 };
 
-export { findAll, findOne };
+export { findAllCourier, findOneCourier };

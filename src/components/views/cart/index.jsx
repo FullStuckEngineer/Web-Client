@@ -4,103 +4,213 @@ import React, { useEffect, useState } from "react";
 import CartItem from "@/components/views/cart/CartItem";
 import CartSummary from "@/components/views/cart/CartSummary";
 import CartActions from "@/components/views/cart/CartActions";
-import { findAllProduct } from "@/modules/fetch/fetchProduct";
+import ChangeAddress from "./ChangeAddress";
+import { Minus, Trash } from "@phosphor-icons/react";
+import { Plus } from "@phosphor-icons/react/dist/ssr";
 
-export default function CartsView({ data, dataProduct }) {
-  const [shopItems, setShopItems] = useState([]);
+export default function CartsView({
+  cart,
+  shopItems,
+  dataProduct,
+  addressData,
+  citiesData,
+  courierData,
+}) {
+  const [cartData, setCartData] = useState(null);
+  const [showAddressList, setShowaddressList] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const itemsPerPage = 2;
 
-  console.log(data?.data.shopping_items, "INI DATA CART");
-  console.log(dataProduct?.data, "INI DATA PRODUCT");
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (cart) {
+        setCartData(cart);
+        setLoading(false);
+      } else {
+        setLoading(true);
+      }
+    }, 2000); // Delay for 2 seconds
 
-  // useEffect(() => {
-  //   const fetchCartData = async () => {
-  //     try {
-  //       const { data } = await findAllProduct();
-  //       setShopItems(data?.data.shopping_items);
-  //       set
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setError(error.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchCartData();
-  // }, []);
-
-  const handleNextPage = () => {
-    setCurrentPage((prevPage) => prevPage + 1);
-  };
-
-  const handlePreviousPage = () => {
-    setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
-  };
+    // Cleanup function to clear the timeout if the component unmounts
+    return () => clearTimeout(timer);
+  }, [cart]);
 
   const getProductName = (productId) => {
-    const product = dataProduct?.data.find((item) => item.id === productId);
-    return product ? product.name : "Product Not Found";
+    const productName = dataProduct.find((product) => product.id === productId);
+    return productName ? productName.name : "Product Not Found";
   };
 
-  const startPage = (currentPage - 1) * itemsPerPage;
-  const selectedShopItems = shopItems.slice(
-    startPage,
-    startPage + itemsPerPage
-  );
+  //get address data based address_id from cart
+  const getAddressDetails = (addressId) => {
+    const addressDetails = addressData.find(
+      (address) => address.id === addressId
+    );
+    return addressDetails ? addressDetails : "Address Not Found";
+  };
 
-  // if (loading) return <p>Loading...</p>;
-  // if (error) return <p>Error: {error}</p>;
+  const getCityName = (cityId) => {
+    const city = citiesData.find((city) => city.id === cityId);
+    return city ? city.name : "Unknown City";
+  };
+
+  const getCourierName = (courierId) => {
+    const courier = courierData.find((courier) => courier.id === courierId);
+    return courier ? courier.name : "Unknown Courier";
+  };
+
+  console.log(courierData, "<<<<<<<<<<<< INI DATA COURIER DATA");
+  // console.log(cartData, "<<<<<<<<<<<<<<<< INI CART DATA");
+  // console.log(dataProduct, "<<<<<<<<<<<< INI DATA PRODUCT");
+  // console.log(addressData, "<<<<<<<<<<<< INI DATA ADDRESS DATA");
+  // console.log(citiesData, "<<<<<<<<<<<< INI DATA CITIES DATA");
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
-    <header className="md:pt-28 pt-48 lg:px-24 md:px-14 px-5 w-full min-h-screen bg-color-secondary">
-      <h1 className="md:text-[32px] text-[22px] font-medium mb-6">
-        <span className="text-color-green font-bold">BabyBoo </span> Keranjang
-        Belanja
-      </h1>
-      <ul>
-        {selectedShopItems.map((item) => (
-          <div
-            key={item.id}
-            className="border border-color-grey-700 shadow-md rounded-lg p-4 mb-5"
-          >
-            <p>Product ID</p>
-            <label>{getProductName(item.product_id)}</label>
-            <p>Item Quantity</p>
-            <label>{item.quantity}</label>
-            <p>Item Price</p>
-            <label>{item.price}</label>
-            <p>Item weight</p>
-            <label>{item.weight}</label>
+    <>
+      <header className="md:pt-28 pt-48 lg:px-24 md:px-14 px-5 w-full min-h-screen bg-color-secondary">
+        <h1 className="md:text-[32px] text-[22px] font-medium mb-6">
+          <span className="text-color-green font-bold">BabyBoo </span> Keranjang
+          Belanja
+        </h1>
+        <div className=" w-auto flex justify-between">
+          <div className="border rounded shadow-md p-4 flex flex-col mb-10 w-1/2">
+            <p className="font-semibold text-lg">Alamat</p>
+            {cartData && (
+              <div>
+                <h2>Alamat Pengiriman:</h2>
+                {addressData &&
+                cartData.address_id &&
+                getAddressDetails(cartData.address_id) ? (
+                  <>
+                    <p>
+                      Nama Penerima:{" "}
+                      {getAddressDetails(cartData.address_id).receiver_name}
+                    </p>
+                    <p>
+                      Telepon:{" "}
+                      {getAddressDetails(cartData.address_id).receiver_phone}
+                    </p>
+                    <p>
+                      Alamat:{" "}
+                      {getAddressDetails(cartData.address_id).detail_address}
+                    </p>
+                    <p>
+                      Kode Pos:{" "}
+                      {getAddressDetails(cartData.address_id).postal_code}
+                    </p>
+                    <p>
+                      Kota:{" "}
+                      {getCityName(
+                        getAddressDetails(cartData.address_id).city_id
+                      )}
+                    </p>
+                    <p>
+                      Provinsi:{" "}
+                      {getAddressDetails(cartData.address_id).province}
+                    </p>
+                  </>
+                ) : (
+                  <p>Alamat tidak ditemukan.</p>
+                )}
+              </div>
+            )}
+
+            <p className="font-semibold text-lg">Kurir</p>
+            {/* display courier name based on courier id from cart */}
+            <p className="mb-14">{getCourierName(cartData?.courier_id)}</p>
+
+            <div className="w-auto flex gap-2">
+              <button
+                className="border p-1 rounded hover:bg-color-gray-300"
+                onClick={() => setModalVisible(true)}
+              >
+                Ganti Alamat
+              </button>
+              <button className="border p-1 rounded hover:bg-color-gray-300">
+                Ganti Kurir
+              </button>
+            </div>
           </div>
-        ))}
-      </ul>
-    </header>
+          <div className=" w-1/2 items-center flex flex-col">
+            <div className="border p-3 ">
+              <p className="font-semibold text-lg">Detail Checkout</p>
+              <p className="font-semibold text-lg">Net Price</p>
+              <p>{cartData?.net_price}</p>
+              <p className="font-semibold text-lg">Shipping Cost</p>
+              <p>{cartData?.shiping_cost}</p>
+              <p className="font-semibold text-lg">Shipping Method</p>
+              <p>{cartData?.shipping_method}</p>
+              <p className="font-semibold text-lg">Total Cost</p>
+              <p>{cartData?.total_cost}</p>
+              <p className="font-semibold text-lg">Total Weight</p>
+              <p>{cartData?.total_weight}</p>
+              <div className="flex border rounded-md bg-color-accent hover:bg-color-gold">
+                <button className="w-full p-2">Checkout</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul>
+          {shopItems?.map((item) => (
+            <li
+              key={item.id}
+              className="border border-color-grey-700 shadow-md rounded-lg p-4 mb-5 w-1/2"
+            >
+              <p className="font-semibold text-lg">Nama Produk</p>
+              <label>{getProductName(item.product_id)}</label>
+              <p className="font-semibold text-lg">Item Quantity</p>
+              <label>{item.quantity}</label>
+              <p className="font-semibold text-lg">Item Price</p>
+              <label>{item.price}</label>
+              <p className="font-semibold text-lg">Item weight</p>
+              <label>{item.weight}</label>
+              <div className="flex justify-end gap-2">
+                <button className="hover:text-color-red">
+                  <Trash size={32} />
+                </button>
+                <div className="flex w-auto font-medium items-center rounded hover:bg-color-accent">
+                  <button className="">
+                    <Plus size={32} />
+                  </button>
+                </div>
+                <div className="flex w-auto p-1 font-medium text-xl items-center">
+                  <p className="">{item.quantity}</p>
+                </div>
+                <div className="flex w-auto font-medium items-center rounded hover:bg-color-red">
+                  <button>
+                    <Minus size={32} />
+                  </button>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </header>
+      <ChangeAddress
+        isVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+    </>
   );
 }
 
-// MAPPING SHOPPING ITEMS
-{
-  /* <header className="md:pt-28 pt-48 lg:px-24 md:px-14 px-5 w-full min-h-screen bg-color-secondary">
-<h1 className="md:text-[32px] text-[22px] font-medium mb-6">
-  <span className="text-color-green font-bold">BabyBoo </span> Keranjang
-  Belanja
-</h1>
-<ul>
-  {data?.data?.shopping_items?.map((item) => (
-   <div key={item.id} className="border border-color-grey-700 shadow-md rounded-lg p-4 mb-5">
-    <label>{item.product_id}</label>
-    <p>Product ID</p>
-    <label>{item.quantity}</label>
-    <p>Item Quantity</p>
-    <label>{item.price}</label>
-    <p>Item Price</p>
-    <label>{item.weight}</label>
-    <p>Item weight</p>
-   </div>
-  ))}
-</ul>
-</header> */
-}
+// const handleNextPage = () => {
+//   setCurrentPage((prevPage) => prevPage + 1);
+// };
+
+// const handlePreviousPage = () => {
+//   setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
+// };
+
+// const startPage = (currentPage - 1) * itemsPerPage;
+
+// const selectedShopItems = shopItems.slice(
+//   startPage,
+//   startPage + itemsPerPage
+// );
