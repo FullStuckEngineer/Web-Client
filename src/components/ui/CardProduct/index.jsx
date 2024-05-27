@@ -16,14 +16,14 @@ const CardProduct = ({ products }) => {
   };
 
   return (
-    <div className="flex flex-wrap justify-between gap-4">
+    <div className="flex flex-wrap md:flex-row flex-col justify-between gap-4">
       {products?.data &&
         products?.data.products &&
         products?.data.products.length > 0 &&
         products?.data.products.map((product) => (
           <div
             key={product.id}
-            className="w-[24%] bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"
+            className="md:w-[24%] w-full bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"
           >
             <Link href={`/products/${product.id}`}>
               <img

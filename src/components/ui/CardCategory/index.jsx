@@ -19,13 +19,13 @@ const CardCategory = () => {
   }, []);
 
   return (
-    <div className="flex flex-row w-50 gap-5">
+    <div className="flex flex-row w-48 gap-5">
       <a
         href="#"
         className="flex flex-col items-center bg-color-primary border border-color-gray-200 rounded-md shadow hover:bg-color-gray-100"
       >
         <Image
-          className="object-cover w-full h-96 md:h-auto md:w-48"
+          className="object-cover h-auto w-44"
           width={50}
           height={50}
           alt="image"
