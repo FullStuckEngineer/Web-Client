@@ -3,7 +3,7 @@ import  instance  from "@/libs/axios/axiosInstance";
 const findAllAddress = async () => {
     try {
         console.log('Sending request to /addresses')
-        const response = await instance.get("/addresses/nolimit");
+        const response = await instance.get("/addresses");
         console.log('response received: ', response.data)
         return response.data;
     } catch (error) {
