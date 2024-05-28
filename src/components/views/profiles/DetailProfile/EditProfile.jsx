@@ -1,4 +1,5 @@
-// components/views/profiles/EditProfile.js
+"use client";
+
 import React, { useState } from "react";
 import { uploadImage, deleteImage } from "@/modules/fetch/fetchUser";
 import Button from "@/components/ui/Button";
@@ -86,10 +87,10 @@ const EditProfile = ({
   };
 
   return (
-    <div className="w-full flex flex-col md:px-5 bg-color-primary">
+    <div className="w-full flex flex-col md:px-5 bg-color-secondary">
       <form
         onSubmit={handleSubmit}
-        className="w-full flex flex-col h-auto md:p-10 p-6  border border-color-gray-200 rounded-md shadow-md"
+        className="w-full flex flex-col h-auto md:p-10 p-6 bg-color-primary border border-color-gray-200 rounded-md shadow-md"
       >
         <div className="flex flex-col w-full ">
           <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>

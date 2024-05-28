@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Button from "@/components/ui/Button";
 
@@ -12,8 +14,8 @@ const DetailProfile = ({ user, enterEditMode, setCurrentComponent }) => {
   };
 
   return (
-    <div className="w-full flex flex-col md:px-5 bg-color-primary">
-      <div className="w-full flex flex-col h-auto md:p-10 p-6 border border-color-gray-200 rounded-md shadow-md">
+    <div className="w-full flex flex-col md:px-5 bg-color-secondary">
+      <div className="w-full flex flex-col bg-color-primary h-auto md:p-10 p-6 border border-color-gray-200 rounded-md shadow-md">
         <h2 className="text-xl font-semibold mb-4">Personal Profile</h2>
         <div className="flex sm:flex-row md:flex-col lg:flex-row flex-col gap-4">
           <div className="sm:w-1/2 md:w-full lg:w-1/2 w-full flex flex-col justify-center items-center gap-2 border border-color-gray-200 shadow-sm p-6 rounded-md h-auto mr-10 ">
