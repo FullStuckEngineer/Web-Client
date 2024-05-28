@@ -1,4 +1,4 @@
-import { findAll, findAllCategories } from "@/modules/fetch/fetchCategory";
+import { findAll } from "@/modules/fetch/fetchCategory";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
@@ -9,7 +9,7 @@ const CardCategory = () => {
   useEffect(() => {
     const fetchCategory = async () => {
       try {
-        const listCategories = await findAllCategories();
+        const listCategories = await findAll();
         setCategories(listCategories);
       } catch (error) {
         setError(error.message);

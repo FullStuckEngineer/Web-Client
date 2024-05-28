@@ -6,8 +6,6 @@ export const useProduct = (slug) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
- 
-
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -20,7 +18,6 @@ export const useProduct = (slug) => {
         setLoading(false);
       }
     };
- console.log(product);
 
     fetchProduct();
   }, [slug]);
