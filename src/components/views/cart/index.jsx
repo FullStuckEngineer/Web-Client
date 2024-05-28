@@ -5,7 +5,8 @@ import CartItem from "@/components/views/cart/CartItem";
 import CartSummary from "@/components/views/cart/CartSummary";
 import CartActions from "@/components/views/cart/CartActions";
 import ChangeAddress from "./ChangeAddress";
-import { Minus, Trash } from "@phosphor-icons/react";
+import { updateCart, destroyCart, deleteAll } from "@/modules/fetch/fetchCart";
+import { City, Minus, Trash } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react/dist/ssr";
 
 export default function CartsView({
@@ -17,8 +18,10 @@ export default function CartsView({
   courierData,
 }) {
   const [cartData, setCartData] = useState(null);
-  const [showAddressList, setShowaddressList] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
+  // const [showAddressList, setShowaddressList] = useState(false);
+  // const [currentPage, setCurrentPage] = useState(1);
+  const [courier, setCourier] = useState(null);
+  const [courierDropdown, setCourierDropdown] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +35,7 @@ export default function CartsView({
       } else {
         setLoading(true);
       }
-    }, 2000); // Delay for 2 seconds
+    }, 1000);
 
     // Cleanup function to clear the timeout if the component unmounts
     return () => clearTimeout(timer);
@@ -61,13 +64,91 @@ export default function CartsView({
     return courier ? courier.name : "Unknown Courier";
   };
 
-  console.log(courierData, "<<<<<<<<<<<< INI DATA COURIER DATA");
+  const handleSelectedAddress = async (addressId) => {
+    console.log("Selected address from child component:", addressId);
+    try {
+      const updatedCartData = {
+        ...cart,
+        address_id: addressId,
+      };
+      const updatedCart = await updateCart(cart.id, updatedCartData);
+      setCartData(updatedCart);
+    } catch (error) {
+      console.error("Failed to update cart:", error);
+    }
+  };
+
+  const handleRemoveItem = async (id) => {
+    try {
+      const deleteItem = await destroyCart(id);
+      setCartData(cartData);
+      if (deleteItem.status === 200) {
+        console.log("Item deleted successfully");
+      } else {
+        console.log("Failed to delete item");
+      }
+    } catch (error) {
+      console.log("Error removing shopping Item", error);
+    }
+  };
+
+  const handleresetCart = async (userId) => {
+    try {
+      const updatedCart = await destroyAll(userId);
+      setCartData(updatedCart);
+    } catch (error) {
+      console.error("Failed to reset cart:", error);
+    }
+  };
+
+  const handleSelectedCourier = async (courierId) => {
+    try {
+      const updatedCartData = {
+        ...cart,
+        courier_id: courierId,
+      };
+      const updatedCart = await updateCart(cart.id, updatedCartData);
+      setCartData(updatedCart);
+      setCourierDropdown(false);
+    } catch (error) {
+      console.error("Failed to update cart:", error);
+      setCourierDropdown(false);
+    }
+  };
+
+  const updateCartShopItems = async (productId, quantity) => {
+    try {
+      const updatedCart = await updateCart(cart.id, {
+        address_id: cart.address_id,
+        courier_id: cart.courier_id,
+        shipping_method: cart.shipping_method,
+        shopping_items: shopItems?.map((item) =>
+          item.product_id === productId
+            ? { ...item, quantity: Math.max(1, item.quantity + quantity) }
+            : item
+        ),
+      });
+      setCartData(updatedCart);
+    } catch (error) {
+      console.error("Failed to update cart:", error);
+    }
+  };
+
+  const handleIncreaseQuantity = async (productId) => {
+    updateCartShopItems(productId, 1);
+  };
+
+  const handleDecreaseQuantity = (productId) => {
+    updateCartShopItems(productId, -1);
+  };
+
+  // console.log(courierData, "<<<<<<<<<<<< INI DATA COURIER DATA");
   // console.log(cartData, "<<<<<<<<<<<<<<<< INI CART DATA");
   // console.log(dataProduct, "<<<<<<<<<<<< INI DATA PRODUCT");
   // console.log(addressData, "<<<<<<<<<<<< INI DATA ADDRESS DATA");
   // console.log(citiesData, "<<<<<<<<<<<< INI DATA CITIES DATA");
 
-  if (loading) return <p>Loading...</p>;
+  if (!cartData) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
@@ -131,10 +212,26 @@ export default function CartsView({
               >
                 Ganti Alamat
               </button>
-              <button className="border p-1 rounded hover:bg-color-gray-300">
+              <button
+                className="border p-1 rounded hover:bg-color-gray-300"
+                onClick={() => setCourierDropdown(!courierDropdown)}
+              >
                 Ganti Kurir
               </button>
             </div>
+            {courierDropdown && (
+              <div className="border p-2 rounded mt-2 bg-color-gray-200 shadow-md">
+                {courierData.map((courier) => (
+                  <button
+                    key={courier.id}
+                    className="flex p-2 hover:bg-color-gray-400 w-full border text-left rounded shadow-md mb-2"
+                    onClick={() => handleSelectedCourier(courier.id)}
+                  >
+                    {courier.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
           <div className=" w-1/2 items-center flex flex-col">
             <div className="border p-3 ">
@@ -171,11 +268,16 @@ export default function CartsView({
               <p className="font-semibold text-lg">Item weight</p>
               <label>{item.weight}</label>
               <div className="flex justify-end gap-2">
-                <button className="hover:text-color-red">
+                <button
+                  className="hover:text-color-red"
+                  onClick={() => handleRemoveItem(item.id)}
+                >
                   <Trash size={32} />
                 </button>
                 <div className="flex w-auto font-medium items-center rounded hover:bg-color-accent">
-                  <button className="">
+                  <button
+                    onClick={() => handleIncreaseQuantity(item.product_id)}
+                  >
                     <Plus size={32} />
                   </button>
                 </div>
@@ -183,7 +285,9 @@ export default function CartsView({
                   <p className="">{item.quantity}</p>
                 </div>
                 <div className="flex w-auto font-medium items-center rounded hover:bg-color-red">
-                  <button>
+                  <button
+                    onClick={() => handleDecreaseQuantity(item.product_id)}
+                  >
                     <Minus size={32} />
                   </button>
                 </div>
@@ -195,6 +299,9 @@ export default function CartsView({
       <ChangeAddress
         isVisible={modalVisible}
         onClose={() => setModalVisible(false)}
+        onAddressSelect={handleSelectedAddress}
+        addressData={addressData}
+        cityData={citiesData}
       />
     </>
   );

@@ -6,7 +6,7 @@ import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
 import { jwtDecode } from "jwt-decode";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
-import { findWithNoLimit } from "@/modules/fetch/fetchCity";
+import { findAllCities } from "@/modules/fetch/fetchCity";
 import { findAllAddress } from "@/modules/fetch/fetchAddress";
 const { findAllCourier } = require("@/modules/fetch/fetchCourier");
 
@@ -47,7 +47,7 @@ const CartsPage = () => {
           const cartData = await findOneCart(userId);
           const productData = await findAllProduct()
           const addressData = await findAllAddress()
-          const cityData = await findWithNoLimit();
+          const cityData = await findAllCities();
           const courierData = await findAllCourier();
           setCourier(courierData?.data.couriers)
           setCities(cityData)

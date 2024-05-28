@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { findAllAddress, destroyAddress } from "@/modules/fetch/fetchAddress";
 import UpdateAddress from "./UpdateAddress";
-import { findWithNoLimit } from "@/modules/fetch/fetchCity";
+import { findAllCities } from "@/modules/fetch/fetchCity";
 
 const AddressList = ({ setCurrentComponent }) => {
   const [addresses, setAddresses] = useState([]);
@@ -17,8 +17,8 @@ const AddressList = ({ setCurrentComponent }) => {
     const fetchAddresses = async () => {
       try {
         const data = await findAllAddress();
-        const cityData = await findWithNoLimit();
-        setAddresses(data);
+        const cityData = await findAllCities();
+        setAddresses(data); 
         setCities(cityData);
         setLoading(false);
         console.log("INI DATA CITY", cityData);

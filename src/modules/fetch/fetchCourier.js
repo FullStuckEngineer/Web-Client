@@ -1,4 +1,4 @@
-import  instance  from "@/libs/axios/axiosInstance";
+import instance from "@/libs/axios/axiosInstance";
 
 const findAllCourier = async () => {
   try {
