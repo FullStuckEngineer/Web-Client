@@ -5,7 +5,7 @@ import InputSearch from "@/components/layouts/Navbar/InputSearch";
 import Button from "@/components/ui/Button";
 import Link from "next/link";
 import {
-  BellSimple,
+  Bell,
   GearSix,
   ShoppingCart,
   SignOut,
@@ -14,12 +14,14 @@ import {
 import { getUser } from "@/modules/fetch/fetchUser";
 import { useRouter, usePathname } from "next/navigation";
 import useStore from "@/libs/zustand";
+import { findOneCart } from "@/modules/fetch/fetchCart";
 
 const Navbar = ({}) => {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
   const [user, setUser] = useState(null);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [cartItems, setCartItems] = useState(0);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -39,6 +41,23 @@ const Navbar = ({}) => {
     };
 
     checkLoginStatus();
+  }, []);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      try {
+        const cartData = await findOneCart();
+        const totalItems = cartData.reduce(
+          (acc, item) => acc + item.quantity,
+          0
+        );
+        setCartItems(totalItems);
+      } catch (error) {
+        console.error("Error fetching cart data:", error);
+      }
+    };
+
+    fetchCartData();
   }, []);
 
   const handleLogout = () => {
@@ -115,12 +134,17 @@ const Navbar = ({}) => {
             <div className="flex flex-row justify-center items-center md:gap-2 gap-0">
               <Link href="/notif">
                 <Button className="hover:bg-color-gray-200 hover:text-color-dark text-color-gray-700 p-1 rounded-lg">
-                  <BellSimple size={24} />
+                  <Bell size={24} />
                 </Button>
               </Link>
               <Link href="/carts">
-                <Button className="hover:bg-color-gray-200 hover:text-color-dark text-color-gray-700 p-1 rounded-lg">
+                <Button className="relative hover:bg-color-gray-200 hover:text-color-dark text-color-gray-700 p-1 rounded-lg">
                   <ShoppingCart size={24} />
+                  {/* {cartItems > 0 && ( */}
+                  <span className="absolute -top-2 -right-1 inline-flex items-center justify-center px-2 py-[0.3rem] text-[0.6rem] font-bold leading-none text-color-primary border-2 border-color-primary bg-color-red rounded-full">
+                    1{/* {cartItems} */}
+                  </span>
+                  {/* )} */}
                 </Button>
               </Link>
             </div>
@@ -152,21 +176,6 @@ const Navbar = ({}) => {
                   ) : (
                     <span>User</span>
                   )}
-                  <svg
-                    className="w-2.5 h-2.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 4 4 4-4"
-                    />
-                  </svg>
                 </button>
                 {showDropdown && (
                   <div className="absolute md:left-0 -right-4 w-64 bg-color-primary rounded-md shadow-lg z-50">
@@ -179,13 +188,6 @@ const Navbar = ({}) => {
                       className="py-2 text-sm text-color-gray-700"
                       aria-labelledby="dropdownUserMenuButton"
                     >
-                      <li>
-                        <Link href="/profiles">
-                          <button className="flex flex-row gap-2 w-full px-4 py-2 hover:bg-color-gray-100 text-left">
-                            Profile
-                          </button>
-                        </Link>
-                      </li>
                       <li>
                         <Link href="/profiles">
                           <button className="flex flex-row gap-2 w-full px-4 py-2 hover:bg-color-gray-100 text-left">

@@ -4,7 +4,7 @@ const findOneCart = async (data) => {
   try {
     console.log(`Sending request to /carts`, data);
     const response = await instance.get(`/carts`, data);
-    console.log("response received: ", response);
+    console.log("response find one cart received: ", response);
     return response.data;
   } catch (error) {
     console.error(
