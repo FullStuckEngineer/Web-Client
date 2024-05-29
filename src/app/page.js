@@ -5,8 +5,8 @@ import CardProduct from "@/components/ui/CardProduct";
 import CardCategory from "@/components/ui/CardCategory";
 import ReviewCard from "@/components/ui/ReviewCard";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
-import Hero from "@/components/layouts/Hero";
 import { CaretRight } from "@phosphor-icons/react";
+import Hero from "@/components/layouts/Hero";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -33,11 +33,6 @@ const HomePage = () => {
         </h3>
       </div>
       <div className="flex flex-row justify-between">
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
-        <CardCategory />
         <CardCategory />
       </div>
       <hr className="my-12 text-color-gray-300" />

@@ -28,7 +28,7 @@ const InputSearch = ({ className }) => {
         onKeyDown={handleSearch}
       />
       <button
-        className="absolute bg-color-green hover:bg-color-greenhover py-[6px] px-[15px] top-[3.7px] end-1 rounded-md sm:text-md text-sm "
+        className="absolute bg-color-green hover:bg-color-greenhover py-[6px] px-[15px] top-[3.7px] end-1 rounded-md sm:text-md text-sm"
         onClick={handleSearch}
       >
         <MagnifyingGlass
