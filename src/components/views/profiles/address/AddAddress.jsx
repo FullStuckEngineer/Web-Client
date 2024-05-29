@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createAddress } from "@/modules/fetch/fetchAddress";
-import { findAllCity } from "@/modules/fetch/fetchCity";
+import { findAllCities, findCities } from "@/modules/fetch/fetchCity";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { CheckCircle, X, XCircle } from "@phosphor-icons/react";
@@ -57,7 +57,7 @@ const AddAddress = ({
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findAllCity(search);
+      const cities = await findCities(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);
