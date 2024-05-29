@@ -55,7 +55,7 @@ const CardProduct = ({ products }) => {
                   >
                     <Heart size={25} weight="fill" />
                   </Button>
-                  <Button className="flex bg-color-green justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg">
+                  <Button className="flex bg-color-green hover:bg-color-greenhover justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg">
                     <ShoppingCart size={25} />
                   </Button>
                 </div>

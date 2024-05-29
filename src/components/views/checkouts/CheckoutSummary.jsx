@@ -15,17 +15,17 @@ export default function CheckoutSummary({ totalCost }) {
         <div className="flex flex-col gap-1 text-[0.9rem]">
           <div className="flex flex-row items-center justify-between">
             <h3 className="text-color-gray-500">Total Harga </h3>
-            <span className="font-normal text-color-dark">${totalCost}</span>
+            <span className="font-normal text-color-dark">Rp. {totalCost}</span>
           </div>
           <div className="flex flex-row items-center justify-between">
             <h3 className="text-color-gray-500">Total Ongkos Kirim </h3>
-            <span className="font-normal text-color-dark ">${totalCost}</span>
+            <span className="font-normal text-color-dark ">Rp. {totalCost}</span>
           </div>
         </div>
         <hr className="text-color-gray-200 my-2" />
         <h3 className="flex flex-row items-center justify-between">
           Total Belanja
-          <span className="font-semibold">${totalCost}</span>
+          <span className="font-semibold">Rp. {totalCost}</span>
         </h3>
         <hr className="text-color-gray-200 my-2" />
         <Button

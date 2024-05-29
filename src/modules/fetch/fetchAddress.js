@@ -4,8 +4,8 @@ const findAllAddress = async () => {
     try {
         console.log('Sending request to /addresses')
         const response = await instance.get("/addresses");
-        console.log('response received: ', response.data)
-        return response.data;
+        console.log('response received: ', response)
+        return response;
     } catch (error) {
         console.error("Error fetching address data:", error.response ? error.response.data : error.message);
         throw error;

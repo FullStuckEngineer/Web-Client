@@ -12,18 +12,18 @@ export default function CheckoutView({ setCheckout }) {
   const checkout = [
     {
       category: "asd",
-      name: "Batre",
-      cost: 2.99,
+      name: "Sepatu Kelinci",
+      cost: 90000,
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ5-QAul_NfAs-s0XW9M087xWyPOGWvbfYjmqSl0QXabZRSYoid47i7kISiAteyIh0YOci5mtQ&usqp=CAc",
+        "https://i.pinimg.com/564x/38/76/44/38764450a8fbcb2780e8e476c74a3166.jpg",
       quantity: 10,
     },
     {
       category: "asdasd",
-      name: "Blanket",
-      cost: 19.99,
+      name: "Sepatu Hijau",
+      cost: 90000,
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSpwdYDmUL_ZEqhLV7ZWRdQAU7DGcGaxtCt7SrTlL9umrQs2Un7rj9Nbb9Vq01RtEfA0eAVmdt-&usqp=CAc",
+        "https://i.pinimg.com/564x/f8/aa/d0/f8aad094d464c662b1a798a4517b3b41.jpg",
       quantity: 10,
     },
   ];

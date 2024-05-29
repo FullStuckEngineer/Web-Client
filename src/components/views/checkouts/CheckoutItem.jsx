@@ -20,7 +20,7 @@ export default function CheckoutItem({ product }) {
             <h3 className="font-normal text-lg w-48 line-clamp-2">
               {product.name}
             </h3>
-            <h4 className="text-xl font-bold">${product.cost}</h4>
+            <h4 className="text-xl font-bold">Rp. {product.cost}</h4>
           </div>
 
           <div className="flex w-full relative">

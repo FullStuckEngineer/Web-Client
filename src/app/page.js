@@ -27,15 +27,16 @@ const HomePage = () => {
   return (
     <div className="flex flex-col md:px-24 px-10 py-[5.5rem]">
       <Hero />
-      <div className="flex flex-col justify-center items-start mb-4 mt-6 text-color-gray-700">
-        <h3 className="text-xl font-semibold text-color-dark">
-          Kategori Pilihan
-        </h3>
+      <div className="bg-color-secondary flex flex-col gap-5 border rounded-md border-color-gray-300 shadow-md mb-8 mt-14 px-5 pt-6 pb-10">
+        <div className="flex flex-col justify-center items-start  text-color-gray-700">
+          <h3 className="text-xl font-semibold text-color-dark">
+            Kategori Pilihan
+          </h3>
+        </div>
+        <div className="flex flex-row justify-between">
+          <CardCategory />
+        </div>
       </div>
-      <div className="flex flex-row justify-between">
-        <CardCategory />
-      </div>
-      <hr className="my-12 text-color-gray-300" />
       <div className="flex flex-col justify-center items-start mb-4 mt-4 text-color-gray-700">
         <h3 className="text-xl font-semibold text-color-dark">
           Rekomendasi untukmu

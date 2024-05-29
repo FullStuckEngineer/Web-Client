@@ -3,11 +3,11 @@
 import React, { useEffect, useState } from "react";
 import CartItem from "@/components/views/cart/CartItem";
 import CartSummary from "@/components/views/cart/CartSummary";
-import CartActions from "@/components/views/cart/CartActions";
 import ChangeAddress from "./ChangeAddress";
 import { updateCart, destroyCart, deleteAll } from "@/modules/fetch/fetchCart";
 import { City, Minus, Trash } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react/dist/ssr";
+import CartData from "@/components/views/cart/CartData";
 
 export default function CartsView({
   cart,
@@ -158,101 +158,37 @@ export default function CartsView({
           <span className="text-color-green font-bold">BabyBoo </span> Keranjang
           Belanja
         </h1>
-        <div className=" w-auto flex justify-between">
-          <div className="border rounded shadow-md p-4 flex flex-col mb-10 w-1/2">
-            <p className="font-semibold text-lg">Alamat</p>
-            {cartData && (
-              <div>
-                <h2>Alamat Pengiriman:</h2>
-                {addressData &&
-                cartData.address_id &&
-                getAddressDetails(cartData.address_id) ? (
-                  <>
-                    <p>
-                      Nama Penerima:{" "}
-                      {getAddressDetails(cartData.address_id).receiver_name}
-                    </p>
-                    <p>
-                      Telepon:{" "}
-                      {getAddressDetails(cartData.address_id).receiver_phone}
-                    </p>
-                    <p>
-                      Alamat:{" "}
-                      {getAddressDetails(cartData.address_id).detail_address}
-                    </p>
-                    <p>
-                      Kode Pos:{" "}
-                      {getAddressDetails(cartData.address_id).postal_code}
-                    </p>
-                    <p>
-                      Kota:{" "}
-                      {getCityName(
-                        getAddressDetails(cartData.address_id).city_id
-                      )}
-                    </p>
-                    <p>
-                      Provinsi:{" "}
-                      {getAddressDetails(cartData.address_id).province}
-                    </p>
-                  </>
-                ) : (
-                  <p>Alamat tidak ditemukan.</p>
-                )}
-              </div>
-            )}
-
-            <p className="font-semibold text-lg">Kurir</p>
-            {/* display courier name based on courier id from cart */}
-            <p className="mb-14">{getCourierName(cartData?.courier_id)}</p>
-
-            <div className="w-auto flex gap-2">
-              <button
-                className="border p-1 rounded hover:bg-color-gray-300"
-                onClick={() => setModalVisible(true)}
-              >
-                Ganti Alamat
-              </button>
-              <button
-                className="border p-1 rounded hover:bg-color-gray-300"
-                onClick={() => setCourierDropdown(!courierDropdown)}
-              >
-                Ganti Kurir
-              </button>
-            </div>
-            {courierDropdown && (
-              <div className="border p-2 rounded mt-2 bg-color-gray-200 shadow-md">
-                {courierData.map((courier) => (
-                  <button
-                    key={courier.id}
-                    className="flex p-2 hover:bg-color-gray-400 w-full border text-left rounded shadow-md mb-2"
-                    onClick={() => handleSelectedCourier(courier.id)}
-                  >
-                    {courier.name}
-                  </button>
-                ))}
-              </div>
-            )}
+        <div className="flex flex-wrap justify-between">
+          <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
+            <CartData
+              cartData={cartData}
+              addressData={addressData}
+              getAddressDetails={getAddressDetails}
+              getCityName={getCityName}
+              getCourierName={getCourierName}
+              setModalVisible={setModalVisible}
+              setCourierDropdown={setCourierDropdown}
+              handleSelectedCourier={handleSelectedCourier}
+              courierDropdown={courierDropdown}
+              courierData={courierData}
+            />
           </div>
-          <div className=" w-1/2 items-center flex flex-col">
-            <div className="border p-3 ">
-              <p className="font-semibold text-lg">Detail Checkout</p>
-              <p className="font-semibold text-lg">Net Price</p>
-              <p>{cartData?.net_price}</p>
-              <p className="font-semibold text-lg">Shipping Cost</p>
-              <p>{cartData?.shiping_cost}</p>
-              <p className="font-semibold text-lg">Shipping Method</p>
-              <p>{cartData?.shipping_method}</p>
-              <p className="font-semibold text-lg">Total Cost</p>
-              <p>{cartData?.total_cost}</p>
-              <p className="font-semibold text-lg">Total Weight</p>
-              <p>{cartData?.total_weight}</p>
-              <div className="flex border rounded-md bg-color-accent hover:bg-color-gold">
-                <button className="w-full p-2">Checkout</button>
-              </div>
-            </div>
-          </div>
+          <CartSummary
+            netPrice={cartData?.net_price}
+            shipingCost={cartData?.shiping_cost}
+            shipingMethod={cartData?.shipping_method}
+            totalCost={cartData?.total_cost}
+            totalWeight={cartData?.total_weight}
+          />
         </div>
 
+        <CartItem
+          shopItems={shopItems}
+          getProductName={getProductName}
+          handleRemoveItem={handleRemoveItem}
+          handleIncreaseQuantity={handleIncreaseQuantity}
+          handleDecreaseQuantity={handleDecreaseQuantity}
+        />
         <ul>
           {shopItems?.map((item) => (
             <li
