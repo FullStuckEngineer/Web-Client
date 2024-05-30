@@ -37,7 +37,7 @@ const CategoriesView = ({ categoryId }) => {
   };
 
   return (
-    <div className="flex flex-col md:px-24 px-10 py-[5.5rem]">
+    <div className="flex flex-col md:px-24 px-10 py-32 md:py-[5.5rem]">
       {loading ? (
         <LoadingSpinner />
       ) : (
@@ -46,7 +46,7 @@ const CategoriesView = ({ categoryId }) => {
             {category &&
               category.map((categoryItem) => (
                 <div key={categoryItem.id} className="category-section">
-                  <div className="flex flex-col justify-center items-start mb-4 mt-4 text-color-gray-700">
+                  <div className="flex flex-col justify-center items-start md:my-10 my-4 text-color-gray-700">
                     <h3 className="text-xl font-semibold text-color-dark">
                       Kategori {categoryItem.name}
                     </h3>

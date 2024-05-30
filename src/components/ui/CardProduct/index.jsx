@@ -16,8 +16,8 @@ const CardProduct = ({ products }) => {
   };
 
   return (
-    <div className="flex flex-row justify-between">
-      <div className="w-full flex flex-wrap md:flex-row flex-col justify-between gap-4">
+    <div className="grid lg:grid-cols-1 ">
+      <div className="w-full flex flex-wrap md:flex-row flex-col gap-4">
         {products?.length > 0 &&
           products.map((product) => (
             <div

@@ -30,10 +30,10 @@ const findOneProduct = async (slug) => {
   }
 };
 
-const findProductBySearch = async (keyword) => {
+const findProductBySearch = async (search) => {
   try {
     console.log("Sending request to /products");
-    const response = await instance.get("/products", {params: {searchTerms: keyword},});
+    const response = await instance.get(`/products?searchTerms=${search}`);
     console.log("response products by search received: ", response);
     return response.data;
   } catch (error) {

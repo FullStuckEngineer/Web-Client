@@ -28,7 +28,7 @@ const findCitiesWithLimit = async (search) => {
   try {
     console.log("Sending request to /cities with limit");
     const response = await instance.get(
-      `/cities/limit/?search=${search}&limit=5`
+      `/cities/limit?search=${search}&limit=5`
     );
     console.log("response received: ", response.data);
     return response.data;
