@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useState, useEffect } from "react";
 import ProfileView from "@/components/views/profiles/DetailProfile";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";

@@ -2,6 +2,7 @@ import { findAll } from "@/modules/fetch/fetchCategory";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { CaretLeft, CaretRight } from "@phosphor-icons/react";
+import Link from "next/link";
 
 const CardCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -61,26 +62,15 @@ const CardCategory = () => {
           currentCategories.map(
             (category, index) =>
               category && (
-                <a
-                  key={index}
-                  href="#"
-                  className="flex flex-col items-center bg-color-primary border border-color-gray-200 rounded-md shadow hover:bg-color-gray-100 w-48"
-                >
-                  {/* <div className="mt-10">
-                  <Image
-                    src={category.photo || "/placeholder.jpg"}
-                    alt={category.name}
-                    width={50}
-                    height={50}
-                    className="object-cover h-auto w-full"
-                  />
-                </div> */}
-                  <div className="flex flex-col justify-center items-center py-8 leading-normal">
-                    <h5 className="text-md font-semibold tracking-tight text-color-gray-900">
-                      {category.name}
-                    </h5>
+                <Link key={index} href={`/categories/${category.id}`}>
+                  <div className="flex flex-col items-center bg-color-primary border border-color-gray-200 rounded-md shadow hover:bg-color-gray-100 w-48">
+                    <div className="flex flex-col justify-center items-center py-8 leading-normal">
+                      <h5 className="text-md font-semibold tracking-tight text-color-gray-900">
+                        {category.name}
+                      </h5>
+                    </div>
                   </div>
-                </a>
+                </Link>
               )
           )}
       </div>
