@@ -1,4 +1,4 @@
-import  instance  from "@/libs/axios/instance";
+import  instance  from "@/libs/axios/axiosInstance";
 
 const findAll = async () => {
     try {
@@ -30,10 +30,21 @@ const create = async (data) => {
     }
 };
 
-const pay = async (id) => {
+const payMidtrans = async (params) => {
     try {
-        //Not done yet
-        const response = await instance.post(`/checkouts/${id}/pay`);
+     
+        const {id, bank} = params
+        const response = await instance.post(`/checkouts/pay/${id}`,{bank});
+        return response.data;
+    } catch (error) {
+        console.error("Error paying checkout:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+const payManual = async (params) => {
+    const {body, id} = params
+    try {
+        const response = await instance.post(`/checkouts/uplouds/${id}`, {body});
         return response.data;
     } catch (error) {
         console.error("Error paying checkout:", error.response ? error.response.data : error.message);
@@ -51,4 +62,4 @@ const update = async (id, data) => {
     }
 };
 
-export { findAll, findOne, create, pay, update };
+export { findAll, findOne, create, payMidtrans,payManual, update };
