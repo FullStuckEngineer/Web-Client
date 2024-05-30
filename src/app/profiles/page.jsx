@@ -1,12 +1,19 @@
+import React, { useState, useEffect } from "react";
 import ProfileView from "@/components/views/profiles/DetailProfile";
-import React from "react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ProfilesPage = () => {
-  return (
-    <div>
-      <ProfileView />
-    </div>
-  );
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000); 
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  return <div>{loading ? <LoadingSpinner /> : <ProfileView />}</div>;
 };
 
 export default ProfilesPage;

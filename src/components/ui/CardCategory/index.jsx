@@ -6,7 +6,7 @@ import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 const CardCategory = () => {
   const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
-  const [page, setPage] = useState(0); // start from 0 for carousel effect
+  const [page, setPage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const perPage = 6;
 
