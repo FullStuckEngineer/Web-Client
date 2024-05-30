@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { findAllAddress, destroyAddress } from "@/modules/fetch/fetchAddress";
 import UpdateAddress from "./UpdateAddress";
-import { findAllCities } from "@/modules/fetch/fetchCity";
+import { findAllCities, findCitiesNoLimit } from "@/modules/fetch/fetchCity";
 import Button from "@/components/ui/Button";
 import { CaretLeft, CaretRight, Circle } from "@phosphor-icons/react";
 
@@ -22,7 +22,7 @@ const AddressList = ({ setCurrentComponent }) => {
       try {
         const data = await findAllAddress();
         setAddresses(data);
-        const cityData = await findAllCities();
+        const cityData = await findCitiesNoLimit();
         setCities(cityData);
         setLoading(false);
       } catch (error) {
@@ -35,7 +35,7 @@ const AddressList = ({ setCurrentComponent }) => {
   }, []);
 
   const getCityName = (cityId) => {
-    const city = cities.find((city) => city.id === cityId);
+    const city = cities?.find((city) => city.id === cityId);
     return city ? city.name : "Unknown City";
   };
 
@@ -60,14 +60,15 @@ const AddressList = ({ setCurrentComponent }) => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
-  const validAddresses = addresses?.data?.addresses || [];
+console.log(addresses, "address<<<<")
+  const validAddresses = addresses?.data || [];
   const totalPages = Math.ceil(addresses.length / itemsPerPage);
   const startPage = (currentPage - 1) * itemsPerPage;
   const selectedAddress = validAddresses.slice(
     startPage,
     startPage + itemsPerPage
   );
+  console.log(cities, "cities<<<<<<")
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

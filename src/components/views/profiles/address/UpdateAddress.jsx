@@ -3,7 +3,7 @@ import { updateAddress, findOneAddress } from "@/modules/fetch/fetchAddress";
 import Input from "@/components/ui/Input";
 import { CheckCircle, X, XCircle } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
-import { findAllCities, findCities } from "@/modules/fetch/fetchCity";
+import { findCities, findCitiesWithLimit } from "@/modules/fetch/fetchCity";
 import debounce from "lodash.debounce";
 
 const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
@@ -28,7 +28,8 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
         setDetailAddress(address.detail_address);
         const cityData = await findCities();
         const cityName =
-          cityData.find((city) => city.id === address.city_id)?.name || "";
+          cityData?.cities?.find((city) => city.id === address.city_id)?.name ||
+          "";
         setCity(cityName);
         setCityId(address.city_id);
         setProvince(address.province);
@@ -41,15 +42,26 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
     getAddressId();
   }, [addressId]);
 
-  const handleCityChange = async (e) => {
+  const handleCityChange = useCallback(
+    debounce(async (search) => {
+      if (search.length > 1) {
+        try {
+          const cities = await findCitiesWithLimit(search);
+          setCityOptions(cities);
+        } catch (error) {
+          setError("Error fetching cities");
+        }
+      } else {
+        setCityOptions([]);
+      }
+    }, 300),
+    []
+  );
+
+  const handleInputChange = (e) => {
     const search = e.target.value;
     setCity(search);
-    if (search.length > 1) {
-      const cities = await findCities(search);
-      setCityOptions(cities);
-    } else {
-      setCityOptions([]);
-    }
+    handleCityChange(search);
   };
 
   const handleCitySelect = (city) => {
@@ -149,13 +161,13 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
             <Input
               type="text"
               value={city}
-              onChange={handleCityChange}
+              onChange={handleInputChange}
               placeholder="Masukkan Nama Kota"
               className="p-2 border rounded-md"
             />
-            {cityOptions.length > 0 && (
+            {cityOptions?.length > 0 && (
               <ul className="absolute top-16 z-10 w-full text-sm text-color-gray-900 bg-color-gray-300 border border-color-gray-300 rounded-md max-h-60 overflow-y-auto">
-                {cityOptions.map((city) => (
+                {cityOptions?.map((city) => (
                   <li
                     key={city.id}
                     onClick={() => handleCitySelect(city)}
