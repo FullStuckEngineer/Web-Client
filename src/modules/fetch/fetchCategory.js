@@ -8,7 +8,7 @@ const findAll = async () => {
     return response.data;
   } catch (error) {
     console.error(
-      "Error fetching category data:",
+      "Error fetching categories data:",
       error.response ? error.response.data : error.message
     );
     throw error;
@@ -17,7 +17,10 @@ const findAll = async () => {
 
 const findOne = async (id) => {
   try {
+    console.log("categories response data :");
+
     const response = await instance.get(`/categories/${id}`);
+    console.log("categories response data :", response.data);
     return response.data;
   } catch (error) {
     console.error(

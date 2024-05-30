@@ -18,8 +18,8 @@ const CardProduct = ({ products }) => {
   return (
     <div className="flex flex-row justify-between">
       <div className="w-full flex flex-wrap md:flex-row flex-col justify-between gap-4">
-        {products?.data?.products?.length > 0 &&
-          products.data.products.map((product) => (
+        {products?.length > 0 &&
+          products.map((product) => (
             <div
               key={product.id}
               className="md:w-[24%] w-full bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"
