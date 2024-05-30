@@ -3,15 +3,29 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import PaymentIntructions from "@/components/views/payments/PaymentIntructions";
+import { useRouter } from "next/navigation";
+import useStore from "@/libs/zustand";
+import { findOne } from "@/modules/fetch/fetchCheckout";
 
 const MidtransPayment = () => {
+  const router = useRouter()
+  const paymentMidtrans = useStore((state)=> state.paymentMidtrans)
+  const newParams = useStore ((state)=> state.newParams)
+  const [response, setResponse] = useState('')
 
 
+useEffect(()=> {
+const fetchCheckout = async () => {
 
-
-
-
-
+  try {
+      const myCheckout = await findOne(+newParams)
+      setResponse(myCheckout)
+  } catch (error) {
+    console.log(error)
+  }
+}
+fetchCheckout()
+},[response.data])
 
 
 
@@ -31,7 +45,9 @@ const MidtransPayment = () => {
       <div className="text-center mb-4">
         <h2 className="text-2xl font-bold">Selesaikan pembayaran dalam</h2>
         <div className="text-red-500 text-2xl font-semibold text-color-green">
-          {/* waktu */}
+
+      
+        {JSON.stringify(paymentMidtrans.message)}
         </div>
       </div>
       <div className="flex flex-col justify-center items-center w-full mb-4">
@@ -40,12 +56,22 @@ const MidtransPayment = () => {
       </div>
       <div className="flex flex-col justify-between items-start mx-auto ">
         <div className="flex flex-col w-full p-10 gap-7 shadow-md rounded-md">
+
+
+            <div className="text-center mb-4">
+<div className="text-red-500 text-2xl font-semibold text-color-green">
+
+            {response && response.data.status}
+  </div>
+ </div>
+
+
           <h3 className="text-lg font-bold">BCA Virtual Account</h3>
           <div className="flex flex-col gap-2">
             <p className="">Nomor Virtual Account</p>
             <div className="flex justify-between text-lg font-semibold">
               <p id="va-number" className="font-mono">
-                80777100048738922
+              {JSON.stringify(paymentMidtrans.data)}
               </p>
               <button
                 onClick={handleCopy}
@@ -56,8 +82,6 @@ const MidtransPayment = () => {
             </div>
           </div>
           <div className="text-center">
-            <h3 className="text-lg font-bold">Total Tagihan</h3>
-            <p className="text-2xl font-semibold text-green-600">Rp48.798</p>
           </div>
         </div>
         <div className="flex flex-row w-full justify-between items-center gap-4 md:items-center py-10">

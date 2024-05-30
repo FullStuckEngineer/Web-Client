@@ -5,55 +5,68 @@ import { payMidtrans, findOne } from '@/modules/fetch/fetchCheckout'
 import Link from "next/link";
 import Button from "@/components/ui/Button";
 import PaymentIntructions from "@/components/views/payments/PaymentIntructions";
+import useStore from '@/libs/zustand';
 
 
-const Payments = () => {
+
+const Payments = ({params}) => {
   const [error, setError] = useState(null)
-  const [newParams, setNewParams] = useState(null)
   const [checkout, setCheckout] = useState(null)
   const [selectedBank, setSelectedBank] = useState(null)
   const [paymentResponse, setPaymentResponse] = useState(null)
-  const params = useParams()
+  const router = useRouter()
 
-  useEffect(() => {
-    setNewParams(params)
-  }, [params])
+    const setNewParams = useStore((state)=> state.setNewParams)
+    const setPaymentMidtrans = useStore((state)=> state.setPaymentMidtrans)
+    const {id} = params 
+  
+    setNewParams(id)
 
   useEffect(() => {
     const fetchCheckout = async () => {
-      if (newParams) {
-        try {
-          const newParamsId = +newParams.id
-          const myCheckout = await findOne(newParamsId)
-          setCheckout(myCheckout)
+     
+            try {
+                               
+                const myCheckout = await findOne(+id)
+
+            setCheckout(myCheckout.data)
         } catch (error) {
+            console.log(error)
           setError(error)
         }
-      }
+    
     }
     fetchCheckout()
-  }, [newParams])
+  }, [])
 
 
 
 
   const handleMidtrans = async () => {
+
     const inputed = {
-      id: parseInt(newParams.id),
+      id: parseInt(id),
       bank: selectedBank,
     };
     try {
       const post = await payMidtrans(inputed);
       setPaymentResponse(post); 
-   
-console.log(paymentResponse, " <<<<<<<<<")
-
+      setNewParams(id)
+        setPaymentMidtrans(post)
+        router.push("/payments/midtrans")
+        
     } catch (error) {
+        console.log(error)
       setError(error);
     }
   };
 
 
+  const handleManual =  () => {
+    setNewParams(id)
+    router.push("/payments/manual")
+  }
+  
 
   return (
     <div className="flex flex-col justify-center w-full pt-40 bg-color-primary">
@@ -157,21 +170,7 @@ console.log(paymentResponse, " <<<<<<<<<")
               </button>
 
 
-                <br></br>
-                <br></br>
-                <div className="text-center mb-4">
-            <div className="text-color-gray-700 font-semibold mb-2">VIRTUAL ACCOUNT NUMBER</div>
-                {paymentResponse?.data.length > 0 &&
-                paymentResponse.data.map((payment)=> (
-
-                <div> <h1>{payment.bank}</h1> 
-                        <p>{payment.va_number}</p>               
-                </div>
-                ))}
- </div>
-
-
-
+          
 
             </div>
           </div>
@@ -190,9 +189,9 @@ console.log(paymentResponse, " <<<<<<<<<")
 
    <div className="flex flex-row w-full justify-between items-center gap-4 md:items-center py-10">
            
-          <Link href="/payments/manual">
-          <Button onClick={handleMidtrans} className="bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-10 w-64">BANK LAINNYA</Button>
-          </Link>
+          
+          <Button onClick={handleManual} className="bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-10 w-64">BANK LAINNYA</Button>
+      
 
           
           <Link href="/profiles">
@@ -200,11 +199,9 @@ console.log(paymentResponse, " <<<<<<<<<")
               Cek Status Pembayaran
             </Button>
           </Link>
-          
-          {/* <Link href="/payments/midtrans">   */}
+         
           <Button onClick={(e)=>handleMidtrans(selectedBank) }  className="bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-10 w-64">CHECKOUT</Button>
-          {/* </Link> */}
-
+         
 
         </div>
       <PaymentIntructions />
