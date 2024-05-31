@@ -8,6 +8,7 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
 import { CaretRight } from "@phosphor-icons/react";
 import Hero from "@/components/layouts/Hero";
+import Head from "next/head";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -30,8 +31,11 @@ const HomePage = () => {
 
   return (
     <div className="flex flex-col md:px-24 px-10 py-[5.5rem]">
+      <Head>
+        <title>BabyBoo</title>
+      </Head>
       {loading ? (
-        <LoadingSpinner /> 
+        <LoadingSpinner />
       ) : (
         <>
           <Hero />
