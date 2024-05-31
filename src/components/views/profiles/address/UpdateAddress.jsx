@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { updateAddress, findOneAddress } from "@/modules/fetch/fetchAddress";
-import { findAllCity } from "@/modules/fetch/fetchCity";
+import { findCities } from "@/modules/fetch/fetchCity";
 import Input from "@/components/ui/Input";
 import { CheckCircle, WarningCircle, X, XCircle } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
@@ -25,7 +25,7 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
         setReceiverName(address.receiver_name);
         setReceiverPhone(address.receiver_phone);
         setDetailAddress(address.detail_address);
-        const cityData = await findAllCity();
+        const cityData = await findCities();
         const cityName =
           cityData.find((city) => city.id === address.city_id)?.name || "";
         setCity(cityName);
@@ -43,7 +43,7 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
   useEffect(() => {
     const fetchCities = async () => {
       try {
-        const data = await findAllCity();
+        const data = await findCities();
         setCityOptions(data);
       } catch (error) {
         setError("Error fetching cities");
@@ -56,7 +56,7 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findAllCity(search);
+      const cities = await findCities(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);

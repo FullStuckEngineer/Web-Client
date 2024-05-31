@@ -8,7 +8,7 @@ import { jwtDecode } from "jwt-decode";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
 import { findAllCities } from "@/modules/fetch/fetchCity";
 import { findAllAddress } from "@/modules/fetch/fetchAddress";
-const { findAllCourier } = require("@/modules/fetch/fetchCourier");
+import { findAllCourier } from "@/modules/fetch/fetchCourier";
 
 const CartsPage = () => {
   const [userId, setUserId] = useState(null);

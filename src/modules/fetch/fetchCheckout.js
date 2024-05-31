@@ -1,6 +1,6 @@
 import  instance  from "@/libs/axios/instance";
 
-const findAll = async () => {
+const findAllCheckout = async () => {
     try {
         const response = await instance.get("/checkouts");
         return response.data;
@@ -10,7 +10,7 @@ const findAll = async () => {
     }
 };  
 
-const findOne = async (id) => {
+const findOneCheckout = async (id) => {
     try {
         const response = await instance.get(`/checkouts/${id}`);
         return response.data;
@@ -20,7 +20,7 @@ const findOne = async (id) => {
     }
 };  
 
-const create = async (data) => {
+const createCheckout = async (data) => {
     try {
         const response = await instance.post("/checkouts", data);
         return response.data;
@@ -41,7 +41,7 @@ const pay = async (id) => {
     }
 };
 
-const update = async (id, data) => {
+const updateCheckout = async (id, data) => {
     try {
         const response = await instance.put(`/checkouts/${id}`, data);
         return response.data;
@@ -51,4 +51,4 @@ const update = async (id, data) => {
     }
 };
 
-export { findAll, findOne, create, pay, update };
+export { findAllCheckout, findOneCheckout, createCheckout, pay, updateCheckout };

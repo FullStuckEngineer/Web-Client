@@ -1,10 +1,44 @@
 import Button from "@/components/ui/Button";
 import React, { useState } from "react";
+import { createCheckout } from "@/modules/fetch/fetchCheckout";
 
-export default function PaymentModal({ isOpen, onClose, totalCost }) {
+export default function PaymentModal({
+  isOpen,
+  onClose,
+  totalCost,
+  netPrice,
+  shippingCost,
+  cartAddress,
+  cartCourier,
+  cartItems,
+  shippingMethod
+}) {
   const [selectedBank, setSelectedBank] = useState("");
 
   if (!isOpen) return null;
+
+  const formatCurrency = (number) => {
+    if (isNaN(number)) {
+      console.error("Invalid number:", number);
+      return "Invalid number";
+    } else {
+      return number.toLocaleString("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      });
+    }
+  };
+
+  const handleCheckout = async () => {
+    const response = await createCheckout(totalCost, selectedBank);
+    if (response) {
+      window.location.href = response;
+    }
+  };
+
+  console.log(cartAddress, "CART ADDRESS ID");
+  console.log(cartCourier, "CART COURIER ID");
+  console.log(cartItems, "CART ITEMS");
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-color-dark bg-opacity-50">
@@ -62,11 +96,15 @@ export default function PaymentModal({ isOpen, onClose, totalCost }) {
             <div className="text-sm text-gray-700">
               <div className="flex justify-between mb-1">
                 <span>Total Harga</span>
-                <span>{totalCost}</span>
+                <span>{formatCurrency(totalCost)}</span>
               </div>
               <div className="flex justify-between mb-1">
                 <span>Total Ongkos Kirim</span>
-                <span>{totalCost}</span>
+                <span>{formatCurrency(shippingCost)}</span>
+              </div>
+              <div className="flex justify-between mb-1">
+                <span>Metode Pengiriman</span>
+                <span>{shippingMethod}</span>
               </div>
             </div>
           </div>
@@ -74,7 +112,7 @@ export default function PaymentModal({ isOpen, onClose, totalCost }) {
             <h3 className="flex flex-col text-gray-700 font-semibold mb-2">
               Total Tagihan
               <span className="text-lg font-semibold text-gray-900">
-                {totalCost * 2}
+                {formatCurrency(netPrice)}
               </span>
             </h3>
             <Button

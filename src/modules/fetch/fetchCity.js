@@ -15,12 +15,12 @@ const findCities = async (search, limit = 5) => {
 const findAllCities = async () => {
   try {
     console.log('Sending request to /cities ')
-    const response = await instance.get(`/cities`);
+    const response = await instance.get(`/cities/nolimit`);
     console.log('response received: ', response.data)
     return response.data;
   } catch (error) {
     console.error("Error fetching city data:", error.response ? error.response.data : error.message);
-    throw error;
+    throw error;              
   }
 };
 
