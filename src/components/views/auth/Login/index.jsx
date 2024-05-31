@@ -38,6 +38,7 @@ const LoginView = () => {
         setIsLoggedIn(true);
         setTimeout(() => {
           router.push("/");
+          router.refresh(); 
         }, 2000);
       } else {
         setIsLoading(false);
