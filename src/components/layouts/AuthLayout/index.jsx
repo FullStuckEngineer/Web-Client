@@ -1,21 +1,48 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import authImage from "@/assets/images/AuthImage.svg";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import { getUser } from "@/modules/fetch/fetchUser";
 
 const AuthLayout = (props) => {
   const { error, title, children, link, linkText, linkName, className } = props;
   const [loading, setLoading] = useState(true);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
-    // Simulate loading time
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 2000); // Adjust the timeout duration as needed
+    }, 2000); 
 
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const user = await getUser();
+          if (user) {
+            setIsLoggedIn(true);
+          }
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+      }
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/"); 
+    }
+  }, [isLoggedIn, router]);
 
   return (
     <header className="flex flex-wrap justify-center items-center bg-color-secondary w-full min-h-screen md:pt-16 pt-28 md:px-10 px-5">

@@ -19,7 +19,7 @@ const findOneProduct = async (slug) => {
   try {
     console.log(`Sending request to /products/${slug}`);
     const response = await instance.get(`/products/${slug}`);
-    console.log("response find one product received: ", response,data);
+    console.log("response find one product received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
