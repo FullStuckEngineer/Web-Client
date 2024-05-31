@@ -68,7 +68,12 @@ const Navbar = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
+    setTimeout(() => {
+      router.push("/");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }, 2000);
   };
 
   const handleStorageChange = (event) => {
