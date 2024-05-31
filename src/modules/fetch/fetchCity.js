@@ -48,7 +48,7 @@ const findCitiesNoLimit = async () => {
     return response.data;
   } catch (error) {
     console.error("Error fetching city data:", error.response ? error.response.data : error.message);
-    throw error;
+    throw error;              
   }
 };
 

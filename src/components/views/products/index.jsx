@@ -4,19 +4,45 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import { Heart, ShareNetwork, ShoppingCart, Star } from "@phosphor-icons/react";
-import { addToCart, buyNow } from "@/modules/cart/cartActions";
+// import { addToCart, buyNow } from "@/modules/cart/cartActions";
+import { updateCart, findOneCart } from "@/modules/fetch/fetchCart";
+import { getUser } from "@/modules/fetch/fetchUser";
 import { findOneProduct } from "@/modules/fetch/fetchProduct";
+import { jwtDecode } from "jwt-decode";
 
 const ProductView = ({ slug }) => {
+  const [cart, setCart] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const getUserId = decodedToken.id;
+        try {
+          const userData = await getUser(getUserId);
+          setUserId(userData.id);
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
     const fetchProduct = async () => {
       try {
         const productData = await findOneProduct(slug);
+        const cartData = await findOneCart(userId);
+        setCart(cartData?.data);
         setProduct(productData.data);
       } catch (error) {
         setError("Failed to fetch product");
@@ -39,13 +65,38 @@ const ProductView = ({ slug }) => {
   };
 
   const handleAddToCart = async () => {
-    if (product) {
-      try {
-        await addToCart(product.id, quantity);
-        console.log("Added to cart");
-      } catch (error) {
-        console.error("Error adding to cart:", error);
+    try {
+      // Clone the existing shopping items to avoid mutating the original state
+      let updatedItems = [...(cart?.shopping_items || [])];
+      // Check if the product is already in the cart
+      const productIndex = updatedItems.findIndex(
+        (item) => item.product_id === product.id
+      );
+
+      if (productIndex > -1) {
+        // If product exists, increment the quantity
+        updatedItems[productIndex].quantity += quantity;
+      } else {
+        // If product doesn't exist, add a new product to the shopping items
+        updatedItems.push({
+          product_id: product.id,
+          quantity: quantity,
+        });
       }
+
+      // Update the cart with the new shopping items
+      const newCart = await updateCart(cart.id, {
+        address_id: cart.address_id,
+        courier_id: cart.courier_id,
+        shipping_method: cart.shipping_method,
+        shopping_items: updatedItems,
+      });
+
+      setCart(newCart);
+      console.log("Added to cart");
+      alert(`Product ${product.name} Added to cart`);
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
     }
   };
 

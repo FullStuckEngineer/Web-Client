@@ -1,12 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { Heart, ShoppingCart } from "@phosphor-icons/react";
 import Link from "next/link";
+import { findOneProduct } from "@/modules/fetch/fetchProduct";
+import { updateCart } from "@/modules/fetch/fetchCart";
 
-const CardProduct = ({ products }) => {
+const CardProduct = ({ products, cartData }) => {
   const [lovedProducts, setLovedProducts] = useState({});
+  const [cart, setCart] = useState(cartData);
+  const [quantity, setQuantity] = useState(1);
+
+ //make useEffect to put cartData on cart state
+ useEffect(() => {
+   setCart(cartData)
+ }, [cartData])
 
   const handleLoveClick = (productId) => {
     setLovedProducts((prevLovedProducts) => ({
@@ -14,6 +23,43 @@ const CardProduct = ({ products }) => {
       [productId]: !prevLovedProducts[productId],
     }));
   };
+
+ const handleAddToCart = async (productId) => {
+    try {
+      // Clone the existing shopping items to avoid mutating the original state
+      let updatedItems = [...(cart?.shopping_items || [])];
+      // Check if the product is already in the cart
+      const productIndex = updatedItems.findIndex(
+        (item) => item.product_id === productId
+      );
+
+      if (productIndex > -1) {
+        // If product exists, increment the quantity
+        updatedItems[productIndex].quantity += quantity;
+      } else {
+        // If product doesn't exist, add a new product to the shopping items
+        updatedItems.push({
+          product_id: productId,
+          quantity: quantity,
+        });
+      }
+
+      // Update the cart with the new shopping items
+      const newCart = await updateCart(cart?.id, {
+        address_id: cart?.address_id,
+        courier_id: cart?.courier_id,
+        shipping_method: cart?.shipping_method,
+        shopping_items: updatedItems,
+      });
+
+      setCart(newCart);
+      console.log("Added to cart");
+      alert(`Product Added to cart`);
+    } catch (error) {
+      console.error("Failed to add to cart:", error);
+    }
+  };
+
 
   return (
     <div className="grid lg:grid-cols-1 ">
@@ -55,7 +101,10 @@ const CardProduct = ({ products }) => {
                   >
                     <Heart size={25} weight="fill" />
                   </Button>
-                  <Button className="flex bg-color-green hover:bg-color-greenhover justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg">
+                  <Button
+                    className="flex bg-color-green hover:bg-color-greenhover justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg"
+                    onClick={() => handleAddToCart(product.id)}
+                  >
                     <ShoppingCart size={25} />
                   </Button>
                 </div>

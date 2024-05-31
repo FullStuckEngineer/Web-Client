@@ -35,7 +35,7 @@ const ChangeAddress = ({
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
 
-  const validAddresses = addresses?.data?.addresses || [];
+  const validAddresses = addresses || [];
   const startPage = (currentPage - 1) * itemsPerPage;
   const selectedAddress = validAddresses.slice(
     startPage,

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from "@/components/ui/Button";
 import PaymentModal from "@/components/views/checkouts/PaymentModal"; // Adjust the import based on your folder structure
+import Link from "next/link";
 
 export default function CheckoutSummary({
   netPrice,
@@ -8,6 +9,8 @@ export default function CheckoutSummary({
   shipingMethod,
   totalCost,
   totalWeight,
+  formatCurrency,
+  formatWeight
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,11 +23,11 @@ export default function CheckoutSummary({
       <div className="flex flex-col lg:w-full w-1/2 gap-4">
         <h3 className="flex flex-row items-center justify-between">
           Total Harga
-          <span className="font-semibold">{netPrice}</span>
+          <span className="font-semibold">{formatCurrency(netPrice)}</span>
         </h3>
         <h3 className="flex flex-row items-center justify-between">
           Total Berat
-          <span className="font-semibold">{totalWeight}</span>
+          <span className="font-semibold">{formatWeight(totalWeight)}</span>
         </h3>
         <h3 className="flex flex-row items-center justify-between">
           Pengiriman
@@ -32,16 +35,18 @@ export default function CheckoutSummary({
         </h3>
         <h3 className="flex flex-row items-center justify-between">
           Total Ongkos Kirim
-          <span className="font-semibold">{shipingCost}</span>
+          <span className="font-semibold">{formatCurrency(shipingCost)}</span>
         </h3>
         <h3 className="flex flex-row items-center justify-between">
           Total
-          <span className="font-semibold">{totalCost}</span>
+          <span className="font-semibold">{formatCurrency(totalCost)}</span>
         </h3>
         <hr className="text-color-gray-200 my-2" />
-        <Button className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-8">
-          Checkout
-        </Button>
+        <div className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-8">
+          <Link href="/checkouts" className="w-full p-2">
+            Checkout
+          </Link>
+        </div>
       </div>
     </div>
   );

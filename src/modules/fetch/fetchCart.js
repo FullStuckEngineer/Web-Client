@@ -60,10 +60,10 @@ const destroyCart = async (id) => {
   }
 };
 
-const deleteAll = async () => {
+const deleteAll = async (user_id) => {
   try {
     console.log("Sending request to /carts to delete all items");
-    const response = await instance.delete("/carts/all");
+    const response = await instance.delete("/carts/all", { data: { user_id } });
     console.log("response received, all items deleted: ", response);
     return response.data;
   } catch (error) {
