@@ -4,7 +4,7 @@ const findOneCart = async (data) => {
   try {
     console.log(`Sending request to /carts`, data);
     const response = await instance.get(`/carts`, data);
-    console.log("response find one cart received: ", response);
+    console.log("response find one cart received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -17,7 +17,9 @@ const findOneCart = async (data) => {
 
 const getShippingCost = async (data) => {
   try {
+    console.log(`Sending request to /carts/shipping-cost`, data);
     const response = await instance.post(`/carts/shipping-cost`, data);
+    console.log("response cart/shipping-cost received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -32,7 +34,7 @@ const updateCart = async (id, data) => {
   try {
     console.log(`Sending request to /carts/${id}`, data);
     const response = await instance.put(`/carts/${id}`, data);
-    console.log("response received: ", response);
+    console.log("response received: Cart Updated ", response);
     return response.data;
   } catch (error) {
     console.error(
@@ -71,5 +73,5 @@ const deleteAll = async () => {
     );
     throw error;
   }
-}
+};
 export { findOneCart, getShippingCost, updateCart, destroyCart, deleteAll };

@@ -33,6 +33,8 @@ const Navbar = () => {
           const user = await getUser();
           setUser(user);
           setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
         }
       } catch (error) {
         console.error("Error checking login status:", error);
@@ -41,7 +43,7 @@ const Navbar = () => {
     };
 
     checkLoginStatus();
-  }, []);
+  }, [setIsLoggedIn]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -57,8 +59,10 @@ const Navbar = () => {
       }
     };
 
-    fetchCartData();
-  }, []);
+    if (isLoggedIn) {
+      fetchCartData();
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

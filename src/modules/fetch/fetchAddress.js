@@ -4,7 +4,7 @@ const findAllAddress = async () => {
     try {
         console.log('Sending request to /addresses')
         const response = await instance.get("/addresses");
-        console.log('response received: ', response)
+        console.log('response received: ', response.data)
         return response;
     } catch (error) {
         console.error("Error fetching address data:", error.response ? error.response.data : error.message);
@@ -27,9 +27,8 @@ const findOneAddress = async (id) => {
 const createAddress = async (data) => {
     try {
         console.log('Sending request to /addresses')
-        console.log(data, "<<<<DATA")
         const response = await instance.post("/addresses", data);
-        console.log('response received: ', response.data)
+        console.log('response addresses received: ', response.data)
         return response.data;
     } catch (error) {   
         console.error("Error creating address:", error.response ? error.response.data : error.message);
@@ -51,7 +50,9 @@ const updateAddress = async (id, data) => {
 
 const destroyAddress = async (id) => {
     try {
+        console.log("Sending request to /addresses");
         const response = await instance.delete(`/addresses/${id}`);
+        console.log("response received: Address Deleted ", response.data);
         return response.data;
     } catch (error) {
         console.error("Error deleting address:", error.response ? error.response.data : error.message);
