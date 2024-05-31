@@ -62,10 +62,10 @@ const CardProduct = ({ products, cartData }) => {
 
 
   return (
-    <div className="flex flex-row justify-between">
-      <div className="w-full flex flex-wrap md:flex-row flex-col justify-between gap-4">
-        {products?.data?.products?.length > 0 &&
-          products.data.products.map((product) => (
+    <div className="grid lg:grid-cols-1 ">
+      <div className="w-full flex flex-wrap md:flex-row flex-col gap-4">
+        {products?.length > 0 &&
+          products.map((product) => (
             <div
               key={product.id}
               className="md:w-[24%] w-full bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"
@@ -102,7 +102,7 @@ const CardProduct = ({ products, cartData }) => {
                     <Heart size={25} weight="fill" />
                   </Button>
                   <Button
-                    className="flex bg-color-green justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg"
+                    className="flex bg-color-green hover:bg-color-greenhover justify-center items-center text-color-primary gap-2 py-2 px-2 rounded-lg"
                     onClick={() => handleAddToCart(product.id)}
                   >
                     <ShoppingCart size={25} />

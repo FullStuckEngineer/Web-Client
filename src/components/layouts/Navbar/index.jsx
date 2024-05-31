@@ -16,7 +16,7 @@ import { useRouter, usePathname } from "next/navigation";
 import useStore from "@/libs/zustand";
 import { findOneCart } from "@/modules/fetch/fetchCart";
 
-const Navbar = ({}) => {
+const Navbar = () => {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
   const setIsLoggedIn = useStore((state) => state.setIsLoggedIn);
   const [user, setUser] = useState(null);
@@ -33,6 +33,8 @@ const Navbar = ({}) => {
           const user = await getUser();
           setUser(user);
           setIsLoggedIn(true);
+        } else {
+          setIsLoggedIn(false);
         }
       } catch (error) {
         console.error("Error checking login status:", error);
@@ -41,7 +43,7 @@ const Navbar = ({}) => {
     };
 
     checkLoginStatus();
-  }, []);
+  }, [setIsLoggedIn]);
 
   useEffect(() => {
     const fetchCartData = async () => {
@@ -57,14 +59,21 @@ const Navbar = ({}) => {
       }
     };
 
-    fetchCartData();
-  }, []);
+    if (isLoggedIn) {
+      fetchCartData();
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setUser(null);
-    router.push("/");
+    setTimeout(() => {
+      router.push("/");
+      setTimeout(() => {
+        window.location.reload();
+      }, 100);
+    }, 2000);
   };
 
   const handleStorageChange = (event) => {
@@ -140,11 +149,11 @@ const Navbar = ({}) => {
               <Link href="/carts">
                 <Button className="relative hover:bg-color-gray-200 hover:text-color-dark text-color-gray-700 p-1 rounded-lg">
                   <ShoppingCart size={24} />
-                  {/* {cartItems > 0 && ( */}
-                  <span className="absolute -top-2 -right-1 inline-flex items-center justify-center px-2 py-[0.3rem] text-[0.6rem] font-bold leading-none text-color-primary border-2 border-color-primary bg-color-red rounded-full">
-                    1{/* {cartItems} */}
-                  </span>
-                  {/* )} */}
+                  {cartItems > 0 && (
+                    <span className="absolute -top-2 -right-1 inline-flex items-center justify-center px-2 py-[0.3rem] text-[0.6rem] font-bold leading-none text-color-primary border-2 border-color-primary bg-color-red rounded-full">
+                      {cartItems}
+                    </span>
+                  )}
                 </Button>
               </Link>
             </div>
@@ -179,34 +188,38 @@ const Navbar = ({}) => {
                 </button>
                 {showDropdown && (
                   <div className="absolute md:left-0 -right-4 w-64 bg-color-primary rounded-md shadow-lg z-50">
-                    <div className="px-4 py-3 text-sm text-color-gray-900">
-                      <div className="font-medium">{user.name}</div>
-                      <div className="truncate">{user.email}</div>
-                    </div>
-                    <hr className="text-color-gray-200 mx-4" />
-                    <ul
-                      className="py-2 text-sm text-color-gray-700"
-                      aria-labelledby="dropdownUserMenuButton"
-                    >
-                      <li>
-                        <Link href="/profiles">
-                          <button className="flex flex-row gap-2 w-full px-4 py-2 hover:bg-color-gray-100 text-left">
-                            <GearSix size={19} />
-                            Pengaturan Akun
+                    {user && (
+                      <>
+                        <div className="px-4 py-3 text-sm text-color-gray-900">
+                          <div className="font-medium">{user.name}</div>
+                          <div className="truncate">{user.email}</div>
+                        </div>
+                        <hr className="text-color-gray-200 mx-4" />
+                        <ul
+                          className="py-2 text-sm text-color-gray-700"
+                          aria-labelledby="dropdownUserMenuButton"
+                        >
+                          <li>
+                            <Link href="/profiles">
+                              <button className="flex flex-row gap-2 w-full px-4 py-2 hover:bg-color-gray-100 text-left">
+                                <GearSix size={19} />
+                                Pengaturan Akun
+                              </button>
+                            </Link>
+                          </li>
+                        </ul>
+                        <hr className="text-color-gray-200 mx-4" />
+                        <div className="py-2">
+                          <button
+                            onClick={handleLogout}
+                            className="flex flex-row gap-2 w-full px-4 py-2 text-sm text-color-gray-700 hover:bg-color-gray-100 text-left"
+                          >
+                            <SignOut size={18} />
+                            Logout
                           </button>
-                        </Link>
-                      </li>
-                    </ul>
-                    <hr className="text-color-gray-200 mx-4" />
-                    <div className="py-2">
-                      <button
-                        onClick={handleLogout}
-                        className="flex flex-row gap-2 w-full px-4 py-2 text-sm text-color-gray-700 hover:bg-color-gray-100 text-left"
-                      >
-                        <SignOut size={18} />
-                        Logout
-                      </button>
-                    </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 )}
               </div>

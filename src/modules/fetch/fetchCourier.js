@@ -3,7 +3,9 @@ import { Cormorant_Unicase } from "next/font/google";
 
 const findAllCourier = async () => {
   try {
+    console.log("Sending request to /couriers");
     const response = await instance.get("/couriers");
+    console.log("response couriers received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -16,7 +18,9 @@ const findAllCourier = async () => {
 
 const findOneCourier = async (id) => {
   try {
+    console.log(`Sending request to /couriers/${id}`);
     const response = await instance.get(`/couriers/${id}`);
+    console.log("response couriers received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(

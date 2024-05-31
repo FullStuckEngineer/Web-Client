@@ -1,13 +1,31 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import ProductView from "@/components/views/products";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ProductPage = ({ params }) => {
   const { slug } = params;
-  return (
-<div className="md:py-14 py-24 md:px-28 px-0 bg-color-secondary w-full">
-  <ProductView slug={slug} />
+  const [loading, setLoading] = useState(true);
 
-</div>
-  ) 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  return (
+    
+    <div >
+      {loading ? <LoadingSpinner /> : <ProductView slug={slug} />}
+    </div>
+  );
 };
 
 export default ProductPage;

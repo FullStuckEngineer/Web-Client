@@ -1,6 +1,6 @@
-import  instance  from "@/libs/axios/instance";
+import  instance  from "@/libs/axios/axiosInstance";
 
-const findAllCheckout = async () => {
+const findAll = async () => {
     try {
         const response = await instance.get("/checkouts");
         return response.data;
@@ -10,7 +10,7 @@ const findAllCheckout = async () => {
     }
 };  
 
-const findOneCheckout = async (id) => {
+const findOne = async (id) => {
     try {
         const response = await instance.get(`/checkouts/${id}`);
         return response.data;
@@ -20,7 +20,7 @@ const findOneCheckout = async (id) => {
     }
 };  
 
-const createCheckout = async (data) => {
+const create = async (data) => {
     try {
         const response = await instance.post("/checkouts", data);
         return response.data;
@@ -30,10 +30,21 @@ const createCheckout = async (data) => {
     }
 };
 
-const pay = async (id) => {
+const payMidtrans = async (params) => {
     try {
-        //Not done yet
-        const response = await instance.post(`/checkouts/${id}/pay`);
+     
+        const {id, bank} = params
+        const response = await instance.post(`/checkouts/pay/${id}`,{bank});
+        return response.data;
+    } catch (error) {
+        console.error("Error paying checkout:", error.response ? error.response.data : error.message);
+        throw error;
+    }
+};
+const payManual = async (params) => {
+    const {body, id} = params
+    try {
+        const response = await instance.post(`/checkouts/uplouds/${id}`, {body});
         return response.data;
     } catch (error) {
         console.error("Error paying checkout:", error.response ? error.response.data : error.message);
@@ -41,7 +52,7 @@ const pay = async (id) => {
     }
 };
 
-const updateCheckout = async (id, data) => {
+const update = async (id, data) => {
     try {
         const response = await instance.put(`/checkouts/${id}`, data);
         return response.data;
@@ -51,4 +62,4 @@ const updateCheckout = async (id, data) => {
     }
 };
 
-export { findAllCheckout, findOneCheckout, createCheckout, pay, updateCheckout };
+export { findAll, findOne, create, payMidtrans,payManual, update };

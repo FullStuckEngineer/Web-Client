@@ -35,10 +35,13 @@ const LoginView = () => {
         setSuccessMessage(
           result.data.message || "Login successful. Redirecting..."
         );
-        setIsLoggedIn(true);
-        setTimeout(() => {
-          router.push("/");
-        }, 2000);
+       setIsLoggedIn(true);
+       setTimeout(() => {
+         router.push("/");
+         setTimeout(() => {
+           window.location.reload();
+         }, 100); 
+       }, 2000);
       } else {
         setIsLoading(false);
         setError(result.data.message || "Email or password is incorrect");
@@ -54,7 +57,6 @@ const LoginView = () => {
       } else {
         setError("Something went wrong. Please try again.");
       }
-
       console.error("Login error:", error);
     }
   };

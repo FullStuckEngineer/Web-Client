@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { createAddress } from "@/modules/fetch/fetchAddress";
-import { findCities } from "@/modules/fetch/fetchCity";
+import { findCitiesWithLimit } from "@/modules/fetch/fetchCity";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import { CheckCircle, X, XCircle } from "@phosphor-icons/react";
@@ -40,14 +40,14 @@ const AddAddress = ({
       const createdAddress = await createAddress(newAddress);
       setAddresses([...addresses, createdAddress]);
       console.log("Address created:", createdAddress);
-      setSuccessMessage("Alamat berhasil diubah.");
+      setSuccessMessage("Alamat berhasil ditambahkan.");
       setTimeout(() => {
         setCurrentComponent("addressList");
         window.location.reload();
       }, 2000);
     } catch (error) {
       console.error("Error creating address:", error);
-      setError("Error mengubah alamat. Coba lakukan kembali.");
+      setError("Error menambahkan alamat. Coba lakukan kembali.");
     } finally {
       setIsLoading(false);
     }
@@ -57,7 +57,7 @@ const AddAddress = ({
     const search = e.target.value;
     setCity(search);
     if (search.length > 1) {
-      const cities = await findCities(search);
+      const cities = await findCitiesWithLimit(search);
       setCityOptions(cities);
     } else {
       setCityOptions([]);
@@ -132,9 +132,9 @@ const AddAddress = ({
               placeholder="Masukkan Nama Kota"
               className="p-2 border rounded-md"
             />
-            {cityOptions.length > 0 && (
+            {cityOptions?.length > 0 && (
               <ul className="absolute top-16 z-10 w-full text-sm text-color-gray-900 bg-color-gray-300 border border-color-gray-300 rounded-md max-h-60 overflow-y-auto">
-                {cityOptions.map((city) => (
+                {cityOptions?.map((city) => (
                   <li
                     key={city.id}
                     onClick={() => handleCitySelect(city)}

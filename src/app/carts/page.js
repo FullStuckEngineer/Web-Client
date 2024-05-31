@@ -1,14 +1,15 @@
 "use client";
 
-import CartsView from "@/components/views/cart";
 import React, { useEffect, useState } from "react";
+import CartsView from "@/components/views/cart";
 import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
-import { jwtDecode } from "jwt-decode";
+import {jwtDecode} from "jwt-decode";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
-import { findAllCities } from "@/modules/fetch/fetchCity";
+import { findCitiesNoLimit } from "@/modules/fetch/fetchCity";
 import { findAllAddress } from "@/modules/fetch/fetchAddress";
 import { findAllCourier } from "@/modules/fetch/fetchCourier";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const CartsPage = () => {
   const [userId, setUserId] = useState(null);
@@ -18,6 +19,7 @@ const CartsPage = () => {
   const [cart, setCart] = useState(null);
   const [shopItems, setShopItems] = useState(null);
   const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -45,18 +47,20 @@ const CartsPage = () => {
       if (userId) {
         try {
           const cartData = await findOneCart(userId);
-          const productData = await findAllProduct()
-          const addressData = await findAllAddress()
-          const cityData = await findAllCities();
+          const productData = await findAllProduct();
+          const addressData = await findAllAddress();
+          const cityData = await findCitiesNoLimit();
           const courierData = await findAllCourier();
-          setCourier(courierData?.data.couriers)
-          setCities(cityData)
-          setAddressId(addressData)
+          setCourier(courierData?.data.couriers);
+          setCities(cityData);
+          setAddressId(addressData);
           setCart(cartData?.data);
           setShopItems(cartData?.data.shopping_items);
-          setProduct(productData?.data.products)
+          setProduct(productData?.data.products);
         } catch (err) {
           console.error("ERROR USER ID NOT FOUND", err.message);
+        } finally {
+          setLoading(false);
         }
       }
     };
@@ -65,13 +69,18 @@ const CartsPage = () => {
 
   return (
     <div>
-      <CartsView 
-      cart={cart} 
-      shopItems={shopItems} 
-      dataProduct={product} 
-      addressData={addressId} 
-      citiesData={cities}
-      courierData={courier}/>
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <CartsView
+          cart={cart}
+          shopItems={shopItems}
+          dataProduct={product}
+          addressData={addressId}
+          citiesData={cities}
+          courierData={courier}
+        />
+      )}
     </div>
   );
 };

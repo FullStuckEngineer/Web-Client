@@ -3,10 +3,9 @@
 import React, { useEffect, useState } from "react";
 import { findAllAddress, destroyAddress } from "@/modules/fetch/fetchAddress";
 import UpdateAddress from "./UpdateAddress";
-import { findAllCities } from "@/modules/fetch/fetchCity";
+import { findAllCities, findCitiesNoLimit } from "@/modules/fetch/fetchCity";
 import Button from "@/components/ui/Button";
 import { CaretLeft, CaretRight, Circle } from "@phosphor-icons/react";
-
 
 const AddressList = ({ setCurrentComponent }) => {
   const [addresses, setAddresses] = useState([]);
@@ -22,8 +21,8 @@ const AddressList = ({ setCurrentComponent }) => {
     const fetchAddresses = async () => {
       try {
         const data = await findAllAddress();
-        const cityData = await findAllCities();
-        setAddresses(data); 
+        setAddresses(data);
+        const cityData = await findCitiesNoLimit();
         setCities(cityData);
         setLoading(false);
       } catch (error) {
@@ -36,7 +35,7 @@ const AddressList = ({ setCurrentComponent }) => {
   }, []);
 
   const getCityName = (cityId) => {
-    const city = cities.find((city) => city.id === cityId);
+    const city = cities?.find((city) => city.id === cityId);
     return city ? city.name : "Unknown City";
   };
 
@@ -49,7 +48,7 @@ const AddressList = ({ setCurrentComponent }) => {
     }
   };
 
-  const handleUpdateAddress = async (id) => {
+  const handleUpdateAddress = (id) => {
     setSelectedId(id);
     setShowUpdateAddress(true);
   };
@@ -61,17 +60,22 @@ const AddressList = ({ setCurrentComponent }) => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-
+console.log(addresses, "address<<<<")
+  const validAddresses = addresses?.data || [];
   const totalPages = Math.ceil(addresses.length / itemsPerPage);
   const startPage = (currentPage - 1) * itemsPerPage;
-  const selectedAddress = addresses.slice(startPage, startPage + itemsPerPage);
+  const selectedAddress = validAddresses.slice(
+    startPage,
+    startPage + itemsPerPage
+  );
+  console.log(cities, "cities<<<<<<")
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="flex flex-row bg-color-secondary w-full md:px-5">
-      <div className="flex flex-row items-center bg-color-primary border border-color-gray-200  md:py-10 py-5 md:px-20 px-6 w-full h-full md:shadow-md md:rounded-md">
+      <div className="flex flex-row items-center bg-color-primary border border-color-gray-200 md:py-10 py-5 md:px-20 px-6 w-full h-full md:shadow-md md:rounded-md">
         <div className="w-full h-auto">
           <h2 className="text-xl font-semibold pb-3">Daftar Alamat</h2>
           <div className="flex flex-row justify-between items-end md:text-sm text-xs pb-4">
@@ -95,7 +99,7 @@ const AddressList = ({ setCurrentComponent }) => {
                   <p className="text-lg font-semibold">
                     {address.receiver_name}
                   </p>
-                  <p className="">{address.receiver_phone}</p>
+                  <p>{address.receiver_phone}</p>
                   <p>{address.detail_address}</p>
                   <p>Kode Pos {address.postal_code}</p>
                   <p>{getCityName(address.city_id)}</p>
@@ -123,7 +127,7 @@ const AddressList = ({ setCurrentComponent }) => {
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className=" bottom-2/4 left-5 p-2 bg-color-primary shadow-md border border-color-gray-500 text-color-gray-500 hover:bg-color-gray-300 hover:transition-all rounded-full disabled:bg-color-gray-100 disabled:text-color-gray-400 disabled:border-color-gray-400"
+              className="bottom-2/4 left-5 p-2 bg-color-primary shadow-md border border-color-gray-500 text-color-gray-500 hover:bg-color-gray-300 hover:transition-all rounded-full disabled:bg-color-gray-100 disabled:text-color-gray-400 disabled:border-color-gray-400"
             >
               <CaretLeft size={24} />
             </button>
@@ -145,7 +149,7 @@ const AddressList = ({ setCurrentComponent }) => {
             <button
               onClick={handleNextPage}
               disabled={startPage + itemsPerPage >= addresses.length}
-              className=" p-2 bottom-2/4 right-5  bg-color-primary shadow-md border border-color-gray-500 text-color-gray-500 hover:bg-color-gray-300 hover:transition-all rounded-full disabled:bg-color-gray-100 disabled:text-color-gray-400 disabled:border-color-gray-400"
+              className="p-2 bottom-2/4 right-5 bg-color-primary shadow-md border border-color-gray-500 text-color-gray-500 hover:bg-color-gray-300 hover:transition-all rounded-full disabled:bg-color-gray-100 disabled:text-color-gray-400 disabled:border-color-gray-400"
             >
               <CaretRight size={24} />
             </button>

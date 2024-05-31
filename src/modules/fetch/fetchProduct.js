@@ -4,7 +4,7 @@ const findAllProduct = async () => {
   try {
     console.log("Sending request to /products");
     const response = await instance.get("/products");
-    console.log("response products received: ", response);
+    console.log("response products received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -19,7 +19,7 @@ const findOneProduct = async (slug) => {
   try {
     console.log(`Sending request to /products/${slug}`);
     const response = await instance.get(`/products/${slug}`);
-    console.log("response find one product received: ", response);
+    console.log("response find one product received: ", response.data);
     return response.data;
   } catch (error) {
     console.error(
@@ -30,10 +30,10 @@ const findOneProduct = async (slug) => {
   }
 };
 
-const findProductBySearch = async (keyword) => {
+const findProductBySearch = async (search) => {
   try {
     console.log("Sending request to /products");
-    const response = await instance.get("/products", {params: {searchTerms: keyword},});
+    const response = await instance.get(`/products?searchTerms=${search}`);
     console.log("response products by search received: ", response);
     return response.data;
   } catch (error) {

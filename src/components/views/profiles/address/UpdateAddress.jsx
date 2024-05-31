@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { updateAddress, findOneAddress } from "@/modules/fetch/fetchAddress";
-import { findCities } from "@/modules/fetch/fetchCity";
 import Input from "@/components/ui/Input";
-import { CheckCircle, WarningCircle, X, XCircle } from "@phosphor-icons/react";
+import { CheckCircle, X, XCircle } from "@phosphor-icons/react";
 import Button from "@/components/ui/Button";
+import { findCities, findCitiesWithLimit } from "@/modules/fetch/fetchCity";
+import debounce from "lodash.debounce";
 
 const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
   const [receiverName, setReceiverName] = useState("");
@@ -27,7 +28,8 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
         setDetailAddress(address.detail_address);
         const cityData = await findCities();
         const cityName =
-          cityData.find((city) => city.id === address.city_id)?.name || "";
+          cityData?.cities?.find((city) => city.id === address.city_id)?.name ||
+          "";
         setCity(cityName);
         setCityId(address.city_id);
         setProvince(address.province);
@@ -40,27 +42,26 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
     getAddressId();
   }, [addressId]);
 
-  useEffect(() => {
-    const fetchCities = async () => {
-      try {
-        const data = await findCities();
-        setCityOptions(data);
-      } catch (error) {
-        setError("Error fetching cities");
+  const handleCityChange = useCallback(
+    debounce(async (search) => {
+      if (search.length > 1) {
+        try {
+          const cities = await findCitiesWithLimit(search);
+          setCityOptions(cities);
+        } catch (error) {
+          setError("Error fetching cities");
+        }
+      } else {
+        setCityOptions([]);
       }
-    };
-    fetchCities();
-  }, []);
+    }, 300),
+    []
+  );
 
-  const handleCityChange = async (e) => {
+  const handleInputChange = (e) => {
     const search = e.target.value;
     setCity(search);
-    if (search.length > 1) {
-      const cities = await findCities(search);
-      setCityOptions(cities);
-    } else {
-      setCityOptions([]);
-    }
+    handleCityChange(search);
   };
 
   const handleCitySelect = (city) => {
@@ -69,43 +70,43 @@ const UpdateAddress = ({ addressId, onClose, setCurrentComponent }) => {
     setCityOptions([]);
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  setSuccessMessage("");
-  setIsLoading(true);
-  if (
-    !receiverName ||
-    !receiverPhone ||
-    !detailAddress ||
-    !cityId ||
-    !province ||
-    !postalCode
-  ) {
-    setError("Tolong isikan semua form.");
-    setIsLoading(false);
-    return;
-  }
-  try {
-    const updatedAddress = await updateAddress(addressId, {
-      receiver_name: receiverName,
-      receiver_phone: receiverPhone,
-      detail_address: detailAddress,
-      city_id: Number(cityId),
-      province: province,
-      postal_code: Number(postalCode),
-    });
-    setSuccessMessage("Alamat berhasil diubah.");
-    setTimeout(() => {
-      setCurrentComponent("addressList");
-      window.location.reload();
-    }, 2000);
-  } catch (error) {
-    console.error("Error updating address:", error);
-    setError("Error mengubah alamat. Coba lakukan kembali.");
-  } finally {
-    setIsLoading(false);
-  }
-};
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSuccessMessage("");
+    setIsLoading(true);
+    if (
+      !receiverName ||
+      !receiverPhone ||
+      !detailAddress ||
+      !cityId ||
+      !province ||
+      !postalCode
+    ) {
+      setError("Tolong isikan semua form.");
+      setIsLoading(false);
+      return;
+    }
+    try {
+      await updateAddress(addressId, {
+        receiver_name: receiverName,
+        receiver_phone: receiverPhone,
+        detail_address: detailAddress,
+        city_id: Number(cityId),
+        province: province,
+        postal_code: Number(postalCode),
+      });
+      setSuccessMessage("Alamat berhasil diubah.");
+      setTimeout(() => {
+        setCurrentComponent("addressList");
+        window.location.reload();
+      }, 2000);
+    } catch (error) {
+      console.error("Error updating address:", error);
+      setError("Error mengubah alamat. Coba lakukan kembali.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="modal-overlay">
@@ -141,7 +142,6 @@ const handleSubmit = async (e) => {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium">Nomor HP</label>
-
             <Input
               label="Receiver Phone"
               value={receiverPhone}
@@ -150,7 +150,6 @@ const handleSubmit = async (e) => {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium">Alamat</label>
-
             <Input
               label="Detail Address"
               value={detailAddress}
@@ -159,17 +158,16 @@ const handleSubmit = async (e) => {
           </div>
           <div className="relative flex flex-col gap-1">
             <label className="text-sm font-medium">Kota</label>
-
             <Input
               type="text"
               value={city}
-              onChange={handleCityChange}
+              onChange={handleInputChange}
               placeholder="Masukkan Nama Kota"
               className="p-2 border rounded-md"
             />
-            {cityOptions.length > 0 && (
-              <ul className="absolute top-10 z-10 w-full text-sm text-color-gray-900 bg-color-gray-300 border border-color-gray-300 rounded-md max-h-60 overflow-y-auto">
-                {cityOptions.map((city) => (
+            {cityOptions?.length > 0 && (
+              <ul className="absolute top-16 z-10 w-full text-sm text-color-gray-900 bg-color-gray-300 border border-color-gray-300 rounded-md max-h-60 overflow-y-auto">
+                {cityOptions?.map((city) => (
                   <li
                     key={city.id}
                     onClick={() => handleCitySelect(city)}
@@ -183,7 +181,6 @@ const handleSubmit = async (e) => {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium">Provinsi</label>
-
             <Input
               label="Province"
               value={province}
@@ -192,7 +189,6 @@ const handleSubmit = async (e) => {
           </div>
           <div className="flex flex-col gap-1">
             <label className="text-sm font-medium">Kode Pos</label>
-
             <Input
               label="Postal Code"
               value={postalCode}

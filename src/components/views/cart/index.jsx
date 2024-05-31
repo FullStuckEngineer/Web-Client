@@ -1,14 +1,15 @@
 "use client";
 
+import CartItem from "@/components/views/cart/CartItem";
+import CartSummary from "@/components/views/cart/CartSummary";
 import React, { useEffect, useState, useRef } from "react";
 import ChangeAddress from "./ChangeAddress";
 import { updateCart, destroyCart, deleteAll } from "@/modules/fetch/fetchCart";
 import { City, Minus, Trash } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react/dist/ssr";
+import CartData from "@/components/views/cart/CartData";
 import { getShippingMethod } from "@/modules/fetch/fetchCourier";
-import CheckoutPage from "@/app/checkouts/page";
-import { Router } from "next/router";
-import Link from "next/link";
+
 // Debounce function
 const debounce = (func, delay) => {
   let timeoutId;
@@ -109,13 +110,24 @@ export default function CartsView({
   };
 
   const getAddressDetails = (addressId) => {
-    const addressDetails = addressData.find(
+    // Check if addressData is an array
+    if (!Array.isArray(addressData?.data)) {
+      console.error("addressData is not an array", addressData?.data);
+      return "Address Data is Invalid";
+    }
+
+    const addressDetails = addressData?.data.find(
       (address) => address.id === addressId
     );
     return addressDetails ? addressDetails : "Address Not Found";
   };
-
+  
   const getCityName = (cityId) => {
+    // check if cities data is an Array
+    if (!Array.isArray(citiesData)) {
+      console.error("citiesData is not an array", citiesData);
+      return "City Data is Invalid";
+    }
     const city = citiesData.find((city) => city.id === cityId);
     return city ? city.name : "Unknown City";
   };
@@ -256,185 +268,55 @@ export default function CartsView({
   return (
     <>
       <header className="md:pt-28 pt-48 lg:px-24 md:px-14 px-5 w-full min-h-screen bg-color-secondary">
-        <div className="flex justify-between">
-          <h1 className="md:text-[32px] text-[22px] font-medium mb-6">
-            <span className="text-color-green font-bold">BabyBoo </span>{" "}
-            Keranjang Belanja
-          </h1>
-          {/* Still bug */}
-          {/* <button 
-          className="border rounded p-1 hover:text-color-primary hover:bg-color-red hover:transition-all" 
-          onClick={handleDeleteAll}>Delete All Product</button> */}
-        </div>
-        <div className=" w-auto flex justify-between">
-          <div className="border rounded shadow-md p-4 flex flex-col mb-10 w-1/2">
-            <p className="font-semibold text-lg">Alamat Pengiriman</p>
-            {cartData && (
-              <div>
-                {addressData &&
-                cartData.address_id &&
-                getAddressDetails(cartData.address_id) ? (
-                  <>
-                    <p>
-                      Nama Penerima:{" "}
-                      {getAddressDetails(cartData.address_id).receiver_name}
-                    </p>
-                    <p>
-                      Telepon:{" "}
-                      {getAddressDetails(cartData.address_id).receiver_phone}
-                    </p>
-                    <p>
-                      Alamat:{" "}
-                      {getAddressDetails(cartData.address_id).detail_address}
-                    </p>
-                    <p>
-                      Kode Pos:{" "}
-                      {getAddressDetails(cartData.address_id).postal_code}
-                    </p>
-                    <p>
-                      Kota:{" "}
-                      {getCityName(
-                        getAddressDetails(cartData.address_id).city_id
-                      )}
-                    </p>
-                    <p>
-                      Provinsi:{" "}
-                      {getAddressDetails(cartData.address_id).province}
-                    </p>
-                  </>
-                ) : (
-                  <p>Alamat tidak ditemukan.</p>
-                )}
-              </div>
-            )}
-
-            <p className="font-semibold text-lg">Kurir</p>
-            {/* display courier name based on courier id from cart */}
-            <p className="mb-14">{getCourierName(cartData?.courier_id)}</p>
-
-            <div className="w-auto flex gap-2">
-              <button
-                className="border p-1 rounded hover:bg-color-gray-300"
-                onClick={() => setModalVisible(true)}
-              >
-                Ganti Alamat
-              </button>
-              <div>
-                <button
-                  className="border p-1 rounded hover:bg-color-gray-300"
-                  onClick={() => setCourierDropdown(!courierDropdown)}
-                >
-                  Ganti Kurir
-                </button>
-                {courierDropdown && (
-                  <div className=" border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
-                    {courierData.map((courier) => (
-                      <button
-                        key={courier.id}
-                        className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
-                        onClick={() => handleSelectedCourier(courier.id)}
-                      >
-                        {courier.name}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <div>
-                <button
-                  className="border p-1 rounded hover:bg-color-gray-300"
-                  onClick={() =>
-                    setShippingMethodDropdown(!shippingMethodDropdown)
-                  }
-                >
-                  Ganti Metode Pengiriman
-                </button>
-                {shippingMethodDropdown && (
-                  <div className=" border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
-                    {shippingMethods.map((method, index) => (
-                      <button
-                        key={index}
-                        className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
-                        onClick={() => handleShippingMethodChange(method)}
-                      >
-                        {method}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
+        <h1 className="md:text-[32px] text-[22px] font-medium mb-6">
+          <span className="text-color-green font-bold">BabyBoo </span> Keranjang
+          Belanja
+        </h1>
+        <div className="flex flex-wrap justify-between">
+          <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
+            <CartData
+              cartData={cartData}
+              addressData={addressData}
+              getAddressDetails={getAddressDetails}
+              getCityName={getCityName}
+              getCourierName={getCourierName}
+              setModalVisible={setModalVisible}
+              setCourierDropdown={setCourierDropdown}
+              handleSelectedCourier={handleSelectedCourier}
+              courierDropdown={courierDropdown}
+              courierData={courierData}
+              shippingMethods={shippingMethods}
+              shippingMethodDropdown={shippingMethodDropdown}
+              setShippingMethodDropdown={setShippingMethodDropdown}
+              handleShippingMethodChange={handleShippingMethodChange}
+            />
           </div>
-          <div className=" w-1/2 items-center flex flex-col">
-            <div className="border p-3 ">
-              <p className="font-semibold text-lg">Detail Checkout</p>
-              <p className="font-semibold text-lg">Net Price</p>
-              <p>{formatCurrency(cartData?.net_price)}</p>
-              <p className="font-semibold text-lg">Shipping Cost</p>
-              <p>{formatCurrency(cartData?.shiping_cost)}</p>
-              <p className="font-semibold text-lg">Shipping Method</p>
-              <p>{cartData?.shipping_method}</p>
-              <p className="font-semibold text-lg">Total Cost</p>
-              <p>{formatCurrency(cartData?.total_cost)}</p>
-              <p className="font-semibold text-lg">Total Weight</p>
-              <p>{formatWeight(cartData?.total_weight)}</p>
-              <div className="flex border rounded-md bg-color-accent hover:bg-color-gold">
-                <Link href="/checkouts" className="w-full p-2">
-                  Checkout
-                </Link>
-              </div>
-            </div>
-          </div>
+          <CartSummary
+            netPrice={cartData?.net_price}
+            shipingCost={cartData?.shiping_cost}
+            shipingMethod={cartData?.shipping_method}
+            totalCost={cartData?.total_cost}
+            totalWeight={cartData?.total_weight}
+            formatCurrency={formatCurrency}
+            formatWeight={formatWeight}
+          />
         </div>
 
-        <ul>
-          {cartData.shopping_items.map((item) => (
-            <li
-              key={item.id}
-              className="border border-color-grey-700 shadow-md rounded-lg p-4 mb-5 w-1/2"
-            >
-              <p className="font-semibold text-lg">Nama Produk</p>
-              <label>{getProductName(item.product_id)}</label>
-              <p className="font-semibold text-lg">Item Quantity</p>
-              <label>{item.quantity}</label>
-              <p className="font-semibold text-lg">Item Price</p>
-              <label>{formatCurrency(item.price)}</label>
-              <p className="font-semibold text-lg">Item weight</p>
-              <label>{formatWeight(item.weight)}</label>
-              <div className="flex justify-end gap-2">
-                <button
-                  className="hover:text-color-red"
-                  onClick={() => handleRemoveItem(item.id)}
-                >
-                  <Trash size={32} />
-                </button>
-                <div className="flex w-auto font-medium items-center rounded hover:bg-color-accent">
-                  <button
-                    onClick={() => handleIncreaseQuantity(item.product_id)}
-                  >
-                    <Plus size={32} />
-                  </button>
-                </div>
-                <div className="flex w-auto p-1 font-medium text-xl items-center">
-                  <p>{item.quantity}</p>
-                </div>
-                <div className="flex w-auto font-medium items-center rounded hover:bg-color-red">
-                  <button
-                    onClick={() => handleDecreaseQuantity(item.product_id)}
-                  >
-                    <Minus size={32} />
-                  </button>
-                </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <CartItem
+          shopItems={cartData.shopping_items}
+          getProductName={getProductName}
+          handleRemoveItem={handleRemoveItem}
+          handleIncreaseQuantity={handleIncreaseQuantity}
+          handleDecreaseQuantity={handleDecreaseQuantity}
+          formatCurrency={formatCurrency}
+          formatWeight={formatWeight}
+        />
       </header>
       <ChangeAddress
         isVisible={modalVisible}
         onClose={() => setModalVisible(false)}
         onAddressSelect={handleSelectedAddress}
-        addressData={addressData}
+        addressData={addressData?.data}
         cityData={citiesData}
       />
     </>
