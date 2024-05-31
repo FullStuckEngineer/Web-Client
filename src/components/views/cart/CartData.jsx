@@ -12,7 +12,15 @@ export default function CartData({
   handleSelectedCourier,
   courierDropdown,
   courierData,
+  shippingMethods,
+  shippingMethodDropdown,
+  setShippingMethodDropdown,
+  handleShippingMethodChange
 }) {
+  console.log(
+    cartData.address_id,
+    "<<<<<<<<<<<< this is cart data in cartData.jsx"
+  );
   return (
     <div className="flex flex-row bg-color-primary md:px-10 px-3 py-5 rounded-lg w-full justify-between items-center shadow-md">
       {cartData && (
@@ -24,27 +32,24 @@ export default function CartData({
           cartData.address_id &&
           getAddressDetails(cartData.address_id) ? (
             <div className="text-sm">
-              <h3 className="font-semibold">
-                <span>Rumah</span> -{" "}
+              <p>
+                Nama Penerima:{" "}
                 {getAddressDetails(cartData.address_id).receiver_name}
-              </h3>
-              <p className="text-sm">
-                {getAddressDetails(cartData.address_id).receiver_phone}
               </p>
-
-              <p className="text-sm">
-                {getAddressDetails(cartData.address_id).detail_address}
+              <p>
+                Telepon: {getAddressDetails(cartData.address_id).receiver_phone}
               </p>
-              <p className="text-sm">
-                Kode Pos {getAddressDetails(cartData.address_id).postal_code}
+              <p>
+                Alamat: {getAddressDetails(cartData.address_id).detail_address}
               </p>
-              <p className="text-sm">
-                Kota{" "}
+              <p>
+                Kode Pos: {getAddressDetails(cartData.address_id).postal_code}
+              </p>
+              <p>
+                Kota:{" "}
                 {getCityName(getAddressDetails(cartData.address_id).city_id)}
               </p>
-              <p className="text-sm">
-                Provinsi {getAddressDetails(cartData.address_id).province}
-              </p>
+              <p>Provinsi: {getAddressDetails(cartData.address_id).province}</p>
             </div>
           ) : (
             <p className="text-sm">Alamat tidak ditemukan</p>
@@ -81,6 +86,30 @@ export default function CartData({
                     >
                       {courier.name}
                     </Button>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div className="relative">
+              <Button
+                onClick={() =>
+                  setShippingMethodDropdown(!shippingMethodDropdown)
+                }
+                className="hover:bg-color-gray-100 bg-color-primary text-color-gray-500 border border-color-gray-500 hover:border-color-gray-700 hover:text-color-gray-700 px-2 py-1 w-32 font-medium rounded-md"
+              >
+                Pilih Pengiriman
+              </Button>
+
+              {shippingMethodDropdown && (
+                <div className=" border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
+                  {shippingMethods.map((method, index) => (
+                    <button
+                      key={index}
+                      className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
+                      onClick={() => handleShippingMethodChange(method)}
+                    >
+                      {method}
+                    </button>
                   ))}
                 </div>
               )}

@@ -8,17 +8,25 @@ import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
 import { CaretRight } from "@phosphor-icons/react";
 import Hero from "@/components/layouts/Hero";
+import { findOneCart } from "@/modules/fetch/fetchCart";
+import { getUser } from "@/modules/fetch/fetchUser";
+import { jwtDecode } from "jwt-decode";
+
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
   const [error, setError] = useState(null);
+  const [cart, setCart] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
       try {
         const listProducts = await findAllProduct();
-        setProducts(listProducts.data.products);
+        const cartData = await findOneCart(userId);
+        setCart(cartData?.data);
+        setProducts(listProducts);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -26,6 +34,25 @@ const HomePage = () => {
       }
     };
     fetchProduct();
+  }, []);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        const decodedToken = jwtDecode(token);
+        const getUserId = decodedToken.id;
+        try {
+          const userData = await getUser(getUserId);
+          setUserId(userData.id);
+        } catch (err) {
+          console.error(err.message);
+        }
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   return (
@@ -51,7 +78,7 @@ const HomePage = () => {
             </h3>
           </div>
           <div className="flex flex-row justify-evenly mb-4">
-            <CardProduct products={products} />
+            <CardProduct products={products} cartData={cart} />
           </div>
           <hr className="my-12 text-color-gray-300" />
           <div className="flex flex-col justify-center items-center">
