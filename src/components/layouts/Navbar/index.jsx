@@ -15,6 +15,8 @@ import { getUser } from "@/modules/fetch/fetchUser";
 import { useRouter, usePathname } from "next/navigation";
 import useStore from "@/libs/zustand";
 import { findOneCart } from "@/modules/fetch/fetchCart";
+import webLogo from "@/assets/images/web-logo.png";
+import Image from "next/image";
 
 const Navbar = () => {
   const isLoggedIn = useStore((state) => state.isLoggedIn);
@@ -129,8 +131,16 @@ const Navbar = () => {
       <div className="flex md:flex-row flex-col justify-between md:items-center p-4 gap-2">
         <Link
           href="/"
-          className="font-bold text-color-green hover:text-color-greenhover text-3xl"
+          className="flex flex-row items-center font-bold text-color-green hover:text-color-greenhover text-3xl"
         >
+          {" "}
+          <Image
+            src={webLogo}
+            alt="Website Logo"
+            width={40}
+            height={40}
+            className="mr-2 rounded-full w-auto h-auto"
+          />
           BabyBoo
         </Link>
         <div
