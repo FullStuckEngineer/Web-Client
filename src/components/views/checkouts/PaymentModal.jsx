@@ -11,7 +11,7 @@ export default function PaymentModal({
   cartAddress,
   cartCourier,
   cartItems,
-  shippingMethod
+  shippingMethod,
 }) {
   const [selectedBank, setSelectedBank] = useState("");
 
@@ -22,7 +22,7 @@ export default function PaymentModal({
       console.error("Invalid number:", number);
       return "Invalid number";
     } else {
-      return number.toLocaleString("id-ID", {
+      return number?.toLocaleString("id-ID", {
         style: "currency",
         currency: "IDR",
       });
@@ -62,11 +62,11 @@ export default function PaymentModal({
             <div className="flex flex-col gap-1">
               <button
                 className={`flex justify-between items-center w-full py-2 ${
-                  selectedBank === "BCA" ? "bg-green-200" : ""
+                  selectedBank === "BCA" ? "bg-color-green" : ""
                 }`}
                 onClick={() => setSelectedBank("BCA")}
               >
-                Bank BCA{" "}
+                VA Bank{" "}
                 <input
                   type="radio"
                   checked={selectedBank === "BCA"}
@@ -76,11 +76,11 @@ export default function PaymentModal({
               <hr className="text-color-gray-200" />
               <button
                 className={`flex justify-between items-center w-full py-2 ${
-                  selectedBank === "BRI" ? "bg-green-200" : ""
+                  selectedBank === "BRI" ? "bg-color-green" : ""
                 }`}
                 onClick={() => setSelectedBank("BRI")}
               >
-                Bank BRI{" "}
+                Pembayaran Manual{" "}
                 <input
                   type="radio"
                   checked={selectedBank === "BRI"}
