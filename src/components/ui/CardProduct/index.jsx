@@ -12,10 +12,9 @@ const CardProduct = ({ products, cartData }) => {
   const [cart, setCart] = useState(cartData);
   const [quantity, setQuantity] = useState(1);
 
- //make useEffect to put cartData on cart state
- useEffect(() => {
-   setCart(cartData)
- }, [cartData])
+  useEffect(() => {
+    setCart(cartData);
+  }, [cartData]);
 
   const handleLoveClick = (productId) => {
     setLovedProducts((prevLovedProducts) => ({
@@ -24,27 +23,22 @@ const CardProduct = ({ products, cartData }) => {
     }));
   };
 
- const handleAddToCart = async (productId) => {
+  const handleAddToCart = async (productId) => {
     try {
-      // Clone the existing shopping items to avoid mutating the original state
       let updatedItems = [...(cart?.shopping_items || [])];
-      // Check if the product is already in the cart
       const productIndex = updatedItems.findIndex(
         (item) => item.product_id === productId
       );
 
       if (productIndex > -1) {
-        // If product exists, increment the quantity
         updatedItems[productIndex].quantity += quantity;
       } else {
-        // If product doesn't exist, add a new product to the shopping items
         updatedItems.push({
           product_id: productId,
           quantity: quantity,
         });
       }
 
-      // Update the cart with the new shopping items
       const newCart = await updateCart(cart?.id, {
         address_id: cart?.address_id,
         courier_id: cart?.courier_id,
@@ -64,8 +58,8 @@ const CardProduct = ({ products, cartData }) => {
   return (
     <div className="grid lg:grid-cols-1 ">
       <div className="w-full flex flex-wrap md:flex-row flex-col gap-4">
-        {products?.length > 0 &&
-          products.map((product) => (
+        {products?.data?.products.length > 0 &&
+          products?.data.products.map((product) => (
             <div
               key={product.id}
               className="md:w-[24%] w-full bg-color-secondary border border-color-gray-200 rounded-lg shadow-md flex flex-col justify-between p-5"

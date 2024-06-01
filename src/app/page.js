@@ -11,8 +11,7 @@ import Hero from "@/components/layouts/Hero";
 import Head from "next/head";
 import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
-import { jwtDecode } from "jwt-decode";
-
+import {jwtDecode} from "jwt-decode";
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -25,22 +24,20 @@ const HomePage = () => {
     const fetchProduct = async () => {
       try {
         const listProducts = await findAllProduct();
-        const cartData = await findOneCart(userId);
-        setCart(cartData?.data);
         setProducts(listProducts);
       } catch (error) {
         setError(error.message);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     };
+
     fetchProduct();
   }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
       const token = localStorage.getItem("token");
-
       if (token) {
         const decodedToken = jwtDecode(token);
         const getUserId = decodedToken.id;
@@ -55,6 +52,21 @@ const HomePage = () => {
 
     fetchUserData();
   }, []);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchCartData = async () => {
+        try {
+          const cartData = await findOneCart(userId);
+          setCart(cartData?.data);
+        } catch (error) {
+          setError(error.message);
+        }
+      };
+
+      fetchCartData();
+    }
+  }, [userId]);
 
   return (
     <div className="flex flex-col md:px-24 px-10 py-[5.5rem]">

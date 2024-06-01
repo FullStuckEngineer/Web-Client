@@ -15,12 +15,15 @@ export default function CartData({
   shippingMethods,
   shippingMethodDropdown,
   setShippingMethodDropdown,
-  handleShippingMethodChange
+  handleShippingMethodChange,
 }) {
+  console.log(cartData, "data<<<<<<<<")
   console.log(
     cartData.address_id,
     "<<<<<<<<<<<< this is cart data in cartData.jsx"
   );
+
+  console.log(shippingMethods, "shipping")
   return (
     <div className="flex flex-row bg-color-primary md:px-10 px-3 py-5 rounded-lg w-full justify-between items-center shadow-md">
       {cartData && (
@@ -66,14 +69,14 @@ export default function CartData({
               onClick={() => setModalVisible(true)}
               className="hover:bg-color-gray-100 bg-color-primary text-color-gray-500 border border-color-gray-500 hover:border-color-gray-700 hover:text-color-gray-700 px-2 py-1 w-32 font-medium rounded-md"
             >
-              Ganti alamat
+              Pilih alamat
             </Button>
             <div className="relative">
               <Button
                 onClick={() => setCourierDropdown(!courierDropdown)}
                 className="hover:bg-color-gray-100 bg-color-primary text-color-gray-500 border border-color-gray-500 hover:border-color-gray-700 hover:text-color-gray-700 px-2 py-1 w-32 font-medium rounded-md"
               >
-                Pilih Pengiriman
+                Pilih Kurir
               </Button>
 
               {courierDropdown && (
@@ -81,7 +84,7 @@ export default function CartData({
                   {courierData.map((courier) => (
                     <Button
                       key={courier.id}
-                      className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
+                      className="flex p-2 hover:bg-color-gray-200 w-full text-left rounded mb-2"
                       onClick={() => handleSelectedCourier(courier.id)}
                     >
                       {courier.name}
@@ -97,19 +100,19 @@ export default function CartData({
                 }
                 className="hover:bg-color-gray-100 bg-color-primary text-color-gray-500 border border-color-gray-500 hover:border-color-gray-700 hover:text-color-gray-700 px-2 py-1 w-32 font-medium rounded-md"
               >
-                Pilih Pengiriman
+                Metode Pengiriman
               </Button>
 
               {shippingMethodDropdown && (
-                <div className="absolute top-4 border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
+                <div className=" absolute top-4 border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
                   {shippingMethods.map((method, index) => (
-                    <Button
+                    <button
                       key={index}
-                      className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
+                      className="flex p-2 hover:bg-color-gray-200 w-full text-left rounded  mb-2"
                       onClick={() => handleShippingMethodChange(method)}
                     >
                       {method}
-                    </Button>
+                    </button>
                   ))}
                 </div>
               )}
