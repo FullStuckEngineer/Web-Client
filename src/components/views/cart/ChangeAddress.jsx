@@ -1,3 +1,4 @@
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 import React, { useState } from "react";
 
 const ChangeAddress = ({
@@ -42,7 +43,7 @@ const ChangeAddress = ({
     startPage + itemsPerPage
   );
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p>Error: {error}</p>;
 
   return (

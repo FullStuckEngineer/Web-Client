@@ -9,6 +9,7 @@ import { City, Minus, Trash } from "@phosphor-icons/react";
 import { Plus } from "@phosphor-icons/react/dist/ssr";
 import CartData from "@/components/views/cart/CartData";
 import { getShippingMethod } from "@/modules/fetch/fetchCourier";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 // Debounce function
 const debounce = (func, delay) => {
@@ -261,8 +262,9 @@ export default function CartsView({
       console.log("Error deleting all shopping items", error);
     }
   };
+  console.log(cartData, "cartData index<<<<<<<<<<<<");
 
-  if (!cartData) return <p>Loading...</p>;
+  if (!cartData) return <LoadingSpinner />;
   if (error) return <p>Error: {error}</p>;
 
   return (

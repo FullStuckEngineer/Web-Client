@@ -11,6 +11,7 @@ import CheckoutList from "./CheckoutList";
 import ChangePassword from "./ChangePassword";
 import { getUser, updateUser } from "@/modules/fetch/fetchUser";
 import { jwtDecode } from "jwt-decode";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const ProfileView = () => {
   const [currentComponent, setCurrentComponent] = useState("detailProfile");
@@ -140,7 +141,7 @@ const ProfileView = () => {
     }
   };
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p>Error: {error}</p>;
 
   return (
