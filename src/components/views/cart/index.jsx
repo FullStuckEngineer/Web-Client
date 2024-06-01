@@ -88,7 +88,7 @@ export default function CartsView({
       console.error("Invalid number:", number);
       return "Invalid number";
     } else {
-      return number.toLocaleString("id-ID", {
+      return number?.toLocaleString("id-ID", {
         style: "currency",
         currency: "IDR",
       });
