@@ -36,25 +36,6 @@ export default function CheckoutView({
   // console.log(citiesData, "<<<<<citiesData");
   // console.log(courierData, "<<<<<courierData");
 
-  const checkout = [
-    {
-      category: "asd",
-      name: "Sepatu Kelinci",
-      cost: 90000,
-      image:
-        "https://i.pinimg.com/564x/38/76/44/38764450a8fbcb2780e8e476c74a3166.jpg",
-      quantity: 10,
-    },
-    {
-      category: "asdasd",
-      name: "Sepatu Hijau",
-      cost: 90000,
-      image:
-        "https://i.pinimg.com/564x/f8/aa/d0/f8aad094d464c662b1a798a4517b3b41.jpg",
-      quantity: 10,
-    },
-  ];
-
   const getTotalCost = () => {
     return checkout?.reduce(
       (sum, { cost, quantity }) => sum + cost * quantity,
@@ -142,52 +123,28 @@ export default function CheckoutView({
       <h1 className="md:text-[32px] text-[22px] font-medium mb-6">
         <span className="text-color-green font-bold">BabyBoo </span> Pengiriman
       </h1>
-      <div className="flex flex-col justify-between">
-        <div className="border rounded shadow-md p-4 flex flex-col mb-10 w-1/2">
-          <p className="font-semibold text-lg">Alamat Pengiriman</p>
-          {cartData && (
-            <div>
-              {addressData &&
-              cartData.address_id &&
-              getAddressDetails(cartData.address_id) ? (
-                <>
-                  <p>
-                    Nama Penerima:{" "}
-                    {getAddressDetails(cartData.address_id).receiver_name}
-                  </p>
-                  <p>
-                    Telepon:{" "}
-                    {getAddressDetails(cartData.address_id).receiver_phone}
-                  </p>
-                  <p>
-                    Alamat:{" "}
-                    {getAddressDetails(cartData.address_id).detail_address}
-                  </p>
-                  <p>
-                    Kode Pos:{" "}
-                    {getAddressDetails(cartData.address_id).postal_code}
-                  </p>
-                  <p>
-                    Kota:{" "}
-                    {getCityName(
-                      getAddressDetails(cartData.address_id).city_id
-                    )}
-                  </p>
-                  <p>
-                    Provinsi: {getAddressDetails(cartData.address_id).province}
-                  </p>
-                </>
-              ) : (
-                <p>Alamat tidak ditemukan.</p>
-              )}
-            </div>
-          )}
+      <div className="flex flex-wrap mb-5 justify-between">
+        <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
+          <CheckoutActions
+            addressData={addressData}
+            cartData={cartData}
+            getAddressDetails={getAddressDetails}
+            getCourierName={getCourierName}
+          />
 
-          <p className="font-semibold text-lg">Kurir</p>
-          {/* display courier name based on courier id from cart */}
-          <p className="mb-14">{getCourierName(cartData?.courier_id)}</p>
+          <CheckoutSummary
+            netPrice={cartData?.net_price}
+            shippingCost={cartData?.shiping_cost}
+            totalCost={cartData?.total_cost}
+            cartAddress={cartData?.address_id}
+            cartCourier={cartData?.courier_id}
+            cartItems={cartData?.shopping_items}
+            shippingMethod={cartData?.shipping_method}
+          />
         </div>
-
+        <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
+          <CheckoutItem cartData={cartData} getProductName={getProductName} />
+        </div>
         <ul>
           {cartData?.shopping_items?.map((item) => (
             <li
@@ -210,16 +167,6 @@ export default function CheckoutView({
             <CheckoutItem key={idx} product={product} />
           ))}
         </div> */}
-
-        <CheckoutSummary
-          netPrice={cartData?.net_price}
-          shippingCost={cartData?.shiping_cost}
-          totalCost={cartData?.total_cost}
-          cartAddress={cartData?.address_id}
-          cartCourier={cartData?.courier_id}     
-          cartItems={cartData?.shopping_items}
-          shippingMethod={cartData?.shipping_method}
-        />
       </div>
     </header>
   );

@@ -1,24 +1,61 @@
 import Button from "@/components/ui/Button";
 import React from "react";
 
-export default function CheckoutActions() {
+export default function CheckoutActions({
+  addressData,
+  cartData,
+  getCourierName,
+  getAddressDetails,
+}) {
   return (
     <div className="flex flex-row bg-color-primary md:px-10 px-3 py-5 rounded-lg w-full justify-between items-center shadow-md">
       <div className="flex flex-col gap-2 items-start">
         <h2 className="text-xl font-semibold text-color-gray-700">
           Alamat Pengiriman
         </h2>
-        <h3 className="font-semibold">
-          <span>Rumah</span> - Albet Surya Kembara
-        </h3>
-        <p className="text-sm">
-          Jalan Abcd No. 123 Maju Mundur, Maju Jaya, Surabaya
-        </p>
-        <div>
-          <Button className="bg-color-gray-100 text-color-gray-700 border border-color-gray-700 hover:border-color-gray-400 hover:text-color-gray-500 px-2 w-full text-sm font-medium rounded-md">
-            Ganti alamat
-          </Button>
-        </div>
+        {cartData && (
+          <div>
+            {addressData &&
+            cartData.address_id &&
+            getAddressDetails(cartData.address_id) ? (
+              <>
+                <div className="flex flex-col gap-2 items-start">
+                  <h3 className="font-semibold">
+                    <span>Rumah</span> -
+                    {getAddressDetails(cartData.address_id).receiver_name}
+                  </h3>
+                  <p className="text-sm">
+                    {getAddressDetails(cartData.address_id).receiver_phone}
+                  </p>
+                  <div>
+                    <p>
+                      Kode Pos:{" "}
+                      {getAddressDetails(cartData.address_id).postal_code}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Kota:{" "}
+                      {getCityName(
+                        getAddressDetails(cartData.address_id).city_id
+                      )}
+                    </p>
+                  </div>
+                  <div>
+                    <p>
+                      Provinsi:{" "}
+                      {getAddressDetails(cartData.address_id).province}
+                    </p>
+                  </div>
+                </div>
+                <p className="font-semibold text-lg">Kurir</p>
+                <p className="mb-14">{getCourierName(cartData?.courier_id)}</p>
+              </>
+            ) : (
+              <p>Alamat tidak ditemukan.</p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );

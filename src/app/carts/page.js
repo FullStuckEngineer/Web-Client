@@ -4,12 +4,13 @@ import React, { useEffect, useState } from "react";
 import CartsView from "@/components/views/cart";
 import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
-import {jwtDecode} from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
 import { findAllProduct } from "@/modules/fetch/fetchProduct";
 import { findCitiesNoLimit } from "@/modules/fetch/fetchCity";
 import { findAllAddress } from "@/modules/fetch/fetchAddress";
 import { findAllCourier } from "@/modules/fetch/fetchCourier";
 import LoadingSpinner from "@/components/ui/LoadingSpinner";
+import Head from "next/head";
 
 const CartsPage = () => {
   const [userId, setUserId] = useState(null);
@@ -20,6 +21,8 @@ const CartsPage = () => {
   const [shopItems, setShopItems] = useState(null);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const pageTitle = "Halaman Keranjang - BabyBoo";
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -69,6 +72,9 @@ const CartsPage = () => {
 
   return (
     <div>
+      <Head>
+        <title>{pageTitle}</title>
+      </Head>
       {loading ? (
         <LoadingSpinner />
       ) : (
