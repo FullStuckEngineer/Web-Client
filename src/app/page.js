@@ -12,6 +12,12 @@ import Head from "next/head";
 import { findOneCart } from "@/modules/fetch/fetchCart";
 import { getUser } from "@/modules/fetch/fetchUser";
 import {jwtDecode} from "jwt-decode";
+import photoReview1 from "@/assets/images/photo-review-1.jpeg";
+import photoReview2 from "@/assets/images/photo-review-2.jpeg";
+import photoReview3 from "@/assets/images/photo-review-3.jpeg";
+import photoReview4 from "@/assets/images/photo-review-4.jpeg";
+import photoReview5 from "@/assets/images/photo-review-5.jpeg";
+
 
 const HomePage = () => {
   const [products, setProducts] = useState([]);
@@ -109,11 +115,11 @@ const HomePage = () => {
             </div>
             <div className="md:hidden flex justify-end items-center w-full mt-4"></div>
             <div className="flex flex-row justify-start w-screen gap-4">
-              <ReviewCard />
-              <ReviewCard />
-              <ReviewCard />
-              <ReviewCard />
-              <ReviewCard />
+              <ReviewCard photoReview={photoReview1} />
+              <ReviewCard photoReview={photoReview2} />
+              <ReviewCard photoReview={photoReview3} />
+              <ReviewCard photoReview={photoReview4} />
+              <ReviewCard photoReview={photoReview5} />
             </div>
           </div>
         </>
