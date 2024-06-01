@@ -6,6 +6,7 @@ import UpdateAddress from "./UpdateAddress";
 import { findAllCities, findCitiesNoLimit } from "@/modules/fetch/fetchCity";
 import Button from "@/components/ui/Button";
 import { CaretLeft, CaretRight, Circle } from "@phosphor-icons/react";
+import LoadingSpinner from "@/components/ui/LoadingSpinner";
 
 const AddressList = ({ setCurrentComponent }) => {
   const [addresses, setAddresses] = useState([]);
@@ -60,7 +61,7 @@ const AddressList = ({ setCurrentComponent }) => {
   const handlePreviousPage = () => {
     setCurrentPage((prevPage) => Math.max(prevPage - 1, 1));
   };
-console.log(addresses, "address<<<<")
+  console.log(addresses, "address<<<<");
   const validAddresses = addresses?.data || [];
   const totalPages = Math.ceil(addresses.length / itemsPerPage);
   const startPage = (currentPage - 1) * itemsPerPage;
@@ -68,9 +69,9 @@ console.log(addresses, "address<<<<")
     startPage,
     startPage + itemsPerPage
   );
-  console.log(cities, "cities<<<<<<")
+  console.log(cities, "cities<<<<<<");
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <LoadingSpinner />;
   if (error) return <p>Error: {error}</p>;
 
   return (

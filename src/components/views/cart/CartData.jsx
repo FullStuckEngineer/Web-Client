@@ -17,13 +17,13 @@ export default function CartData({
   setShippingMethodDropdown,
   handleShippingMethodChange,
 }) {
-  console.log(cartData, "data<<<<<<<<")
+  console.log(cartData, "data<<<<<<<<");
   console.log(
     cartData.address_id,
     "<<<<<<<<<<<< this is cart data in cartData.jsx"
   );
 
-  console.log(shippingMethods, "shipping")
+  console.log(shippingMethods, "shipping");
   return (
     <div className="flex flex-row bg-color-primary md:px-10 px-3 py-5 rounded-lg w-full justify-between items-center shadow-md">
       {cartData && (
