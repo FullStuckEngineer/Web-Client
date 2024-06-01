@@ -31,6 +31,7 @@ export default function CartsView({
   citiesData,
   courierData,
 }) {
+  console.log(addressData, "addressdataaa");
   const [cartData, setCartData] = useState(null);
   const [courierDropdown, setCourierDropdown] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -110,7 +111,6 @@ export default function CartsView({
   };
 
   const getAddressDetails = (addressId) => {
-    // Check if addressData is an array
     if (!Array.isArray(addressData?.data)) {
       console.error("addressData is not an array", addressData?.data);
       return "Address Data is Invalid";
@@ -121,9 +121,10 @@ export default function CartsView({
     );
     return addressDetails ? addressDetails : "Address Not Found";
   };
-  
+
+  console.log(getAddressDetails, "getaddressss");
+  console.log(addressData, "addressData");
   const getCityName = (cityId) => {
-    // check if cities data is an Array
     if (!Array.isArray(citiesData)) {
       console.error("citiesData is not an array", citiesData);
       return "City Data is Invalid";
@@ -136,8 +137,6 @@ export default function CartsView({
     const courier = courierData.find((courier) => courier.id === courierId);
     return courier ? courier.name : "Unknown Courier";
   };
-
-  // --------------------------------------- HANDLE PROGRESS ---------------------------------------
 
   const handleSelectedAddress = async (addressId) => {
     console.log("Selected address from child component:", addressId);
@@ -175,6 +174,8 @@ export default function CartsView({
       console.error("Failed to update cart:", error);
     }
   };
+
+  console.log(shippingMethods, "shipping method");
 
   const handleShippingMethodChange = (method) => {
     setSelectedShippingMethod(method);
@@ -251,7 +252,6 @@ export default function CartsView({
     }
   };
 
-  //make func to handle delete all shopping items
   const handleDeleteAll = async () => {
     try {
       await deleteAll(cart.user_id);
@@ -272,7 +272,7 @@ export default function CartsView({
           <span className="text-color-green font-bold">BabyBoo </span> Keranjang
           Belanja
         </h1>
-        <div className="flex flex-wrap justify-between">
+        <div className="flex flex-wrap mb-5 justify-between">
           <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
             <CartData
               cartData={cartData}
@@ -301,16 +301,17 @@ export default function CartsView({
             formatWeight={formatWeight}
           />
         </div>
-
-        <CartItem
-          shopItems={cartData.shopping_items}
-          getProductName={getProductName}
-          handleRemoveItem={handleRemoveItem}
-          handleIncreaseQuantity={handleIncreaseQuantity}
-          handleDecreaseQuantity={handleDecreaseQuantity}
-          formatCurrency={formatCurrency}
-          formatWeight={formatWeight}
-        />
+        <div className="flex flex-col items-start md:gap-3 gap-2 lg:w-8/12 w-full ">
+          <CartItem
+            shopItems={cartData.shopping_items}
+            getProductName={getProductName}
+            handleRemoveItem={handleRemoveItem}
+            handleIncreaseQuantity={handleIncreaseQuantity}
+            handleDecreaseQuantity={handleDecreaseQuantity}
+            formatCurrency={formatCurrency}
+            formatWeight={formatWeight}
+          />
+        </div>
       </header>
       <ChangeAddress
         isVisible={modalVisible}

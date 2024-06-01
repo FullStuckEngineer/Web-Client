@@ -10,7 +10,7 @@ export default function CheckoutSummary({
   totalCost,
   totalWeight,
   formatCurrency,
-  formatWeight
+  formatWeight,
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -42,9 +42,11 @@ export default function CheckoutSummary({
           <span className="font-semibold">{formatCurrency(totalCost)}</span>
         </h3>
         <hr className="text-color-gray-200 my-2" />
-        <div className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-8">
+        <div className="w-full">
           <Link href="/checkouts" className="w-full p-2">
-            Checkout
+            <Button className="w-full bg-color-green hover:bg-color-greenhover text-color-primary rounded-lg h-8">
+              Checkout
+            </Button>
           </Link>
         </div>
       </div>
