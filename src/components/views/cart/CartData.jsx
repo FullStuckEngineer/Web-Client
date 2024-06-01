@@ -101,15 +101,15 @@ export default function CartData({
               </Button>
 
               {shippingMethodDropdown && (
-                <div className=" border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
+                <div className="absolute top-4 border text-center border-color-gray-200 shadow-md p-2 rounded-md mt-2 bg-color-primary w-full">
                   {shippingMethods.map((method, index) => (
-                    <button
+                    <Button
                       key={index}
                       className="flex p-2 hover:bg-color-gray-200 w-full border border-color-gray-300 text-left rounded shadow-md mb-2"
                       onClick={() => handleShippingMethodChange(method)}
                     >
                       {method}
-                    </button>
+                    </Button>
                   ))}
                 </div>
               )}
